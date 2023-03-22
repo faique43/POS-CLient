@@ -1,24 +1,98 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
-// bootstrap
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+// MU
+import { Toolbar } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { styled, alpha } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
 
-// bootstrap
+// icons
+import SearchIcon from '@mui/icons-material/Search';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import HomeIcon from '@mui/icons-material/Home';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PersonIcon from '@mui/icons-material/Person';
+
+const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: 'auto',
+    },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: '12ch',
+            '&:focus': {
+                width: '20ch',
+            },
+        },
+    },
+}));
+
 
 export default function MyNavbar() {
     return (
-        <Navbar bg="dark" variant="dark">
-            <Container>
-                <Navbar.Brand href="#home">POS</Navbar.Brand>
-                <Nav className="me-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#features">Inventory</Nav.Link>
-                    <Nav.Link href="#pricing">Purchase History</Nav.Link>
-                    <Nav.Link href="#pricing">Kitchen</Nav.Link>
-                </Nav>
-            </Container>
-        </Navbar>
+        <>
+            <Toolbar className={`tw-flex tw-items-center tw-justify-between tw-mt-2`}>
+                <div className="tw-flex tw-flex-col">
+                    <Typography variant='h4'>Welcome</Typography>
+                    <Typography variant='body1'>Discover whatever you need easily</Typography>
+                </div>
+
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+
+                {/* <div className="tw-flex tw-items-center tw-bg-red-300 tw-justify-between"> */}
+                    <Search>
+                        <SearchIconWrapper>
+                            <SearchIcon />
+                        </SearchIconWrapper>
+                        <StyledInputBase
+                            placeholder="Search…"
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
+                    </Search>
+
+                    <FilterAltIcon/>
+                {/* </div> */}
+
+            </Toolbar>
+            <Toolbar className='tw-flex tw-w-full tw-items-center tw-justify-between tw-text-center'>
+                <Link style={{ textDecoration: 'none', color: 'white' }} to="/home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><HomeIcon/> Home</Link>
+                <Link style={{ textDecoration: 'none', color: 'white' }} to="/home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><InventoryIcon/> Inventory</Link>
+                <Link style={{ textDecoration: 'none', color: 'white' }} to="/home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><ShoppingCartIcon/> Kitchen</Link>
+                <Link style={{ textDecoration: 'none', color: 'white' }} to="/home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><PersonIcon/> Customer Data</Link>
+            </Toolbar>
+        </>
     )
 }
