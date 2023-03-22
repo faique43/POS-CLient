@@ -25,7 +25,7 @@ export default function ProductCard({ id, name, price, img, description }) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button variant='contained' className='tw-w-full'>Learn More</Button>
+                <Button variant='contained' className='tw-w-full'>Add to Cart</Button>
             </CardActions>
         </Card>
     )
