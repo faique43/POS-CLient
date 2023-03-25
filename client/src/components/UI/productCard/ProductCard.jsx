@@ -1,4 +1,8 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+
+// redux actions
+import { cartActions } from '../../../store/cartSlice/cartSlice';
 
 // MU
 import Card from '@mui/material/Card';
@@ -8,6 +12,18 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 export default function ProductCard({ id, name, price, img, description }) {
+    const dispatch = useDispatch();
+
+    const addToCartHandler = () => {
+        dispatch(cartActions.addToCart({
+            id: id,
+            name: name,
+            price: price,
+            // img: props.img,
+            img: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+            description: description
+        }))
+    }
     return (
         <Card sx={{ minWidth: 275 }} id={id}>
             <img src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' width='300' height='300' alt="name" />
@@ -25,7 +41,7 @@ export default function ProductCard({ id, name, price, img, description }) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button variant='contained' className='tw-w-full'>Add to Cart</Button>
+                <Button variant='contained' className='tw-w-full' onClick={addToCartHandler}>Add to Cart</Button>
             </CardActions>
         </Card>
     )

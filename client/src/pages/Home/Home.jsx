@@ -11,6 +11,8 @@ import Button from '@mui/material/Button';
 
 export default function Home() {
     const products = useSelector(state => state.products.products);
+    const cartItems = useSelector(state => state.cart.cartItems)
+    const cart = useSelector(state => state.cart)
 
     return (
         <div className='tw-grid tw-grid-cols-6'>
@@ -29,16 +31,21 @@ export default function Home() {
                     <Typography variant='h4'>Current Order</Typography>
 
                     <div className="tw-flex tw-flex-col tw-gap-y-4">
-                        <CartItem/>
-                        <CartItem/>
-                        <CartItem/>
+                        {cartItems.map(item => <CartItem key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  img={item.img}
+                  price={item.price}
+                  quantity={item.quantity}
+                  totalPrice={item.totalPrice}
+                  description={item.description}/>)}
                     </div>
                 </div>
 
                 <div className=' tw-flex tw-flex-col tw-gap-y-8'>
                     <div className="tw-flex tw-items-center tw-justify-between">
                         <h1 className='tw-text-xl'>Subtotal</h1>
-                        <h1 className='tw-text-2xl tw-font-semibold'>$20</h1>
+                        <h1 className='tw-text-2xl tw-font-semibold'>${cart.cartTotalPrice}</h1>
                     </div>
                     <Button className='tw-w-full' variant='contained'>Place Order</Button>
                     {/* <div className="tw-flex tw-items-center tw-justify-between">
