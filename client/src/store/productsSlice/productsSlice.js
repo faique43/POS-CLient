@@ -103,10 +103,13 @@ const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    decrementProduct(state, action) {
+    decrementStock(state, action) {
       const productQuantityToBeUpdated = state.products.find(product => product.id === action.payload);
+
+
       if (productQuantityToBeUpdated.quantity > 0) {
         productQuantityToBeUpdated.quantity--;
+        state.totalStocks --;
         if (productQuantityToBeUpdated.quantity < 5) {
           toast.warn(`${productQuantityToBeUpdated.name}'s stocks are low Items remaining: ${productQuantityToBeUpdated.quantity}`, {
             position: 'bottom-left'
@@ -114,8 +117,13 @@ const productsSlice = createSlice({
         }
       }
     },
+    incrementStock(state, action) {
+      const productQuantityToBeUpdated = state.products.find(product => product.id === action.payload);
+      productQuantityToBeUpdated.quantity++;
+      state.totalStocks ++;
+    },
     checkProductStocks(state, action) {
-      
+
     }
   }
 });

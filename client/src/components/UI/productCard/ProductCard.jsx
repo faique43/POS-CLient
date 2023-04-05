@@ -25,7 +25,7 @@ export default function ProductCard({ id, name, price, img, description, quantit
             description: description,
             originalProductQuantity: quantity,
         }))
-        dispatch(productsActions.decrementProduct(id))
+        dispatch(productsActions.decrementStock(id))
     }
     return (
         <Card sx={{ minWidth: 275 }} id={id}>

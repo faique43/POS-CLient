@@ -14,11 +14,12 @@ export default function CartItem(props) {
 
     const incrementQuantityHandler = () => {
         dispatch(cartActions.incrementProductQuantity(props.id))
-        dispatch(productsActions.decrementProduct(props.id))
+        dispatch(productsActions.decrementStock(props.id))
     }
 
     const decrementQuantityHandler = () => {
         dispatch(cartActions.decrementProductQuantity(props.id))
+        dispatch(productsActions.incrementStock(props.id))
     }
 
     return (
