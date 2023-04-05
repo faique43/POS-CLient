@@ -17,13 +17,14 @@ export default function Home() {
     return (
         <div className='tw-grid tw-grid-cols-6'>
             <div className='tw-col-span-4 tw-flex tw-items-center tw-flex-wrap tw-justify-evenly tw-gap-y-4 tw-p-4 tw-gap-x-1'>
-                {products.map(product => <ProductCard 
+                {products.map(product => <ProductCard
                     key={product.id}
                     id={product.id}
                     name={product.name}
                     description={product.description}
                     img={product.img}
                     price={product.price}
+                    quantity={product.quantity}
                 />)}
             </div>
             <div className='tw-col-span-2 tw-bg-gray-200 tw-flex tw-flex-col tw-p-4 tw-gap-y-24'>
@@ -32,13 +33,13 @@ export default function Home() {
 
                     <div className="tw-flex tw-flex-col tw-gap-y-4">
                         {cartItems.map(item => <CartItem key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  img={item.img}
-                  price={item.price}
-                  quantity={item.quantity}
-                  totalPrice={item.totalPrice}
-                  description={item.description}/>)}
+                            id={item.id}
+                            name={item.name}
+                            img={item.img}
+                            price={item.price}
+                            quantity={item.quantity}
+                            totalPrice={item.totalPrice}
+                            description={item.description} />)}
                     </div>
                 </div>
 
@@ -54,7 +55,7 @@ export default function Home() {
                     </div> */}
                 </div>
 
-                
+
             </div>
         </div>
     )

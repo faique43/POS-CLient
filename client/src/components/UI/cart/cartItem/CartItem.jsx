@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 // redux actions
 import { cartActions } from '../../../../store/cartSlice/cartSlice';
+import { productsActions } from '../../../../store/productsSlice/productsSlice';
 
 // Icon
 import AddIcon from '@mui/icons-material/Add';
@@ -13,6 +14,7 @@ export default function CartItem(props) {
 
     const incrementQuantityHandler = () => {
         dispatch(cartActions.incrementProductQuantity(props.id))
+        dispatch(productsActions.decrementProduct(props.id))
     }
 
     const decrementQuantityHandler = () => {
