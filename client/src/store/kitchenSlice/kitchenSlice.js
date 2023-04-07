@@ -14,9 +14,17 @@ const kitchenSlice = createSlice({
       const orderId = state.currentOrderId + 1;
       state.currentOrderId++;
       state.orders = [...state.orders, { ...action.payload, orderId }];
+      toast.success(`Order sent to kitchen!`, {
+        position: "bottom-left",
+      });
     },
     prepareOrderWithId(state, action) {
-      console.log(action.payload);
+      const orderId = action.payload;
+      const order = state.orders.find((order) => order.orderId === orderId);
+      order.orderStatus = true;
+      toast.success(`Order marked as prepared!`, {
+        position: "bottom-left",
+      });
     },
   },
 });
