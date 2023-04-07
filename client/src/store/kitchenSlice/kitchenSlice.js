@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const initialState = {
-  orders: [], // order: {orderName, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus}
+  orders: [], // order: {orderName, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus, orderId}
   currentOrderId: 0,
 };
 
@@ -14,6 +14,9 @@ const kitchenSlice = createSlice({
       const orderId = state.currentOrderId + 1;
       state.currentOrderId++;
       state.orders = [...state.orders, { ...action.payload, orderId }];
+    },
+    prepareOrderWithId(state, action) {
+      console.log(action.payload);
     },
   },
 });

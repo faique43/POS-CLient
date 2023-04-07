@@ -10,6 +10,7 @@ import { Button } from "@mui/material";
 
 export default function Kitchen() {
   const [selectedOrder, setSelectedOrder] = useState({
+    orderId: "",
     orderName: "",
     orderItems: [],
     orderItemsCount: 0,
@@ -37,6 +38,8 @@ export default function Kitchen() {
         </div>
         {kitchenOrders.map((order) => (
           <Order
+            key={order.orderId}
+            orderId={order.orderId}
             orderName={order.orderName}
             orderItems={order.orderItems}
             orderItemsCount={order.orderItemsCount}
