@@ -90,7 +90,7 @@ export default function MyNavbar() {
             <Toolbar className='tw-flex tw-w-full tw-items-center tw-justify-between tw-text-center'>
                 <Link style={{ textDecoration: 'none', color: 'white' }} to="/home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><HomeIcon/> Home</Link>
                 <Link style={{ textDecoration: 'none', color: 'white' }} to="/home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><InventoryIcon/> Inventory</Link>
-                <Link style={{ textDecoration: 'none', color: 'white' }} to="/home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><ShoppingCartIcon/> Kitchen</Link>
+                <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><ShoppingCartIcon/> Kitchen</Link>
                 <Link style={{ textDecoration: 'none', color: 'white' }} to="/home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><PersonIcon/> Customer Data</Link>
             </Toolbar>
         </>

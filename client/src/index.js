@@ -8,12 +8,13 @@ import "./index.css";
 import store from "./store/index";
 import App from "./App";
 import Home from "./pages/Home/Home";
+import Kitchen from "./pages/kitchen/Kitchen";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [{ path: "/home", element: <Home /> }],
+    children: [{ path: "home", element: <Home /> }, {path: 'kitchen', element: <Kitchen/>}],
   },
 ]);
 

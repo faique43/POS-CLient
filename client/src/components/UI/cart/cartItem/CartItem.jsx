@@ -32,11 +32,20 @@ export default function CartItem(props) {
                 <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
                     <h1 className='tw-text-blue-600 tw-text-xl'>Rs {props.price}</h1>
 
-                    <div className="tw-flex tw-items-center tw-justify-between tw-gap-x-2">
-                        <AddIcon className='tw-cursor-pointer tw-bg-blue-600 tw-rounded-sm hover:tw-bg-blue-700 tw-duration-100 tw-ease-in-out tw-text-white' onClick={incrementQuantityHandler}/>
-                        {props.quantity}
-                        <RemoveIcon className='tw-cursor-pointer tw-bg-blue-600 tw-rounded-sm hover:tw-bg-blue-700 tw-duration-100 tw-ease-in-out tw-text-white' onClick={decrementQuantityHandler}/>
-                    </div>
+                    {!props.isOrder ?
+                        <div className="tw-flex tw-items-center tw-justify-between tw-gap-x-2">
+                            <AddIcon className='tw-cursor-pointer tw-bg-blue-600 tw-rounded-sm hover:tw-bg-blue-700 tw-duration-100 tw-ease-in-out tw-text-white' onClick={incrementQuantityHandler} />
+                            {props.quantity}
+                            <RemoveIcon className='tw-cursor-pointer tw-bg-blue-600 tw-rounded-sm hover:tw-bg-blue-700 tw-duration-100 tw-ease-in-out tw-text-white' onClick={decrementQuantityHandler} />
+                        </div>
+                        :
+                        <div className='tw-flex tw-items-center tw-gap-x-1'>
+                            <h1>x</h1>
+                            <h1>
+                                {props.orderQuantity}
+                            </h1>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
