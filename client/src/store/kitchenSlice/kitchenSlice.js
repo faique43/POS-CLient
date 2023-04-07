@@ -1,26 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  toast
-} from 'react-toastify';
+import { toast } from "react-toastify";
 
 const initialState = {
-  orders: [] // order: {orderName, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus}
-}
+  orders: [], // order: {orderName, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus}
+  currentOrderId: 0,
+};
 
 const kitchenSlice = createSlice({
-  name: 'kitchen',
+  name: "kitchen",
   initialState,
   reducers: {
     placeOrder(state, action) {
-      state.orders = [...state.orders, action.payload]
-    }
-  }
-})
+      const orderId = state.currentOrderId + 1;
+      state.currentOrderId++;
+      state.orders = [...state.orders, { ...action.payload, orderId }];
+    },
+  },
+});
 
 const kitchenActions = kitchenSlice.actions;
 
-export {
-  kitchenActions
-}
+export { kitchenActions };
 
 export default kitchenSlice;

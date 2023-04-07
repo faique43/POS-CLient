@@ -24,6 +24,8 @@ export default function Kitchen() {
     setSelectedOrder({ ...order, isSelected: true });
   };
 
+  const prepareOrderHandler = () => {};
+
   return (
     <div className="tw-grid tw-grid-cols-6 tw-p-4 tw-gap-x-4">
       <div className="tw-col-span-4 tw-flex tw-flex-col tw-gap-y-4">
@@ -78,7 +80,11 @@ export default function Kitchen() {
               </h1>
             </div>
 
-            <Button className="tw-w-full" variant="contained">
+            <Button
+              className="tw-w-full"
+              variant="contained"
+              onClick={prepareOrderHandler}
+            >
               Mark As Prepared
             </Button>
           </>
