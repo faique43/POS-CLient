@@ -124,6 +124,21 @@ const productsSlice = createSlice({
     },
     checkProductStocks(state, action) {
 
+    },
+    addNewProduct(state, action) {
+      const id = state.products[state.products.length - 1].id + 1;
+      state.products = [...state.products, {
+        name: action.payload.productName,
+        price: action.payload.productPrice,
+        quantity: action.payload.productQuantity,
+        description: action.payload.productDescription,
+        img: action.payload.img,
+        id
+      }]
+
+      toast.success(`${action.payload.productName} added successfully!`, {
+        position: 'bottom-left'
+      })
     }
   }
 });
