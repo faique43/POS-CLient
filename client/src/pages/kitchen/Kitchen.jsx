@@ -94,8 +94,9 @@ export default function Kitchen() {
                             className="tw-w-full"
                             variant="contained"
                             onClick={prepareOrderHandler}
+                            disabled={selectedOrder.orderStatus}
                         >
-                            Mark As Prepared
+                            {!selectedOrder.orderStatus ? "Mark As Prepared" : "Prepared"}
                         </Button>
                     </>
                 ) : (

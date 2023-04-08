@@ -12,39 +12,43 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function ProductCard({ id, name, price, img, description, quantity }) {
+export default function ProductCard(props) {
     const dispatch = useDispatch();
 
     const addToCartHandler = () => {
         dispatch(cartActions.addToCart({
-            id: id,
-            name: name,
-            price: price,
+            id: props.id,
+            name: props.name,
+            price: props.price,
             // img: props.img,
             img: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-            description: description,
-            originalProductQuantity: quantity,
+            description: props.description,
+            originalProductQuantity: props.quantity,
         }))
-        dispatch(productsActions.decrementStock(id))
+        dispatch(productsActions.decrementStock(props.id))
     }
+
     return (
-        <Card sx={{ minWidth: 275 }} id={id}>
+        <Card sx={{ minWidth: 275 }} id={props.id}>
             <img src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' width='300' height='300' alt="name" />
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 </Typography>
                 <Typography variant="h5" component="div">
-                    {name}
+                    {props.name}
                 </Typography>
                 <Typography variant="body2">
-                    {description}
+                    {props.description}
                 </Typography>
                 <Typography variant="h4">
-                    Rs {price}
+                    Rs {props.price}
                 </Typography>
             </CardContent>
             <CardActions>
+                {props.inInventory ? 
+                <Button variant='contained' className='tw-w-full' onClick={() => {props.showDetailsHandler(props)}}>Show Details</Button> :
                 <Button variant='contained' className='tw-w-full' onClick={addToCartHandler}>Add to Cart</Button>
+                }
             </CardActions>
         </Card>
     )

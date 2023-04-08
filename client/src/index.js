@@ -9,12 +9,14 @@ import store from "./store/index";
 import App from "./App";
 import Home from "./pages/Home/Home";
 import Kitchen from "./pages/kitchen/Kitchen";
+import Inventory from "./pages/inventory/Inventory";
+import AddProduct from "./pages/addProduct/AddProduct";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [{ path: "home", element: <Home /> }, {path: 'kitchen', element: <Kitchen/>}],
+    children: [{ path: "home", element: <Home /> }, {path: 'kitchen', element: <Kitchen/>}, {path: 'inventory', element: <Inventory/>}, {path: "addProduct", element: <AddProduct/>}],
   },
 ]);
 
