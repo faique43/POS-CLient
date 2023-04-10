@@ -29,7 +29,7 @@ export default function ProductCard(props) {
     }
 
     return (
-        <Card sx={{ minWidth: 275 }} id={props.id}>
+        <Card sx={{ minWidth: 275 }} id={props._id}>
             <img src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' width='300' height='300' alt="name" />
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>

@@ -16,15 +16,15 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [{ path: "home", element: <Home /> }, {path: 'kitchen', element: <Kitchen/>}, {path: 'inventory', element: <Inventory/>}, {path: "addProduct", element: <AddProduct/>}],
+    children: [{ path: "home", element: <Home /> }, { path: 'kitchen', element: <Kitchen /> }, { path: 'inventory', element: <Inventory /> }, { path: "addProduct", element: <AddProduct /> }],
   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+  // </React.StrictMode>
 );

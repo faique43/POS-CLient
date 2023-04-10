@@ -49,13 +49,13 @@ export default function Home() {
       <div className="tw-col-span-4 tw-flex tw-items-center tw-flex-wrap tw-justify-evenly tw-gap-y-4 tw-p-4 tw-gap-x-1">
         {products.map((product) => (
           <ProductCard
-            key={product.id}
-            id={product.id}
+            key={product._id}
+            id={product._id}
             name={product.name}
             description={product.description}
-            img={product.img}
+            img={product.image}
             price={product.price}
-            quantity={product.quantity}
+            quantity={product.stock}
           />
         ))}
       </div>
