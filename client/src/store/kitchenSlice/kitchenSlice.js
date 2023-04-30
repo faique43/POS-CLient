@@ -4,6 +4,16 @@ import { toast } from "react-toastify";
 const initialState = {
   orders: [], // order: {orderName, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus, orderId}
   currentOrderId: 0,
+  isAnySelected: false,
+  selectedOrder: {
+    orderId: "",
+    orderName: "",
+    orderItems: [],
+    orderItemsCount: 0,
+    orderTotalPrice: 0,
+    orderTime: "",
+    orderStatus: false,
+  }
 };
 
 const kitchenSlice = createSlice({
@@ -18,6 +28,13 @@ const kitchenSlice = createSlice({
         position: "bottom-left",
       });
     },
+    setSelectedOrder(state, action) {
+      const orderId = action.payload;
+
+      state.isAnySelected = true;
+      const selectedOrder = state.orders.find(order => order.orderId === orderId)
+      state.selectedOrder = selectedOrder
+    },
     prepareOrderWithId(state, action) {
       const orderId = action.payload;
       const order = state.orders.find((order) => order.orderId === orderId);
@@ -25,6 +42,7 @@ const kitchenSlice = createSlice({
       toast.success(`Order marked as prepared!`, {
         position: "bottom-left",
       });
+      state.selectedOrder.orderStatus = true
     },
   },
 });

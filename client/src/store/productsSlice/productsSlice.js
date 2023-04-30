@@ -39,7 +39,7 @@ const productsSlice = createSlice({
       productQuantityToBeUpdated.stock++;
       state.totalStocks++;
     },
-    checkProductStocks(state, action) {},
+    checkProductStocks(state, action) { },
     addNewProduct(state, action) {
       const id = state.products[state.products.length - 1].id + 1;
       state.products = [

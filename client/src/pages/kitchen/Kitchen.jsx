@@ -14,20 +14,12 @@ import { Button } from "@mui/material";
 export default function Kitchen() {
     const dispatch = useDispatch();
 
-    const [selectedOrder, setSelectedOrder] = useState({
-        orderId: "",
-        orderName: "",
-        orderItems: [],
-        orderItemsCount: 0,
-        orderTotalPrice: 0,
-        orderTime: "",
-        isSelected: false,
-    });
-
     const kitchenOrders = useSelector((state) => state.kitchen.orders);
+    const selectedOrder = useSelector(state => state.kitchen.selectedOrder)
+    const isAnySelected = useSelector(state => state.kitchen.isAnySelected)
 
     const selectedOrderHandler = (order) => {
-        setSelectedOrder({ ...order, isSelected: true });
+        dispatch(kitchenActions.setSelectedOrder(order.orderId));
     };
 
     const prepareOrderHandler = () => {
@@ -59,7 +51,7 @@ export default function Kitchen() {
             </div>
 
             <div className="tw-col-span-2 tw-bg-slate-400 tw-p-3 tw-rounded-lg tw-text-white tw-flex tw-flex-col tw-items-start tw-gap-y-4">
-                {selectedOrder.isSelected ? (
+                {isAnySelected ? (
                     <>
                         <h1 className="tw-text-xl tw-font-semibold">Order Details</h1>
 
