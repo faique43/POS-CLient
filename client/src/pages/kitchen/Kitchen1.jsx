@@ -11,7 +11,7 @@ import { kitchenActions } from "../../store/kitchenSlice/kitchenSlice";
 // MU
 import { Button } from "@mui/material";
 
-export default function Kitchen() {
+export default function Kitchen1() {
     const dispatch = useDispatch();
 
     const kitchenOrders = useSelector((state) => state.kitchen.orders);
