@@ -2,9 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
-  customer: {
-    type: Schema.Types.ObjectId,
-    ref: "customer",
+  name: {
+    type: String,
     required: true,
   },
   products: [
@@ -24,15 +23,14 @@ const OrderSchema = new Schema({
       },
     },
   ],
+  status: {
+    type: String,
+    enum: ["pending", "completed"],
+    default: "pending",
+  },
   totalPrice: {
     type: Number,
     required: true,
-  },
-  status: {
-    type: String,
-    required: true,
-    default: "Preparing",
-    enum: ["Preparing", "Prepared", "Served", "Cancelled"],
   },
   created_at: {
     type: Date,

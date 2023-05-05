@@ -44,14 +44,14 @@ exports.createProduct = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const { name, price, description, image, stock, category } = req.body;
+  const { name, price, description, image, kitchen, category } = req.body;
   try {
     const newProduct = new Product({
       name,
       price,
       description,
+      kitchen,
       image,
-      stock,
       category,
     });
     const product = await newProduct.save();
@@ -138,6 +138,19 @@ exports.getCategoriesByProductId = async (req, res) => {
     }
     const category = await Category.findById(product.category);
     res.json(category);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route   GET api/products/:kitchen
+// @desc    Get products by kitchen
+// @access  Public
+exports.getProductByKitchen = async (req, res) => {
+  try {
+    const products = await Product.find({ kitchen: req.params.kitchen });
+    res.json(products);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
