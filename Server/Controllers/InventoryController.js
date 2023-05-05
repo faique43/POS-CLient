@@ -48,15 +48,21 @@ exports.createInventory = async (req, res) => {
   }
 };
 
+// @route PUT api/inventory/:id
+// @desc Update inventory by ID
+// @access Private
 exports.updateInventoryById = async (req, res) => {
   const { item, quantity, price } = req.body;
   try {
-    const newInventory = new Inventory({
-      item,
-      price,
-      quantity,
-    });
-    const inventory = await newInventory.save();
+    let inventory = await Inventory.findById(req.params.id);
+    if (!inventory) {
+      return res.status(404).json({ msg: "Inventory not found" });
+    }
+    inventory.item = item;
+    inventory.price = price;
+    inventory.quantity = quantity;
+    inventory.updated_at = Date.now();
+    await inventory.save();
     res.json(inventory);
   } catch (err) {
     console.error(err.message);
