@@ -18,14 +18,27 @@ const ProductSchema = new Schema({
     type: String,
     required: true,
   },
-  stock: {
-    type: Number,
-    required: true,
-  },
   category: {
     type: Schema.Types.ObjectId,
     ref: "category",
   },
+  kitchen: {
+    type: String,
+    enum: ["1", "2"],
+    required: true,
+  },
+  inventoryUsed: [
+    {
+      item: {
+        type: Schema.Types.ObjectId,
+        ref: "inventory",
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
   created_at: {
     type: Date,
     default: Date.now,
