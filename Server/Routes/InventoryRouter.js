@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const inventoryController = require("../Controllers/InventoryController");
+const inventoryController = require("../controllers/inventoryController");
 
 // @route   GET api/inventory
 // @desc    Get all inventory

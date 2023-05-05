@@ -44,7 +44,7 @@ exports.createProduct = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const { name, price, description, image, kitchen, category } = req.body;
+  const { name, price, description, image, kitchen, inventoryUsed } = req.body;
   try {
     const newProduct = new Product({
       name,
@@ -52,7 +52,7 @@ exports.createProduct = async (req, res) => {
       description,
       kitchen,
       image,
-      category,
+      inventoryUsed,
     });
     const product = await newProduct.save();
     res.json(product);
@@ -70,14 +70,14 @@ exports.updateProduct = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const { name, price, description, image, stock, category } = req.body;
+  const { name, price, description, image, stock, inventoryUsed } = req.body;
   const productFields = {};
   if (name) productFields.name = name;
   if (price) productFields.price = price;
   if (description) productFields.description = description;
   if (image) productFields.image = image;
   if (stock) productFields.stock = stock;
-  if (category) productFields.category = category;
+  if (inventoryUsed) productFields.inventoryUsed = inventoryUsed;
   try {
     let product = await Product.findById(req.params.id);
     if (!product) {
