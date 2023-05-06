@@ -47,7 +47,7 @@ export default function Kitchen1Home() {
     return (
         <div className="tw-grid tw-grid-cols-6">
             <div className="tw-col-span-4 tw-flex tw-items-center tw-flex-wrap tw-justify-evenly tw-gap-y-4 tw-p-4 tw-gap-x-1">
-                {products.map((product) => (
+                {products.filter(product => product.kitchen === "1").map((product) => (
                     <ProductCard
                         key={product._id}
                         id={product._id}

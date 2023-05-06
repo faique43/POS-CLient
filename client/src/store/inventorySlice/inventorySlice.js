@@ -21,8 +21,11 @@ const inventorySlice = createSlice({
             // 
         })
         builder.addCase(getInventory.fulfilled, (state, action) => {
-            console.log(action.payload);
+            // console.log(action.payload);
             state.inventory = action.payload;
+            toast.success("Latest inventory fetched", {
+                position: 'bottom-left'
+            })
         })
         builder.addCase(getInventory.rejected, (state) => {
             // 

@@ -67,6 +67,9 @@ const productsSlice = createSlice({
     builder.addCase(getAllProducts.fulfilled, (state, action) => {
       // console.log(action.payload);
       state.products = action.payload;
+      toast.success("All products fetched successfully!", {
+        position: "bottom-left"
+      })
     });
     builder.addCase(getAllProducts.rejected, (state, action) => {
       toast.error(`${action.error.message}`, {
