@@ -82,13 +82,10 @@ const productsSlice = createSlice({
 const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
   async (dispatch, { rejectWithValue }) => {
-    dispatch(uiActions.startLoading());
     try {
       const response = await axios.get("http://localhost:5000/api/products");
-      dispatch(uiActions.stopLoading());
       return response.data;
     } catch (error) {
-      dispatch(uiActions.stopLoading());
       return rejectWithValue(error.response.data);
     }
   }

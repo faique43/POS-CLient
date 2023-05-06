@@ -14,6 +14,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 // redux actions
 import { getAllProducts } from "./store/productsSlice/productsSlice";
 import { getInventory } from "./store/inventorySlice/inventorySlice";
+import {getKitchen1Orders, getKitchen2Orders, getAllOrders} from './store/kitchenSlice/kitchenSlice'
+import { uiActions } from "./store/uiSlice/uiSlice";
 
 export default function App() {
   const dispatch = useDispatch()
@@ -22,8 +24,16 @@ export default function App() {
 
   // getting all products and inventory from DB on app startup
   useEffect(() => {
+    dispatch(uiActions.startLoading())
     dispatch(getAllProducts(dispatch))
     dispatch(getInventory(dispatch))
+    // dispatch(getKitchen1Orders())
+    // dispatch(getKitchen2Orders()).then(response => {
+    //   dispatch(uiActions.stopLoading())
+    dispatch(getAllOrders()).then(response => {
+      dispatch(uiActions.stopLoading())
+    })
+    // dispatch(getAllOrders())
   }, [dispatch])
   return (
     <div className="tw-gap-y-4 tw-grid">

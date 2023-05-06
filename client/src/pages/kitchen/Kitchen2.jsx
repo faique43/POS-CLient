@@ -38,16 +38,16 @@ export default function Kitchen2() {
                     <h1 className="tw-col-span-1">Total Price</h1>
                     <h1 className="tw-col-span-1">Date & Time</h1>
                 </div>
-                {kitchenOrders.filter(kitchenOrder => kitchenOrder.kitchen === "2").map((order) => (
+                {kitchenOrders.filter(kitchenOrder => kitchenOrder.products[0].product.kitchen === '2').map((order) => (
                     <Order
-                        key={order.orderId}
-                        orderId={order.orderId}
-                        orderName={order.orderName}
-                        orderItems={order.orderItems}
-                        orderItemsCount={order.orderItemsCount}
-                        orderTotalPrice={order.orderTotalPrice}
-                        orderTime={order.orderTime}
-                        orderStatus={order.orderStatus}
+                        key={order._id}
+                        orderId={order._id}
+                        orderName={order.name}
+                        orderItems={order.products}
+                        orderItemsCount={order.products.length}
+                        orderTotalPrice={order.totalPrice}
+                        orderTime={order.created_at}
+                        orderStatus={order.status}
                         selectedOrderHandler={selectedOrderHandler}
                     />
                 ))}

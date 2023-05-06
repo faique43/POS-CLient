@@ -34,14 +34,11 @@ const inventorySlice = createSlice({
 })
 
 const getInventory = createAsyncThunk('inventory/getInventory', async (dispatch, { rejectWithValue }) => {
-    dispatch(uiActions.startLoading())
     try {
         const response = await axios.get("http://localhost:5000/api/inventory")
-        dispatch(uiActions.stopLoading())
         return response.data;
     }
     catch (error) {
-        dispatch(uiActions.stopLoading())
         return rejectWithValue(error.response.data)
     }
 })
