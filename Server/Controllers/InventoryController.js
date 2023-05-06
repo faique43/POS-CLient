@@ -52,17 +52,21 @@ exports.createInventory = async (req, res) => {
 // @desc Update inventory by ID
 // @access Private
 exports.updateInventoryById = async (req, res) => {
-  const { item, quantity, price } = req.body;
+  const updates = {};
+  for (const field in req.body) {
+    if (field !== "_id") {
+      updates[field] = req.body[field];
+    }
+  }
   try {
-    let inventory = await Inventory.findById(req.params.id);
+    let inventory = await Inventory.findByIdAndUpdate(
+      req.params.id,
+      { $set: updates },
+      { new: true }
+    );
     if (!inventory) {
       return res.status(404).json({ msg: "Inventory not found" });
     }
-    inventory.item = item;
-    inventory.price = price;
-    inventory.quantity = quantity;
-    inventory.updated_at = Date.now();
-    await inventory.save();
     res.json(inventory);
   } catch (err) {
     console.error(err.message);

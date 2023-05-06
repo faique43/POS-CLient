@@ -28,4 +28,14 @@ router.put("/:id", orderConroller.updateOrder);
 // @access  Private
 router.delete("/:id", orderConroller.deleteOrder);
 
+// @route   POST api/orders/:id/complete
+// @desc    Complete an order
+// @access  Private
+router.post("/:id/complete", orderConroller.completeOrder);
+
+// @route GET api/orders/kitchen/:kitchen
+// @desc Get all orders for a kitchen
+// @access Private
+router.get("/kitchen/:kitchen", orderConroller.getOrdersByKitchen);
+
 module.exports = router;

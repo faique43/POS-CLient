@@ -29,4 +29,9 @@ router.put("/:id", productController.updateProduct);
 // @access  Private
 router.delete("/:id", productController.deleteProduct);
 
+// @route   GET api/products/kitchen/:kitchen
+// @desc    Get products by kitchen
+// @access  Public
+router.get("/kitchen/:kitchen", productController.getProductByKitchen);
+
 module.exports = router;

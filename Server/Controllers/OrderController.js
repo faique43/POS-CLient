@@ -2,7 +2,6 @@ const { validationResult } = require("express-validator");
 
 const Order = require("../models/Order");
 const Product = require("../models/Product");
-const Category = require("../models/Category");
 const Inventory = require("../Models/Inventory");
 
 // @route   GET api/orders
@@ -10,7 +9,7 @@ const Inventory = require("../Models/Inventory");
 // @access  Public
 exports.getOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("product");
+    const orders = await Order.find().populate("products.product");
     res.json(orders);
   } catch (err) {
     console.error(err.message);
@@ -23,7 +22,9 @@ exports.getOrders = async (req, res) => {
 // @access  Public
 exports.getOrderById = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id).populate("product");
+    const order = await Order.findById(req.params.id).populate(
+      "products.product"
+    );
     if (!order) {
       return res.status(404).json({ msg: "Order not found" });
     }
@@ -39,23 +40,48 @@ exports.getOrderById = async (req, res) => {
 // @access  Private
 exports.createOrder = async (req, res) => {
   const errors = validationResult(req);
-  try {
-    const { name, products, totalPrice } = req.body;
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-    // Calculate inventory used in products
-    const inventoryUsed = {};
+  const { name, products } = req.body;
+
+  try {
+    // Calculate total price of the order
+    let totalPrice = 0;
     for (const { product, quantity } of products) {
       const productObj = await Product.findById(product);
+      if (!productObj) {
+        return res.status(404).json({ msg: "Product not found" });
+      }
+      totalPrice += productObj.price * quantity;
+    }
+
+    const inventoryUsed = [];
+    for (const { product, quantity } of products) {
+      const productObj = await Product.findById(product);
+      if (!productObj) {
+        return res.status(404).json({ msg: "Product not found" });
+      }
       for (const { item, quantity: itemQuantity } of productObj.inventoryUsed) {
-        inventoryUsed[item] =
-          (inventoryUsed[item] || 0) + quantity * itemQuantity;
+        const inventoryItem = await Inventory.findById(item);
+        if (!inventoryItem) {
+          return res.status(404).json({ msg: "Inventory item not found" });
+        }
+        inventoryUsed.push({
+          id: inventoryItem._id,
+          quantity: quantity * itemQuantity,
+        });
       }
     }
 
     // Update inventory quantities
-    for (const item in inventoryUsed) {
-      const inventoryItem = await Inventory.findOne({ item });
-      inventoryItem.quantity -= inventoryUsed[item];
+    for (const { id, quantity } of inventoryUsed) {
+      const inventoryItem = await Inventory.findById(id);
+      if (!inventoryItem) {
+        return res.status(404).json({ msg: "Inventory item not found" });
+      }
+      inventoryItem.quantity -= quantity;
       await inventoryItem.save();
     }
 
@@ -64,7 +90,6 @@ exports.createOrder = async (req, res) => {
       name,
       products,
       totalPrice,
-      inventoryUsed,
     });
 
     // Save the new order to the database
@@ -85,10 +110,15 @@ exports.updateOrder = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const { product, quantity } = req.body;
+  const { products, status } = req.body;
   const orderFields = {};
-  if (product) orderFields.product = product;
-  if (quantity) orderFields.quantity = quantity;
+  if (products) {
+    orderFields.products = products.map((product) => ({
+      product: product.id,
+      quantity: product.quantity,
+    }));
+  }
+  if (status) orderFields.status = status;
   try {
     let order = await Order.findById(req.params.id);
     if (!order) return res.status(404).json({ msg: "Order not found" });
@@ -113,6 +143,48 @@ exports.deleteOrder = async (req, res) => {
     if (!order) return res.status(404).json({ msg: "Order not found" });
     await Order.findByIdAndRemove(req.params.id);
     res.json({ msg: "Order removed" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route   POST api/orders/:id/complete
+// @desc    Complete an order
+// @access  Private
+exports.completeOrder = async (req, res) => {
+  try {
+    let order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ msg: "Order not found" });
+    order.status = "Completed";
+    await order.save();
+    res.json(order);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route GET api/orders/kitchen/:kitchen
+// @desc Get all orders for a kitchen
+// @access Private
+exports.getOrdersByKitchen = async (req, res) => {
+  try {
+    const kitchen = req.params.kitchen;
+    const orders = await Order.find().populate("products.product", [
+      "name",
+      "price",
+      "description",
+      "kitchen",
+      "image",
+    ]);
+    const filteredOrders = orders.filter((order) => {
+      const products = order.products.filter((product) => {
+        return product.product.kitchen === kitchen;
+      });
+      return products.length > 0;
+    });
+    res.json(filteredOrders);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

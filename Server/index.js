@@ -4,7 +4,6 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 
 const db = require("./db");
-const categoryRouter = require("./Routes/CategoryRouter");
 const productRouter = require("./Routes/ProductRouter");
 const orderRouter = require("./Routes/OrderRouter");
 const inventoryRouter = require("./Routes/InventoryRouter");
@@ -21,7 +20,6 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-app.use("/api/categories", categoryRouter);
 app.use("/api/products", productRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/inventory", inventoryRouter);

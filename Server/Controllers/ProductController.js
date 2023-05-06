@@ -1,7 +1,6 @@
 const { validationResult } = require("express-validator");
 
 const Product = require("../models/Product");
-const Category = require("../models/Category");
 const Order = require("../models/Order");
 
 // @route   GET api/products
@@ -9,7 +8,7 @@ const Order = require("../models/Order");
 // @access  Public
 exports.getProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate("category");
+    const products = await Product.find();
     res.json(products);
   } catch (err) {
     console.error(err.message);
@@ -22,7 +21,7 @@ exports.getProducts = async (req, res) => {
 // @access  Public
 exports.getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id).populate("category");
+    const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ msg: "Product not found" });
     }
@@ -121,23 +120,6 @@ exports.getOrdersByProductId = async (req, res) => {
       "customer"
     );
     res.json(orders);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-};
-
-// @route   GET api/products/:id/categories
-// @desc    Get categories by product ID
-// @access  Public
-exports.getCategoriesByProductId = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    if (!product) {
-      return res.status(404).json({ msg: "Product not found" });
-    }
-    const category = await Category.findById(product.category);
-    res.json(category);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
