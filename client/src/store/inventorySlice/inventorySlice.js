@@ -1,21 +1,53 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";  
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-const initialState = {}
+// actions
+import { uiActions } from "../uiSlice/uiSlice";
+
+const initialState = {
+    inventory: []
+}
 
 const inventorySlice = createSlice({
     name: 'inventory',
     initialState,
     reducers: {
 
+    },
+    extraReducers: (builder) => {
+        // get inventory
+        builder.addCase(getInventory.pending, (state) => {
+            // 
+        })
+        builder.addCase(getInventory.fulfilled, (state, action) => {
+            console.log(action.payload);
+            state.inventory = action.payload;
+        })
+        builder.addCase(getInventory.rejected, (state) => {
+            // 
+        })
+    }
+})
+
+const getInventory = createAsyncThunk('inventory/getInventory', async (dispatch, { rejectWithValue }) => {
+    dispatch(uiActions.startLoading())
+    try {
+        const response = await axios.get("http://localhost:5000/api/inventory")
+        dispatch(uiActions.stopLoading())
+        return response.data;
+    }
+    catch (error) {
+        dispatch(uiActions.stopLoading())
+        return rejectWithValue(error.response.data)
     }
 })
 
 const inventoryActions = inventorySlice.actions;
 
 export {
-    inventoryActions
+    inventoryActions,
+    getInventory,
 }
 
 export default inventorySlice;

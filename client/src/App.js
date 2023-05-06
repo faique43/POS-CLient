@@ -13,15 +13,17 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 // redux actions
 import { getAllProducts } from "./store/productsSlice/productsSlice";
+import { getInventory } from "./store/inventorySlice/inventorySlice";
 
 export default function App() {
   const dispatch = useDispatch()
 
   const isLoading = useSelector(state => state.ui.loading)
 
-  // getting all products from DB on app startup
+  // getting all products and inventory from DB on app startup
   useEffect(() => {
     dispatch(getAllProducts(dispatch))
+    dispatch(getInventory(dispatch))
   }, [dispatch])
   return (
     <div className="tw-gap-y-4 tw-grid">
