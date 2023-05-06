@@ -1,5 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import axios from 'axios';
+
+// redux actions
+import {uiActions} from '../uiSlice/uiSlice';
 
 const initialState = {
   orders: [], // order: {orderName, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus, orderId, kitchen}
@@ -56,10 +60,41 @@ const kitchenSlice = createSlice({
       state.selectedOrder.orderStatus = true
     },
   },
+  extraReducers: (builder) => {
+    // create order
+    builder.addCase(createOrder.pending, (state) => {
+
+    })
+    builder.addCase(createOrder.fulfilled, (state, action) => {
+      toast.success('Order placed successfully!', {
+        position: 'bottom-left'
+      })
+    })
+    builder.addCase(createOrder.rejected, (state, action) => {
+      toast.error('Order could not be placed!', {
+        position: 'bottom-left'
+      })
+    })
+  }
 });
 
 const kitchenActions = kitchenSlice.actions;
 
-export { kitchenActions };
+const createOrder = createAsyncThunk('kitchen/createOrder', async (orderData, {rejectWithValue}) => {
+  console.log(orderData)
+  try {
+    const response = await axios.post("http://localhost:5000/api/orders", orderData);
+
+    return response.data;
+  }
+  catch(error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
+export { 
+  kitchenActions,
+  createOrder
+ };
 
 export default kitchenSlice;

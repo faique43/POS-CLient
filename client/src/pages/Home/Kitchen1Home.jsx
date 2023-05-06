@@ -12,7 +12,8 @@ import TextField from "@mui/material/TextField";
 
 // redux actions
 import { cartActions } from "../../store/cartSlice/cartSlice";
-import { kitchenActions } from "../../store/kitchenSlice/kitchenSlice";
+import { kitchenActions, createOrder } from "../../store/kitchenSlice/kitchenSlice";
+import { uiActions } from "../../store/uiSlice/uiSlice";
 
 export default function Kitchen1Home() {
     const dispatch = useDispatch();
@@ -24,20 +25,36 @@ export default function Kitchen1Home() {
     // const [cartName, setCartName] = useState('')
 
     const placeOrderHandler = () => {
-        dispatch(
-            kitchenActions.placeOrder({
-                orderName: cart.cartName,
-                orderItems: cartItems,
-                orderItemsCount: cart.cartTotalQuantity,
-                orderTotalPrice: cart.cartTotalPrice,
-                orderTime: new Date(),
-                orderStatus: false,
-                kitchen: "1",
-            })
-        );
+        const products = cartItems.map(cartItem => {
+            return {
+                product: cartItem.id,
+                quantity: cartItem.quantity
+            }
+        })
+        const orderObject = {
+            name: cart.cartName,
+            products
+        }
+
+        dispatch(uiActions.startLoading())
+        dispatch(createOrder(orderObject)).then(response => {
+            dispatch(uiActions.stopLoading())
+        })
         dispatch(cartActions.clearCart({
             kitchen: "1"
         }));
+        
+        // dispatch(
+        //     kitchenActions.placeOrder({
+        //         orderName: cart.cartName,
+        //         orderItems: cartItems,
+        //         orderItemsCount: cart.cartTotalQuantity,
+        //         orderTotalPrice: cart.cartTotalPrice,
+        //         orderTime: new Date(),
+        //         orderStatus: false,
+        //         kitchen: "1",
+        //     })
+        // );
     };
 
     const inputChangeHandler = (event) => {
