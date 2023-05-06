@@ -24,6 +24,7 @@ export default function ProductCard(props) {
             img: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
             description: props.description,
             originalProductQuantity: props.quantity,
+            kitchen: props.kitchen,
         }))
         dispatch(productsActions.decrementStock(props.id))
     }

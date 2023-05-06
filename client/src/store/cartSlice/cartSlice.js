@@ -8,25 +8,38 @@ import {
 const cartSlice = createSlice({
     name: 'cart',
     initialState: {
-        cartItems: [], // item: {name, img, totalPrice, price, quantity, originalProductQuantity}
-        cartTotalQuantity: 0,
-        cartTotalPrice: 0,
-        cartName: ''
+        carts: [
+            {
+                kitchen: "1",
+                cartItems: [], // item: {name, img, totalPrice, price, quantity, originalProductQuantity, kitchen}
+                cartTotalQuantity: 0,
+                cartTotalPrice: 0,
+                cartName: ''
+            },
+            {
+                kitchen: "2",
+                cartItems: [], // item: {name, img, totalPrice, price, quantity, originalProductQuantity, kitchen}
+                cartTotalQuantity: 0,
+                cartTotalPrice: 0,
+                cartName: ''
+            },
+        ]
     },
     reducers: {
         addToCart(state, action) {
             const itemToBeAdded = action.payload;
-            
-            const existingItem = state.cartItems.find(cartItem => cartItem.id === itemToBeAdded.id);
+            const kitchen = itemToBeAdded.kitchen;
 
-            if(existingItem && existingItem.quantity === existingItem.originalProductQuantity) {
+            const existingItem = state.carts[kitchen === "1" ? 0 : 1].cartItems.find(cartItem => cartItem.id === itemToBeAdded.id);
+
+            if (existingItem && existingItem.quantity === existingItem.originalProductQuantity) {
                 toast.error(`${itemToBeAdded.name} has no items left`, {
                     position: 'bottom-left'
                 })
             }
             else {
-                state.cartTotalQuantity++;
-                state.cartTotalPrice += +itemToBeAdded.price;
+                state.carts[kitchen === "1" ? 0 : 1].cartTotalQuantity++;
+                state.carts[kitchen === "1" ? 0 : 1].cartTotalPrice += +itemToBeAdded.price;
                 if (existingItem) {
                     existingItem.quantity++;
                     existingItem.totalPrice += +itemToBeAdded.price
@@ -35,7 +48,7 @@ const cartSlice = createSlice({
                     })
                 }
                 else {
-                    state.cartItems.push({
+                    state.carts[kitchen === "1" ? 0 : 1].cartItems.push({
                         description: itemToBeAdded.description,
                         id: itemToBeAdded.id,
                         name: itemToBeAdded.name,
@@ -43,20 +56,23 @@ const cartSlice = createSlice({
                         price: itemToBeAdded.price,
                         quantity: 1,
                         totalPrice: itemToBeAdded.price,
-                        originalProductQuantity: itemToBeAdded.originalProductQuantity
+                        originalProductQuantity: itemToBeAdded.originalProductQuantity,
+                        kitchen,
                     });
                     toast.success(`${itemToBeAdded.name} Added To Cart`, {
                         position: 'bottom-left'
                     })
                 }
             }
+
+
         },
         incrementProductQuantity(state, action) {
             const productIdToBeIncremented = action.payload;
 
             const existingItem = state.cartItems.find(cartItem => cartItem.id === productIdToBeIncremented);
-            
-            if(existingItem.originalProductQuantity === existingItem.quantity) {
+
+            if (existingItem.originalProductQuantity === existingItem.quantity) {
                 toast.error(`${existingItem.name} has no items left`, {
                     position: 'bottom-left'
                 })
@@ -84,14 +100,17 @@ const cartSlice = createSlice({
                 existingItem.totalPrice -= +existingItem.price;
             }
         },
-        clearCart(state) {
-            state.cartItems = [];
-            state.cartTotalPrice = 0;
-            state.cartTotalQuantity = 0;
-            state.cartName = ''
+        clearCart(state, action) {
+            const kitchen = action.payload.kitchen;
+
+            state.carts[kitchen === "1" ? 0 : 1].cartItems = [];
+            state.carts[kitchen === "1" ? 0 : 1].cartTotalPrice = 0;
+            state.carts[kitchen === "1" ? 0 : 1].cartTotalQuantity = 0;
+            state.carts[kitchen === "1" ? 0 : 1].cartName = ''
         },
         nameCart(state, action) {
-            state.cartName = action.payload;
+            const kitchen = action.payload.kitchen;
+            state.carts[kitchen === "1" ? 0 : 1].cartName = action.payload.name;
         }
     }
 })

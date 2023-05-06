@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // components
@@ -18,8 +18,8 @@ export default function Kitchen2Home() {
     const dispatch = useDispatch();
 
     const products = useSelector((state) => state.products.products);
-    const cartItems = useSelector((state) => state.cart.cartItems);
-    const cart = useSelector((state) => state.cart);
+    const cartItems = useSelector((state) => state.cart.carts[1].cartItems);
+    const cart = useSelector((state) => state.cart.carts[1]);
 
     // const [cartName, setCartName] = useState('')
 
@@ -32,14 +32,20 @@ export default function Kitchen2Home() {
                 orderTotalPrice: cart.cartTotalPrice,
                 orderTime: new Date(),
                 orderStatus: false,
+                kitchen: "2"
             })
         );
-        dispatch(cartActions.clearCart());
+        dispatch(cartActions.clearCart({
+            kitchen: "2"
+        }));
     };
 
     const inputChangeHandler = (event) => {
         if (event.target.name === "cartName") {
-            dispatch(cartActions.nameCart(event.target.value));
+            dispatch(cartActions.nameCart({
+                kitchen: "2",
+                name: event.target.value
+            }));
             // setCartName(event.target.value)
         }
     };
@@ -56,6 +62,7 @@ export default function Kitchen2Home() {
                         img={product.image}
                         price={product.price}
                         quantity={product.stock}
+                        kitchen={product.kitchen}
                     />
                 ))}
             </div>

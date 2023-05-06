@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const initialState = {
-  orders: [], // order: {orderName, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus, orderId}
+  orders: [], // order: {orderName, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus, orderId, kitchen}
   currentOrderId: 0,
   isAnySelected: false,
   selectedOrder: {
@@ -13,6 +13,7 @@ const initialState = {
     orderTotalPrice: 0,
     orderTime: "",
     orderStatus: false,
+    kitchen: "",
   }
 };
 
