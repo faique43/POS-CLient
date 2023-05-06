@@ -16,10 +16,13 @@ export default function Kitchen2() {
 
     const kitchenOrders = useSelector((state) => state.kitchen.orders);
     const selectedOrder = useSelector(state => state.kitchen.selectedOrder)
-    const isAnySelected = useSelector(state => state.kitchen.isAnySelected)
+    const isAnySelectedKitchen2 = useSelector(state => state.kitchen.isAnySelectedKitchen2)
 
     const selectedOrderHandler = (order) => {
-        dispatch(kitchenActions.setSelectedOrder(order.orderId));
+        dispatch(kitchenActions.setSelectedOrder({
+            orderId: order.orderId,
+            kitchen: "2"
+        }));
     };
 
     const prepareOrderHandler = () => {
@@ -35,7 +38,7 @@ export default function Kitchen2() {
                     <h1 className="tw-col-span-1">Total Price</h1>
                     <h1 className="tw-col-span-1">Date & Time</h1>
                 </div>
-                {kitchenOrders.map((order) => (
+                {kitchenOrders.filter(kitchenOrder => kitchenOrder.kitchen === "2").map((order) => (
                     <Order
                         key={order.orderId}
                         orderId={order.orderId}
@@ -51,7 +54,7 @@ export default function Kitchen2() {
             </div>
 
             <div className="tw-col-span-2 tw-bg-slate-400 tw-p-3 tw-rounded-lg tw-text-white tw-flex tw-flex-col tw-items-start tw-gap-y-4">
-                {isAnySelected ? (
+                {isAnySelectedKitchen2 ? (
                     <>
                         <h1 className="tw-text-xl tw-font-semibold">Order Details</h1>
 

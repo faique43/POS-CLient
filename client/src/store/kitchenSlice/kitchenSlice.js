@@ -4,7 +4,8 @@ import { toast } from "react-toastify";
 const initialState = {
   orders: [], // order: {orderName, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus, orderId, kitchen}
   currentOrderId: 0,
-  isAnySelected: false,
+  isAnySelectedKitchen1: false,
+  isAnySelectedKitchen2: false,
   selectedOrder: {
     orderId: "",
     orderName: "",
@@ -30,9 +31,18 @@ const kitchenSlice = createSlice({
       });
     },
     setSelectedOrder(state, action) {
-      const orderId = action.payload;
+      const orderId = action.payload.orderId;
+      const kitchen = action.payload.kitchen;
 
-      state.isAnySelected = true;
+      
+      if(kitchen === "1") {
+        state.isAnySelectedKitchen2 = false;
+        state.isAnySelectedKitchen1 = true;
+      }
+      else {
+        state.isAnySelectedKitchen1 = false;
+        state.isAnySelectedKitchen2 = true;
+      }
       const selectedOrder = state.orders.find(order => order.orderId === orderId)
       state.selectedOrder = selectedOrder
     },
