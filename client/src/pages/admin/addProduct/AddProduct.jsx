@@ -50,7 +50,9 @@ export default function AddProduct() {
     }
 
     return (
-        <div className='tw-p-4 tw-grid tw-grid-cols-2 tw-gap-6'>
+        <div className='tw-p-4 tw-grid tw-grid-cols-2 tw-gap-6 tw-w-full tw-mt-14 tw-ml-4'>
+            <h1 className='tw-col-span-2 tw-text-2xl'>Add Product</h1>
+
             <TextField value={productData.productName} className='tw-w-full' id="outlined-basic" onChange={changeHandler} name="productName" label="Product Name" variant="outlined" />
             <TextField value={productData.productPrice} className='tw-w-full' id="outlined-basic" onChange={changeHandler} name="productPrice" label="Product Price" variant="outlined" />
             <TextField value={productData.productQuantity} className='tw-w-full' id="outlined-basic" onChange={changeHandler} name="productQuantity" label="Product Quantity" variant="outlined" />
@@ -62,7 +64,7 @@ export default function AddProduct() {
                     <PhotoCamera />
                 </div>
             </IconButton>
-            <Button className='tw-col-span-2' variant="contained" component="label" onClick={addProductHandler}>Add Product</Button>
+            <Button className='tw-col-span-2 tw-h-[50%]' variant="contained" component="label" onClick={addProductHandler}>Add Product</Button>
         </div>
     )
 }

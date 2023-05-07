@@ -9,16 +9,16 @@ import store from "./store/index";
 import App from "./App";
 import Kitchen1 from "./pages/client/kitchen/Kitchen1";
 import Kitchen2 from "./pages/client/kitchen/Kitchen2";
-import Inventory from "./pages/client/inventory/Inventory";
-import AddProduct from "./pages/client/addProduct/AddProduct";
 import Kitchen1Home from "./pages/client/Home/Kitchen1Home";
 import Kitchen2Home from "./pages/client/Home/Kitchen2Home";
+import Client from "./pages/client/Client";
 
 // admin components
 import Admin from "./pages/admin/Admin";
 import Orders from './pages/admin/orders/Orders'
 import DashboardContent from "./pages/admin/dashboardContent/DashboardContent";
-import Client from "./pages/client/Client";
+import AddProduct from "./pages/admin/addProduct/AddProduct";
+import Inventory from "./pages/admin/inventory/Inventory";
 
 const router = createBrowserRouter([
   {
@@ -29,10 +29,9 @@ const router = createBrowserRouter([
         path: "admin",
         element: <Admin />,
         children: [
-          {
-            path: 'orders',
-            element: <Orders />
-          }
+          { path: 'orders', element: <Orders /> },
+          { path: 'addProduct', element: <AddProduct /> },
+          { path: 'inventory', element: <Inventory /> },
         ]
       },
       {
@@ -43,8 +42,6 @@ const router = createBrowserRouter([
           { path: "kitchen2home", element: <Kitchen2Home /> },
           { path: "kitchen1", element: <Kitchen1 /> },
           { path: "kitchen2", element: <Kitchen2 /> },
-          { path: "inventory", element: <Inventory /> },
-          { path: "addProduct", element: <AddProduct /> },
         ]
       }
     ],

@@ -16,7 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-import { mainListItems, secondaryListItems } from './dashboardContent/listItems';
+import { mainListItems, secondaryListItems } from './listItems';
 import DashboardContent from './dashboardContent/DashboardContent';
 
 const mdTheme = createTheme();

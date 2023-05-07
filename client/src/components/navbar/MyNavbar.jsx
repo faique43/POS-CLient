@@ -14,7 +14,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -93,9 +92,9 @@ export default function MyNavbar() {
 
                 <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen2Home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><HomeIcon/>Kitchen 2 Products</Link>
 
-                <Link style={{ textDecoration: 'none', color: 'white' }} to="inventory" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><InventoryIcon/> Inventory</Link>
+                {/* <Link style={{ textDecoration: 'none', color: 'white' }} to="inventory" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><InventoryIcon/> Inventory</Link> */}
 
-                <Link style={{ textDecoration: 'none', color: 'white' }} to="addProduct" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><AddCircleIcon/> Add Product</Link>
+                {/* <Link style={{ textDecoration: 'none', color: 'white' }} to="addProduct" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><AddCircleIcon/> Add Product</Link> */}
 
                 <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen1" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><ShoppingCartIcon/> Kitchen 1 Orders</Link>
 
