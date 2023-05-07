@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import axios from 'axios';
 
@@ -11,14 +11,14 @@ const initialState = {
   isAnySelectedKitchen1: false,
   isAnySelectedKitchen2: false,
   selectedOrder: {
-    orderId: "",
-    orderName: "",
-    orderItems: [],
-    orderItemsCount: 0,
-    orderTotalPrice: 0,
-    orderTime: "",
-    orderStatus: false,
-    kitchen: "",
+    // orderId: "",
+    // orderName: "",
+    // orderItems: [],
+    // orderItemsCount: 0,
+    // orderTotalPrice: 0,
+    // orderTime: "",
+    // orderStatus: false,
+    // kitchen: "",
   }
 };
 
@@ -38,7 +38,6 @@ const kitchenSlice = createSlice({
       const orderId = action.payload.orderId;
       const kitchen = action.payload.kitchen;
 
-
       if (kitchen === "1") {
         state.isAnySelectedKitchen2 = false;
         state.isAnySelectedKitchen1 = true;
@@ -47,7 +46,8 @@ const kitchenSlice = createSlice({
         state.isAnySelectedKitchen1 = false;
         state.isAnySelectedKitchen2 = true;
       }
-      const selectedOrder = state.orders.find(order => order.orderId === orderId)
+      const selectedOrder = current(state.orders).find(order => order._id === orderId)
+      
       state.selectedOrder = selectedOrder
     },
     prepareOrderWithId(state, action) {
@@ -104,7 +104,7 @@ const kitchenSlice = createSlice({
     })
     builder.addCase(getAllOrders.fulfilled, (state, action) => {
       state.orders = action.payload;
-      console.log(action.payload);
+      // console.log(action.payload);
     })
     builder.addCase(getAllOrders.rejected, (state, action) => {
       console.log(action.payload)
@@ -116,7 +116,6 @@ const kitchenSlice = createSlice({
 const kitchenActions = kitchenSlice.actions;
 
 const createOrder = createAsyncThunk('kitchen/createOrder', async (orderData, { rejectWithValue }) => {
-  console.log(orderData)
   try {
     const response = await axios.post("http://localhost:5000/api/orders", orderData);
 

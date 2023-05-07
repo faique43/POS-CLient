@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Order(props) {
   const selectedOrderHandler = () => {
-    props.selectedOrderHandler(props);
+    props.selectedOrderHandler(props.orderId);
   };
   return (
     <div

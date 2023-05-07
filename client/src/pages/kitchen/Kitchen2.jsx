@@ -18,9 +18,9 @@ export default function Kitchen2() {
     const selectedOrder = useSelector(state => state.kitchen.selectedOrder)
     const isAnySelectedKitchen2 = useSelector(state => state.kitchen.isAnySelectedKitchen2)
 
-    const selectedOrderHandler = (order) => {
+    const selectedOrderHandler = (orderId) => {
         dispatch(kitchenActions.setSelectedOrder({
-            orderId: order.orderId,
+            orderId: orderId,
             kitchen: "2"
         }));
     };
@@ -46,7 +46,7 @@ export default function Kitchen2() {
                         orderItems={order.products}
                         orderItemsCount={order.products.length}
                         orderTotalPrice={order.totalPrice}
-                        orderTime={order.created_at}
+                        orderTime={new Date(order.created_at).toLocaleString()}
                         orderStatus={order.status}
                         selectedOrderHandler={selectedOrderHandler}
                     />
@@ -58,30 +58,30 @@ export default function Kitchen2() {
                     <>
                         <h1 className="tw-text-xl tw-font-semibold">Order Details</h1>
 
-                        {selectedOrder.orderItems.map((order) => (
+                        {selectedOrder.products.map((product) => (
                             <CartItem
+                                key={product._id}
                                 isOrder={true}
-                                price={order.price}
-                                orderQuantity={order.quantity}
-                                name={order.name}
+                                price={product.product.price}
+                                orderQuantity={product.quantity}
+                                name={product.product.name}
                             />
                         ))}
-                        {/* <CartItem isOrder={true} price={45} orderQuantity={2} name={"check"} /> */}
 
                         <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
                             <h1 className="tw-text-xl tw-font-semibold">Total Items: </h1>
-                            <h1 className="tw-text-xl">{selectedOrder.orderItemsCount}</h1>
+                            <h1 className="tw-text-xl">{selectedOrder.products.length}</h1>
                         </div>
 
                         <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
                             <h1 className="tw-text-xl tw-font-semibold">Total Price: </h1>
-                            <h1 className="tw-text-xl">{selectedOrder.orderTotalPrice}</h1>
+                            <h1 className="tw-text-xl">{selectedOrder.totalPrice}</h1>
                         </div>
 
                         <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
                             <h1 className="tw-text-xl tw-font-semibold">Order Time: </h1>
                             <h1 className="tw-text-xl">
-                                {selectedOrder.orderTime.toLocaleString("en-US")}
+                                {new Date(selectedOrder.created_at).toLocaleString()}
                             </h1>
                         </div>
 
