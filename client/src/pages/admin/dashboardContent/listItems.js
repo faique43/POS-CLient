@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
+
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -12,29 +14,34 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 
 export const mainListItems = (
     <React.Fragment>
-        <ListItemButton>
-            <ListItemIcon>
-                <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-        </ListItemButton>
-        <ListItemButton>
-            <ListItemIcon>
-                <ShoppingCartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Orders" />
-        </ListItemButton>
+        <Link to='/admin'>
+            <ListItemButton>
+                <ListItemIcon>
+                    <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+            </ListItemButton>
+        </Link>
+
+        <Link to='orders'>
+            <ListItemButton>
+                <ListItemIcon>
+                    <ShoppingCartIcon />
+                </ListItemIcon>
+                <ListItemText primary="Orders" />
+            </ListItemButton>
+        </Link>
         <ListItemButton>
             <ListItemIcon>
                 <PeopleIcon />
             </ListItemIcon>
-            <ListItemText primary="Customers" />
+            <ListItemText primary="Products" />
         </ListItemButton>
         <ListItemButton>
             <ListItemIcon>
                 <BarChartIcon />
             </ListItemIcon>
-            <ListItemText primary="Reports" />
+            <ListItemText primary="Inventory" />
         </ListItemButton>
         <ListItemButton>
             <ListItemIcon>

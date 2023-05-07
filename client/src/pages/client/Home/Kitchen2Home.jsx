@@ -2,8 +2,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // components
-import ProductCard from "../../components/UI/productCard/ProductCard";
-import CartItem from "../../components/UI/cart/cartItem/CartItem";
+import ProductCard from "../../../components/UI/productCard/ProductCard";
+import CartItem from "../../../components/UI/cart/cartItem/CartItem";
 
 // Mu
 import Typography from "@mui/material/Typography";
@@ -11,9 +11,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
 // redux actions
-import { cartActions } from "../../store/cartSlice/cartSlice";
-import { kitchenActions, createOrder, getAllOrders } from "../../store/kitchenSlice/kitchenSlice";
-import { uiActions } from "../../store/uiSlice/uiSlice";
+import { cartActions } from "../../../store/cartSlice/cartSlice";
+import { kitchenActions, createOrder, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
+import { uiActions } from "../../../store/uiSlice/uiSlice";
 
 export default function Kitchen2Home() {
     const dispatch = useDispatch();

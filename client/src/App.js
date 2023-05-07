@@ -16,13 +16,12 @@ import { getAllProducts } from "./store/productsSlice/productsSlice";
 import { getInventory } from "./store/inventorySlice/inventorySlice";
 import { getKitchen1Orders, getKitchen2Orders, getAllOrders } from './store/kitchenSlice/kitchenSlice'
 import { uiActions } from "./store/uiSlice/uiSlice";
-import Admin from "./pages/admin/Admin";
 
 export default function App() {
   const dispatch = useDispatch()
 
   const isLoading = useSelector(state => state.ui.loading)
-  const admin = false;
+  const admin = true;
 
   // getting all products and inventory from DB on app startup
   useEffect(() => {
@@ -44,16 +43,7 @@ export default function App() {
         <CircularProgress />
       </Modal>
       <ToastContainer />
-      {
-        admin ?
-          <>
-            <Admin/>
-          </> :
-          <>
-            <MyNavbar />
-            <Outlet />
-          </>
-      }
+      <Outlet />
     </div>
   );
 }

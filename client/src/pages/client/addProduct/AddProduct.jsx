@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 
 // redux actions
-import { productsActions } from '../../store/productsSlice/productsSlice';
+import { productsActions } from '../../../store/productsSlice/productsSlice';
 
 // MU
 import TextField from '@mui/material/TextField';

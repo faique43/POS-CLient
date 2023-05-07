@@ -2,27 +2,27 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // components
-import Order from "../../components/order/Order";
-import CartItem from "../../components/UI/cart/cartItem/CartItem";
+import Order from "../../../components/order/Order";
+import CartItem from "../../../components/UI/cart/cartItem/CartItem";
 
 // redux actions
-import { kitchenActions, prepareOrderById, getAllOrders } from "../../store/kitchenSlice/kitchenSlice";
-import { uiActions } from "../../store/uiSlice/uiSlice";
+import { kitchenActions, prepareOrderById, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
 
 // MU
 import { Button } from "@mui/material";
+import { uiActions } from "../../../store/uiSlice/uiSlice";
 
-export default function Kitchen2() {
+export default function Kitchen1() {
     const dispatch = useDispatch();
 
     const kitchenOrders = useSelector((state) => state.kitchen.orders);
     const selectedOrder = useSelector(state => state.kitchen.selectedOrder)
-    const isAnySelectedKitchen2 = useSelector(state => state.kitchen.isAnySelectedKitchen2)
+    const isAnySelectedKitchen1 = useSelector(state => state.kitchen.isAnySelectedKitchen1)
 
     const selectedOrderHandler = (orderId) => {
         dispatch(kitchenActions.setSelectedOrder({
             orderId: orderId,
-            kitchen: "2"
+            kitchen: "1"
         }));
     };
 
@@ -48,7 +48,7 @@ export default function Kitchen2() {
                     <h1 className="tw-col-span-1">Total Price</h1>
                     <h1 className="tw-col-span-1">Date & Time</h1>
                 </div>
-                {kitchenOrders.filter(kitchenOrder => kitchenOrder.products[0].product.kitchen === '2').map((order) => (
+                {kitchenOrders.filter(kitchenOrder => kitchenOrder.products[0].product.kitchen === '1').map((order) => (
                     <Order
                         key={order._id}
                         orderId={order._id}
@@ -64,7 +64,7 @@ export default function Kitchen2() {
             </div>
 
             <div className="tw-col-span-2 tw-bg-slate-400 tw-p-3 tw-rounded-lg tw-text-white tw-flex tw-flex-col tw-items-start tw-gap-y-4">
-                {isAnySelectedKitchen2 ? (
+                {isAnySelectedKitchen1 ? (
                     <>
                         <h1 className="tw-text-xl tw-font-semibold">Order Details</h1>
 
