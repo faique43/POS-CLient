@@ -56,7 +56,6 @@ export default function Inventory() {
                     },
                 }}
                 pageSizeOptions={[5, 10]}
-                // checkboxSelection
             />
         </div>
     );
