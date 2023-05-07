@@ -6,10 +6,11 @@ import Order from "../../components/order/Order";
 import CartItem from "../../components/UI/cart/cartItem/CartItem";
 
 // redux actions
-import { kitchenActions } from "../../store/kitchenSlice/kitchenSlice";
+import { kitchenActions, prepareOrderById, getAllOrders } from "../../store/kitchenSlice/kitchenSlice";
 
 // MU
 import { Button } from "@mui/material";
+import { uiActions } from "../../store/uiSlice/uiSlice";
 
 export default function Kitchen1() {
     const dispatch = useDispatch();
@@ -26,7 +27,16 @@ export default function Kitchen1() {
     };
 
     const prepareOrderHandler = () => {
-        dispatch(kitchenActions.prepareOrderWithId(selectedOrder.orderId))
+        dispatch(uiActions.startLoading())
+        dispatch(prepareOrderById({
+            orderId: selectedOrder._id
+        })).then(response => {
+            if(!response.error) {
+                dispatch(getAllOrders())
+            }
+            dispatch(uiActions.stopLoading())
+        })
+        // dispatch(kitchenActions.prepareOrderWithId(selectedOrder.orderId))
     };
 
     return (
@@ -89,9 +99,9 @@ export default function Kitchen1() {
                             className="tw-w-full"
                             variant="contained"
                             onClick={prepareOrderHandler}
-                            disabled={selectedOrder.orderStatus}
+                            disabled={selectedOrder.status === 'completed'}
                         >
-                            {!selectedOrder.orderStatus ? "Mark As Prepared" : "Prepared"}
+                            {selectedOrder.status === "pending" ? "Mark As Prepared" : "Prepared"}
                         </Button>
                     </>
                 ) : (

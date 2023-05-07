@@ -10,16 +10,7 @@ const initialState = {
   currentOrderId: 0,
   isAnySelectedKitchen1: false,
   isAnySelectedKitchen2: false,
-  selectedOrder: {
-    // orderId: "",
-    // orderName: "",
-    // orderItems: [],
-    // orderItemsCount: 0,
-    // orderTotalPrice: 0,
-    // orderTime: "",
-    // orderStatus: false,
-    // kitchen: "",
-  }
+  selectedOrder: {}
 };
 
 const kitchenSlice = createSlice({
@@ -110,6 +101,22 @@ const kitchenSlice = createSlice({
       console.log(action.payload)
     })
 
+    // prepare order by id
+    builder.addCase(prepareOrderById.pending, (state) => {
+
+    })
+    builder.addCase(prepareOrderById.fulfilled, (state, action) => {
+      // console.log(action.payload);
+      toast.success("Order marked as prepared!", {
+        position: "bottom-left"
+      })
+      state.selectedOrder.status = 'completed'
+    })
+    builder.addCase(prepareOrderById.rejected, (state, action) => {
+      toast.error("Order could not be marked as prepared!", {
+        position: "bottom-left"
+      })
+    })
   }
 });
 
@@ -159,12 +166,26 @@ const getAllOrders = createAsyncThunk('kitchen/getAllOrders', async (orderData, 
   }
 })
 
+const prepareOrderById = createAsyncThunk('kitchen/prepareOrderById', async (orderData, {rejectWithValue}) => {
+  try {
+    const response = await axios.put(`http://localhost:5000/api/orders/${orderData.orderId}`, {
+      status: "completed"
+    })
+
+    return response.data;
+  }
+  catch(error) {
+    return rejectWithValue(error.response.data)
+  }
+})
+
 export {
   kitchenActions,
   createOrder,
   getKitchen1Orders,
   getKitchen2Orders,
-  getAllOrders
+  getAllOrders,
+  prepareOrderById,
 };
 
 export default kitchenSlice;
