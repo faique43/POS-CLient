@@ -14,11 +14,15 @@ import AddProduct from "./pages/addProduct/AddProduct";
 import Kitchen1Home from "./pages/Home/Kitchen1Home";
 import Kitchen2Home from "./pages/Home/Kitchen2Home";
 
+// admin components
+import Admin from "./pages/admin/Admin";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
+      { path: "admin", element: <Admin /> },
       { path: "kitchen1home", element: <Kitchen1Home /> },
       { path: "kitchen2home", element: <Kitchen2Home /> },
       { path: "kitchen1", element: <Kitchen1 /> },
