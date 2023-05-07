@@ -12,7 +12,7 @@ import TextField from "@mui/material/TextField";
 
 // redux actions
 import { cartActions } from "../../store/cartSlice/cartSlice";
-import { kitchenActions, createOrder } from "../../store/kitchenSlice/kitchenSlice";
+import { kitchenActions, createOrder, getAllOrders } from "../../store/kitchenSlice/kitchenSlice";
 import { uiActions } from "../../store/uiSlice/uiSlice";
 
 export default function Kitchen2Home() {
@@ -38,6 +38,9 @@ export default function Kitchen2Home() {
 
         dispatch(uiActions.startLoading())
         dispatch(createOrder(orderObject)).then(response => {
+            if(!response.error) {
+                dispatch(getAllOrders())
+            }
             dispatch(uiActions.stopLoading())
         })
         // dispatch(

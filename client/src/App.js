@@ -22,7 +22,7 @@ export default function App() {
   const dispatch = useDispatch()
 
   const isLoading = useSelector(state => state.ui.loading)
-  const admin = true;
+  const admin = false;
 
   // getting all products and inventory from DB on app startup
   useEffect(() => {
