@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // components
-import ProductCard from "../../components/UI/productCard/ProductCard";
-import CartItem from "../../components/UI/cart/cartItem/CartItem";
+import ProductCard from "../../../components/UI/productCard/ProductCard";
+import CartItem from "../../../components/UI/cart/cartItem/CartItem";
 
 // Mu
 import Typography from "@mui/material/Typography";
@@ -11,35 +11,61 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
 // redux actions
-import { cartActions } from "../../store/cartSlice/cartSlice";
-import { kitchenActions } from "../../store/kitchenSlice/kitchenSlice";
+import { cartActions } from "../../../store/cartSlice/cartSlice";
+import { kitchenActions, createOrder, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
+import { uiActions } from "../../../store/uiSlice/uiSlice";
 
-export default function Kitchen2Home() {
+export default function Kitchen1Home() {
     const dispatch = useDispatch();
 
     const products = useSelector((state) => state.products.products);
-    const cartItems = useSelector((state) => state.cart.cartItems);
-    const cart = useSelector((state) => state.cart);
+    const cartItems = useSelector((state) => state.cart.carts[0].cartItems)
+    const cart = useSelector((state) => state.cart.carts[0]);
 
     // const [cartName, setCartName] = useState('')
 
     const placeOrderHandler = () => {
-        dispatch(
-            kitchenActions.placeOrder({
-                orderName: cart.cartName,
-                orderItems: cartItems,
-                orderItemsCount: cart.cartTotalQuantity,
-                orderTotalPrice: cart.cartTotalPrice,
-                orderTime: new Date(),
-                orderStatus: false,
-            })
-        );
-        dispatch(cartActions.clearCart());
+        const products = cartItems.map(cartItem => {
+            return {
+                product: cartItem.id,
+                quantity: cartItem.quantity
+            }
+        })
+        const orderObject = {
+            name: cart.cartName,
+            products
+        }
+
+        dispatch(uiActions.startLoading())
+        dispatch(createOrder(orderObject)).then(response => {
+            if(!response.error) {
+                dispatch(getAllOrders())
+            }
+            dispatch(uiActions.stopLoading())
+        })
+        dispatch(cartActions.clearCart({
+            kitchen: "1"
+        }));
+        
+        // dispatch(
+        //     kitchenActions.placeOrder({
+        //         orderName: cart.cartName,
+        //         orderItems: cartItems,
+        //         orderItemsCount: cart.cartTotalQuantity,
+        //         orderTotalPrice: cart.cartTotalPrice,
+        //         orderTime: new Date(),
+        //         orderStatus: false,
+        //         kitchen: "1",
+        //     })
+        // );
     };
 
     const inputChangeHandler = (event) => {
         if (event.target.name === "cartName") {
-            dispatch(cartActions.nameCart(event.target.value));
+            dispatch(cartActions.nameCart({
+                kitchen: "1",
+                name: event.target.value
+            }));
             // setCartName(event.target.value)
         }
     };
@@ -47,7 +73,7 @@ export default function Kitchen2Home() {
     return (
         <div className="tw-grid tw-grid-cols-6">
             <div className="tw-col-span-4 tw-flex tw-items-center tw-flex-wrap tw-justify-evenly tw-gap-y-4 tw-p-4 tw-gap-x-1">
-                {products.map((product) => (
+                {products.filter(product => product.kitchen === "1").map((product) => (
                     <ProductCard
                         key={product._id}
                         id={product._id}
@@ -56,6 +82,7 @@ export default function Kitchen2Home() {
                         img={product.image}
                         price={product.price}
                         quantity={product.stock}
+                        kitchen={product.kitchen}
                     />
                 ))}
             </div>

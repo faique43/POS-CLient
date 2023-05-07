@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // components
-import Order from "../../components/order/Order";
-import CartItem from "../../components/UI/cart/cartItem/CartItem";
+import Order from "../../../components/order/Order";
+import CartItem from "../../../components/UI/cart/cartItem/CartItem";
 
 // redux actions
-import { kitchenActions } from "../../store/kitchenSlice/kitchenSlice";
+import { kitchenActions, prepareOrderById, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
+import { uiActions } from "../../../store/uiSlice/uiSlice";
 
 // MU
 import { Button } from "@mui/material";
@@ -16,14 +17,26 @@ export default function Kitchen2() {
 
     const kitchenOrders = useSelector((state) => state.kitchen.orders);
     const selectedOrder = useSelector(state => state.kitchen.selectedOrder)
-    const isAnySelected = useSelector(state => state.kitchen.isAnySelected)
+    const isAnySelectedKitchen2 = useSelector(state => state.kitchen.isAnySelectedKitchen2)
 
-    const selectedOrderHandler = (order) => {
-        dispatch(kitchenActions.setSelectedOrder(order.orderId));
+    const selectedOrderHandler = (orderId) => {
+        dispatch(kitchenActions.setSelectedOrder({
+            orderId: orderId,
+            kitchen: "2"
+        }));
     };
 
     const prepareOrderHandler = () => {
-        dispatch(kitchenActions.prepareOrderWithId(selectedOrder.orderId))
+        dispatch(uiActions.startLoading())
+        dispatch(prepareOrderById({
+            orderId: selectedOrder._id
+        })).then(response => {
+            if(!response.error) {
+                dispatch(getAllOrders())
+            }
+            dispatch(uiActions.stopLoading())
+        })
+        // dispatch(kitchenActions.prepareOrderWithId(selectedOrder.orderId))
     };
 
     return (
@@ -35,50 +48,50 @@ export default function Kitchen2() {
                     <h1 className="tw-col-span-1">Total Price</h1>
                     <h1 className="tw-col-span-1">Date & Time</h1>
                 </div>
-                {kitchenOrders.map((order) => (
+                {kitchenOrders.filter(kitchenOrder => kitchenOrder.products[0].product.kitchen === '2').map((order) => (
                     <Order
-                        key={order.orderId}
-                        orderId={order.orderId}
-                        orderName={order.orderName}
-                        orderItems={order.orderItems}
-                        orderItemsCount={order.orderItemsCount}
-                        orderTotalPrice={order.orderTotalPrice}
-                        orderTime={order.orderTime}
-                        orderStatus={order.orderStatus}
+                        key={order._id}
+                        orderId={order._id}
+                        orderName={order.name}
+                        orderItems={order.products}
+                        orderItemsCount={order.products.length}
+                        orderTotalPrice={order.totalPrice}
+                        orderTime={new Date(order.created_at).toLocaleString()}
+                        orderStatus={order.status}
                         selectedOrderHandler={selectedOrderHandler}
                     />
                 ))}
             </div>
 
             <div className="tw-col-span-2 tw-bg-slate-400 tw-p-3 tw-rounded-lg tw-text-white tw-flex tw-flex-col tw-items-start tw-gap-y-4">
-                {isAnySelected ? (
+                {isAnySelectedKitchen2 ? (
                     <>
                         <h1 className="tw-text-xl tw-font-semibold">Order Details</h1>
 
-                        {selectedOrder.orderItems.map((order) => (
+                        {selectedOrder.products.map((product) => (
                             <CartItem
+                                key={product._id}
                                 isOrder={true}
-                                price={order.price}
-                                orderQuantity={order.quantity}
-                                name={order.name}
+                                price={product.product.price}
+                                orderQuantity={product.quantity}
+                                name={product.product.name}
                             />
                         ))}
-                        {/* <CartItem isOrder={true} price={45} orderQuantity={2} name={"check"} /> */}
 
                         <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
                             <h1 className="tw-text-xl tw-font-semibold">Total Items: </h1>
-                            <h1 className="tw-text-xl">{selectedOrder.orderItemsCount}</h1>
+                            <h1 className="tw-text-xl">{selectedOrder.products.length}</h1>
                         </div>
 
                         <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
                             <h1 className="tw-text-xl tw-font-semibold">Total Price: </h1>
-                            <h1 className="tw-text-xl">{selectedOrder.orderTotalPrice}</h1>
+                            <h1 className="tw-text-xl">{selectedOrder.totalPrice}</h1>
                         </div>
 
                         <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
                             <h1 className="tw-text-xl tw-font-semibold">Order Time: </h1>
                             <h1 className="tw-text-xl">
-                                {selectedOrder.orderTime.toLocaleString("en-US")}
+                                {new Date(selectedOrder.created_at).toLocaleString()}
                             </h1>
                         </div>
 
@@ -86,9 +99,9 @@ export default function Kitchen2() {
                             className="tw-w-full"
                             variant="contained"
                             onClick={prepareOrderHandler}
-                            disabled={selectedOrder.orderStatus}
+                            disabled={selectedOrder.status === 'completed'}
                         >
-                            {!selectedOrder.orderStatus ? "Mark As Prepared" : "Prepared"}
+                            {selectedOrder.status === "pending" ? "Mark As Prepared" : "Prepared"}
                         </Button>
                     </>
                 ) : (

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 
 // components
-import ProductCard from '../../components/UI/productCard/ProductCard';
+import ProductCard from '../../../components/UI/productCard/ProductCard';
 
 // MU
 import Modal from '@mui/material/Modal';

@@ -66,7 +66,10 @@ const productsSlice = createSlice({
     });
     builder.addCase(getAllProducts.fulfilled, (state, action) => {
       // console.log(action.payload);
-      state.products = action.payload
+      state.products = action.payload;
+      toast.success("All products fetched successfully!", {
+        position: "bottom-left"
+      })
     });
     builder.addCase(getAllProducts.rejected, (state, action) => {
       toast.error(`${action.error.message}`, {
@@ -79,13 +82,10 @@ const productsSlice = createSlice({
 const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
   async (dispatch, { rejectWithValue }) => {
-    dispatch(uiActions.startLoading());
     try {
       const response = await axios.get("http://localhost:5000/api/products");
-      dispatch(uiActions.stopLoading());
       return response.data;
     } catch (error) {
-      dispatch(uiActions.stopLoading());
       return rejectWithValue(error.response.data);
     }
   }

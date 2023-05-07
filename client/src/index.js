@@ -7,24 +7,43 @@ import "./index.css";
 
 import store from "./store/index";
 import App from "./App";
-import Kitchen1 from "./pages/kitchen/Kitchen1";
-import Kitchen2 from "./pages/kitchen/Kitchen2";
-import Inventory from "./pages/inventory/Inventory";
-import AddProduct from "./pages/addProduct/AddProduct";
-import Kitchen1Home from "./pages/Home/Kitchen1Home";
-import Kitchen2Home from "./pages/Home/Kitchen2Home";
+import Kitchen1 from "./pages/client/kitchen/Kitchen1";
+import Kitchen2 from "./pages/client/kitchen/Kitchen2";
+import Kitchen1Home from "./pages/client/Home/Kitchen1Home";
+import Kitchen2Home from "./pages/client/Home/Kitchen2Home";
+import Client from "./pages/client/Client";
+
+// admin components
+import Admin from "./pages/admin/Admin";
+import Orders from './pages/admin/orders/Orders'
+import DashboardContent from "./pages/admin/dashboardContent/DashboardContent";
+import AddProduct from "./pages/admin/addProduct/AddProduct";
+import Inventory from "./pages/admin/inventory/Inventory";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { path: "kitchen1home", element: <Kitchen1Home /> },
-      { path: "kitchen2home", element: <Kitchen2Home /> },
-      { path: "kitchen1", element: <Kitchen1 /> },
-      { path: "kitchen2", element: <Kitchen2 /> },
-      { path: "inventory", element: <Inventory /> },
-      { path: "addProduct", element: <AddProduct /> },
+      {
+        path: "admin",
+        element: <Admin />,
+        children: [
+          { path: 'orders', element: <Orders /> },
+          { path: 'addProduct', element: <AddProduct /> },
+          { path: 'inventory', element: <Inventory /> },
+        ]
+      },
+      {
+        path: "client",
+        element: <Client />,
+        children: [
+          { path: "kitchen1home", element: <Kitchen1Home /> },
+          { path: "kitchen2home", element: <Kitchen2Home /> },
+          { path: "kitchen1", element: <Kitchen1 /> },
+          { path: "kitchen2", element: <Kitchen2 /> },
+        ]
+      }
     ],
   },
 ]);
