@@ -76,6 +76,22 @@ const productsSlice = createSlice({
         position: "bottom-left",
       });
     });
+
+    // add new product
+    builder.addCase(addNewProduct.pending, (state) => {
+      // 
+    })
+    builder.addCase(addNewProduct.fulfilled, (state, action) => {
+      toast.success('New product added successfully!', {
+        position: "bottom-left"
+      })
+    })
+    builder.addCase(addNewProduct.rejected, (state, action) => {
+      toast.error('New product could not be added successfully!', {
+        position: "bottom-left"
+      })
+
+    })
   },
 });
 
@@ -91,8 +107,24 @@ const getAllProducts = createAsyncThunk(
   }
 );
 
+const addNewProduct = createAsyncThunk('product/addNewProduct', async (productData, {rejectWithValue}) => {
+  console.log(productData);
+  try {
+    const response = await axios.post('http://localhost:5000/api/products', productData)
+
+    return response.data;
+  }
+  catch(error) {
+    return rejectWithValue(error.response.data);
+  }
+})
+
 const productsActions = productsSlice.actions;
 
-export { productsActions, getAllProducts };
+export { 
+  productsActions,
+  getAllProducts,
+  addNewProduct
+};
 
 export default productsSlice;
