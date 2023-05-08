@@ -1,10 +1,17 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 
 // MU
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
+// redux 
+import { uiActions } from '../../../store/uiSlice/uiSlice';
+import { addInventory, getInventory } from '../../../store/inventorySlice/inventorySlice';
+
 export default function AddInventory() {
+    const dispatch = useDispatch();
+
     const [inventoryData, setInventoryData] = useState({
         item: '',
         quantity: '',
@@ -12,19 +19,19 @@ export default function AddInventory() {
     })
 
     const changeHandler = (event) => {
-        if(event.target.name === 'item') {
+        if (event.target.name === 'item') {
             setInventoryData({
                 ...inventoryData,
                 item: event.target.value
             })
         }
-        else if(event.target.name === 'quantity') {
+        else if (event.target.name === 'quantity') {
             setInventoryData({
                 ...inventoryData,
                 quantity: event.target.value
             })
         }
-        else if(event.target.name === 'price') {
+        else if (event.target.name === 'price') {
             setInventoryData({
                 ...inventoryData,
                 price: event.target.value
@@ -33,7 +40,16 @@ export default function AddInventory() {
     }
 
     const addInventoryHandler = () => {
-
+        dispatch(uiActions.startLoading());
+        dispatch(addInventory(inventoryData)).then(response => {
+            if(!response.error) {
+                dispatch(getInventory()).then(response => {
+                    dispatch(uiActions.stopLoading())
+                })
+                return;
+            }
+            dispatch(uiActions.stopLoading())
+        })
     }
 
     return (
