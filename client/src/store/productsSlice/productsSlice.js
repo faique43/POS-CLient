@@ -2,9 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-// Actions
-import { uiActions } from "../uiSlice/uiSlice";
-
 const initialState = {
   products: [],
   totalStocks: 110,

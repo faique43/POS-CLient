@@ -12,7 +12,24 @@ export default function AddInventory() {
     })
 
     const changeHandler = (event) => {
-
+        if(event.target.name === 'item') {
+            setInventoryData({
+                ...inventoryData,
+                item: event.target.value
+            })
+        }
+        else if(event.target.name === 'quantity') {
+            setInventoryData({
+                ...inventoryData,
+                quantity: event.target.value
+            })
+        }
+        else if(event.target.name === 'price') {
+            setInventoryData({
+                ...inventoryData,
+                price: event.target.value
+            })
+        }
     }
 
     const addInventoryHandler = () => {
@@ -25,7 +42,7 @@ export default function AddInventory() {
 
             <TextField value={inventoryData.item} className='tw-w-full' id="outlined-basic" onChange={changeHandler} name="item" label="Name" variant="outlined" />
             <TextField value={inventoryData.quantity} className='tw-w-full' id="outlined-basic" onChange={changeHandler} name="quantity" label="Quantity" variant="outlined" />
-            <TextField value={inventoryData.price} className='tw-w-full' id="outlined-basic" onChange={changeHandler} name="Price" label="Price" variant="outlined" />
+            <TextField value={inventoryData.price} className='tw-w-full' id="outlined-basic" onChange={changeHandler} name="price" label="Price" variant="outlined" />
 
             <Button className='tw-col-span-2' variant="contained" component="label" onClick={addInventoryHandler}>Add Inventory</Button>
         </div>
