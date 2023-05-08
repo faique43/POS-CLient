@@ -8,7 +8,8 @@ import axios from 'axios';
 const initialState = {
     username: '',
     password: '',
-    isAdmin: false
+    isAdmin: false,
+    isAuthenticated: false,
 }
 
 const authSlice = createSlice({
@@ -31,10 +32,19 @@ const authSlice = createSlice({
 
         })
         builder.addCase(loginAdmin.fulfilled, (state, action) => {
-            console.log(action.payload);
+            state.isAuthenticated = true;
+            state.isAdmin = true;
+            state.username = action.payload.username;
+            state.password = action.payload.password;
+
+            toast.success('logged in successfully!', {
+                position: 'bottom-left'
+            })
         })
         builder.addCase(loginAdmin.rejected, (state, action) => {
-            console.log(action.payload);
+            toast.error(`${action.payload.msg}`, {
+                position: 'bottom-left'
+            })
         })
     }
 })

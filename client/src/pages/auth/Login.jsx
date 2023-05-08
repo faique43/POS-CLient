@@ -1,3 +1,6 @@
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -8,14 +11,46 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
+// redux
+import { loginAdmin, loginUser } from '../../store/authSlice/authSlice';
+import {uiActions} from '../../store/uiSlice/uiSlice';
+
 export default function Login() {
+    const dispatch = useDispatch()
+
+    const [userData, setUserData] = useState({
+        username: '',
+        password: ''
+    })
+
+    const changeHandler = (event) => {
+        if (event.target.name === 'username') {
+            setUserData({
+                ...userData,
+                username: event.target.value
+            })
+        }
+        else if (event.target.name === 'password') {
+            setUserData({
+                ...userData,
+                password: event.target.value
+            })
+        }
+    }
+
     const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
+        dispatch(uiActions.startLoading())
+        // event.preventDefault()
+        if(event.target.name === 'adminButton') {
+            dispatch(loginAdmin(userData)).then(response => {
+                dispatch(uiActions.stopLoading())
+            })
+        }
+        else if(event.target.name === 'userButton') {
+            dispatch(loginUser(userData)).then(response => {
+                dispatch(uiActions.stopLoading())
+            })
+        }
     };
 
     return (
@@ -29,17 +64,19 @@ export default function Login() {
                 }}
             >
                 <Typography component="h1" variant="h5">
-                    Sign in
+                    Login
                 </Typography>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <Box component="form" sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
+                        // id="email"
+                        label="Username"
+                        name="username"
+                        onChange={changeHandler}
+                        // autoComplete="email"
+                        value={userData.username}
                         autoFocus
                     />
                     <TextField
@@ -49,31 +86,43 @@ export default function Login() {
                         name="password"
                         label="Password"
                         type="password"
-                        id="password"
-                        autoComplete="current-password"
+                        onChange={changeHandler}
+                        value={userData.password}
+                    // id="password"
+                    // autoComplete="current-password"
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
                     />
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
+                        name='userButton'
+                        onClick={handleSubmit}
                     >
-                        Sign In
+                        Login
+                    </Button>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        name='adminButton'
+                        onClick={handleSubmit}
+                    >
+                        Login as Admin
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="#" variant="body2">
+                            {/* <Link href="#" variant="body2">
                                 Forgot password?
-                            </Link>
+                            </Link> */}
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
-                                {"Don't have an account? Sign Up"}
-                            </Link>
+                            {/* <Link href="#" variant="body2"> */}
+                            {"Don't have an account? Sign Up"}
+                            {/* </Link> */}
                         </Grid>
                     </Grid>
                 </Box>
