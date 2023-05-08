@@ -21,10 +21,19 @@ const authSlice = createSlice({
 
         })
         builder.addCase(loginUser.fulfilled, (state, action) => {
-            console.log(action.payload);
+            state.isAuthenticated = true;
+            state.isAdmin = false;
+            state.username = action.payload.username;
+            state.password = action.payload.password;
+    
+            toast.success('logged in successfully!', {
+                position: 'bottom-left'
+            })
         })
         builder.addCase(loginUser.rejected, (state, action) => {
-            console.log(action.payload);
+            toast.error(`${action.payload.msg}`, {
+                position: 'bottom-left'
+            })
         })
 
         // authenticate admin
