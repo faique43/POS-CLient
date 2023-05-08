@@ -12,12 +12,17 @@ function preventDefault(event) {
 export default function Deposits() {
     const orders = useSelector(state => state.kitchen.orders)
 
-    const sales = orders.reduce((accumulator, currentValue) => currentValue.totalPrice + accumulator, 1)
+    const kitchen1Sales = orders.filter(order => order.products[0].product.kitchen === '1').reduce((accumulator, currentValue) => currentValue.totalPrice + accumulator, 1)
+    const kitchen2Sales = orders.filter(order => order.products[0].product.kitchen === '2').reduce((accumulator, currentValue) => currentValue.totalPrice + accumulator, 1)
     return (
         <React.Fragment>
-            <Title>Total Sales</Title>
+            <Title>Kitchen 1 Sales</Title>
             <Typography component="p" variant="h4">
-                Rs {sales}
+                {kitchen1Sales.toLocaleString('en-US', {style: 'currency', currency: 'PKR'})}
+            </Typography>
+            <Title>Kitchen 2 Sales</Title>
+            <Typography component="p" variant="h4">
+                {kitchen2Sales.toLocaleString('en-US', {style: 'currency', currency: 'PKR'})}
             </Typography>
             <Typography color="text.secondary" sx={{ flex: 1 }}>
                 {/* on 15 March, 2019 */}

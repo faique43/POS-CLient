@@ -16,6 +16,9 @@ function preventDefault(event) {
 
 export default function Orders() {
     const orders = useSelector(state => state.kitchen.orders)
+    
+    // const sorted = orders.sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+    // console.log(new Date(orders[0].created_at));
 
     return (
         <React.Fragment>

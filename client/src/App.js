@@ -28,10 +28,12 @@ export default function App() {
   useEffect(() => {
     if (auth.isAuthenticated) {
       dispatch(uiActions.startLoading())
-      dispatch(getAllProducts(dispatch))
-      dispatch(getInventory(dispatch))
-      dispatch(getAllOrders()).then(response => {
-        dispatch(uiActions.stopLoading())
+      dispatch(getAllProducts(dispatch)).then(response => {
+        dispatch(getInventory(dispatch)).then(response => {
+          dispatch(getAllOrders()).then(response => {
+            dispatch(uiActions.stopLoading())
+          })
+        })
       })
     }
   }, [dispatch, auth.isAuthenticated])
