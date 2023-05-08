@@ -16,9 +16,9 @@ import Client from "./pages/client/Client";
 // admin components
 import Admin from "./pages/admin/Admin";
 import Orders from './pages/admin/orders/Orders'
-import DashboardContent from "./pages/admin/dashboardContent/DashboardContent";
 import AddProduct from "./pages/admin/addProduct/AddProduct";
 import Inventory from "./pages/admin/inventory/Inventory";
+import AddInventory from "./pages/admin/addInventory/AddInventory";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +32,7 @@ const router = createBrowserRouter([
           { path: 'orders', element: <Orders /> },
           { path: 'addProduct', element: <AddProduct /> },
           { path: 'inventory', element: <Inventory /> },
+          { path: 'addInventory', element: <AddInventory /> },
         ]
       },
       {

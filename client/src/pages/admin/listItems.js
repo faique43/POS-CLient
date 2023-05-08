@@ -58,6 +58,15 @@ export const mainListItems = (
                 <ListItemText primary="Inventory" />
             </ListItemButton>
         </Link>
+
+        <Link to='addInventory'>
+            <ListItemButton>
+                <ListItemIcon>
+                    <AddCircleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Add Inventory" />
+            </ListItemButton>
+        </Link>
     </React.Fragment>
 );
 
