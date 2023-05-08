@@ -7,6 +7,11 @@ import "./index.css";
 
 import store from "./store/index";
 import App from "./App";
+
+// auth
+import Login from "./pages/auth/Login";
+
+// client
 import Kitchen1 from "./pages/client/kitchen/Kitchen1";
 import Kitchen2 from "./pages/client/kitchen/Kitchen2";
 import Kitchen1Home from "./pages/client/Home/Kitchen1Home";
@@ -25,6 +30,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      {
+        path: 'login',
+        element: <Login />
+      },
       {
         path: "admin",
         element: <Admin />,
