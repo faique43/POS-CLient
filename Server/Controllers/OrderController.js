@@ -68,7 +68,7 @@ exports.createOrder = async (req, res) => {
         if (!inventoryItem) {
           return res.status(404).json({ msg: "Inventory item not found" });
         }
-        if (itemQuantity < quantity) {
+        if (itemQuantity < quantity * itemQuantity) {
           return res.status(404).json({ msg: "Not enough inventory" });
         }
         inventoryUsed.push({
