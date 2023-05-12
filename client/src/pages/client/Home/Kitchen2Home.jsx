@@ -104,6 +104,7 @@ export default function Kitchen2Home() {
                                 quantity={item.quantity}
                                 totalPrice={item.totalPrice}
                                 description={item.description}
+                                kitchen={2}
                             />
                         ))}
                     </div>

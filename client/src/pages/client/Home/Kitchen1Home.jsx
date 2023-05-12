@@ -81,7 +81,6 @@ export default function Kitchen1Home() {
                         description={product.description}
                         img={product.image}
                         price={product.price}
-                        quantity={product.stock}
                         kitchen={product.kitchen}
                     />
                 ))}
@@ -105,6 +104,7 @@ export default function Kitchen1Home() {
                                 quantity={item.quantity}
                                 totalPrice={item.totalPrice}
                                 description={item.description}
+                                kitchen={1}
                             />
                         ))}
                     </div>
