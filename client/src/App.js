@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,19 +19,41 @@ import { uiActions } from "./store/uiSlice/uiSlice";
 
 export default function App() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const isLoading = useSelector(state => state.ui.loading)
-  const admin = true;
+  const auth = useSelector(state => state.auth);
 
   // getting all products and inventory from DB on app startup
   useEffect(() => {
-    dispatch(uiActions.startLoading())
-    dispatch(getAllProducts(dispatch))
-    dispatch(getInventory(dispatch))
-    dispatch(getAllOrders()).then(response => {
-      dispatch(uiActions.stopLoading())
-    })
-  }, [dispatch])
+    if (auth.isAuthenticated) {
+      dispatch(uiActions.startLoading())
+      dispatch(getAllProducts(dispatch)).then(response => {
+        dispatch(getInventory(dispatch)).then(response => {
+          dispatch(getAllOrders()).then(response => {
+            dispatch(uiActions.stopLoading())
+          })
+        })
+      })
+    }
+  }, [dispatch, auth.isAuthenticated])
+
+  // redirect un auth requests
+  useEffect(() => {
+    if(!auth.isAuthenticated) {
+      navigate('/Login')
+    }
+  }, [])
+
+  // redirect on basis of user
+  useEffect(() => {
+    if(auth.isAuthenticated && auth.isAdmin) {
+      navigate('/admin')
+    }
+    else if(auth.isAuthenticated) {
+      navigate('/client/kitchen1Home')
+    }
+  }, [auth.isAuthenticated])
   return (
     <div className="tw-gap-y-4 tw-grid">
       <Modal

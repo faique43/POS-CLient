@@ -6,6 +6,9 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
+import Title from './Title';
+
+import { useSelector } from 'react-redux';
 
 import Chart from './Chart';
 import Deposits from './Deposits';
@@ -25,6 +28,8 @@ function Copyright(props) {
 }
 
 export default function DashboardContent() {
+    const inventory = useSelector(state => state.inventory.inventory)
+    const orders = useSelector(state => state.kitchen.orders)
 
     return (
         <Box
@@ -47,12 +52,19 @@ export default function DashboardContent() {
                         <Paper
                             sx={{
                                 p: 2,
-                                display: 'flex',
-                                flexDirection: 'column',
                                 height: 240,
                             }}
+
                         >
-                            <Chart />
+                            <Title>Worth of Remaining Inventory</Title>
+                            <Typography component="p" variant="h4">
+                                {inventory.reduce((accumulator, currentValue) => accumulator + (currentValue.quantity * currentValue.price), 1).toLocaleString('en-US', { style: 'currency', currency: 'PKR' })}
+                            </Typography>
+                            <Title>Total Sales</Title>
+                            <Typography component="p" variant="h4">
+                                {orders.reduce((accumulator, currentValue) => currentValue.totalPrice + accumulator, 1).toLocaleString('en-US', { style: 'currency', currency: 'PKR' })}
+                            </Typography>
+                            {/* <Chart /> */}
                         </Paper>
                     </Grid>
                     {/* Recent Deposits */}

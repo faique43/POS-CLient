@@ -33,12 +33,13 @@ export const mainListItems = (
                 <ListItemText primary="Orders" />
             </ListItemButton>
         </Link>
-        <ListItemButton>
+
+        {/* <ListItemButton>
             <ListItemIcon>
                 <PeopleIcon />
             </ListItemIcon>
             <ListItemText primary="Products" />
-        </ListItemButton>
+        </ListItemButton> */}
 
         <Link to='addProduct'>
             <ListItemButton>
@@ -58,18 +59,20 @@ export const mainListItems = (
             </ListItemButton>
         </Link>
 
-        <ListItemButton>
-            <ListItemIcon>
-                <LayersIcon />
-            </ListItemIcon>
-            <ListItemText primary="Integrations" />
-        </ListItemButton>
+        <Link to='addInventory'>
+            <ListItemButton>
+                <ListItemIcon>
+                    <AddCircleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Add Inventory" />
+            </ListItemButton>
+        </Link>
     </React.Fragment>
 );
 
 export const secondaryListItems = (
     <React.Fragment>
-        <ListSubheader component="div" inset>
+        {/* <ListSubheader component="div" inset>
             Saved reports
         </ListSubheader>
         <ListItemButton>
@@ -89,6 +92,6 @@ export const secondaryListItems = (
                 <AssignmentIcon />
             </ListItemIcon>
             <ListItemText primary="Year-end sale" />
-        </ListItemButton>
+        </ListItemButton> */}
     </React.Fragment>
 );

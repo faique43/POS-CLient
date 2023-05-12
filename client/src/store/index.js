@@ -6,6 +6,7 @@ import cartSlice from "./cartSlice/cartSlice";
 import uiSlice from "./uiSlice/uiSlice";
 import kitchenSlice from "./kitchenSlice/kitchenSlice";
 import inventorySlice from "./inventorySlice/inventorySlice";
+import authSlice from "./authSlice/authSlice";
 // slices
 
 const store = configureStore({
@@ -15,6 +16,7 @@ const store = configureStore({
         ui: uiSlice.reducer,
         kitchen: kitchenSlice.reducer,
         inventory: inventorySlice.reducer,
+        auth: authSlice.reducer,
     }
 })
 
