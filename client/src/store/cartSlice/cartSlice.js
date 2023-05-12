@@ -79,7 +79,7 @@ const cartSlice = createSlice({
 
             // if there is only one item of product in cart
             if (existingItem.quantity <= 1) {
-                state.cartItems = state.cartItems.filter(cartItem => cartItem.id !== productIdToBeDecremented);
+                state.carts[kitchen - 1].cartItems = state.carts[kitchen - 1].cartItems.filter(cartItem => cartItem.id !== productIdToBeDecremented);
             } else {
                 existingItem.quantity--;
                 existingItem.totalPrice -= +existingItem.price;
