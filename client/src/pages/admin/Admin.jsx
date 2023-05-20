@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useOutlet } from 'react-router-dom';
+import { useOutlet, useNavigate } from 'react-router-dom';
 
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,6 +18,14 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import { mainListItems, secondaryListItems } from './listItems';
 import DashboardContent from './dashboardContent/DashboardContent';
+
+import { authActions } from '../../store/authSlice/authSlice';
+import { useDispatch } from 'react-redux';
+import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
 const mdTheme = createTheme();
 
@@ -73,6 +81,8 @@ export default function Admin() {
         setOpen(!open);
     };
     const outlet = useOutlet();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     return (
         <ThemeProvider theme={mdTheme}>
@@ -129,12 +139,23 @@ export default function Admin() {
                     <List component="nav">
                         {mainListItems}
                         <Divider sx={{ my: 1 }} />
+                        <div onClick={() => {
+                            dispatch(authActions.logout())
+                            navigate('/login')
+                        }}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <LogoutIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Logout" />
+                            </ListItemButton>
+                        </div>
                         {secondaryListItems}
                     </List>
                 </Drawer>
                 {
                     outlet ||
-                    <DashboardContent/>
+                    <DashboardContent />
                 }
             </Box>
         </ThemeProvider>
