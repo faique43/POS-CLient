@@ -2,9 +2,6 @@ import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import axios from 'axios';
 
-// redux actions
-import { uiActions } from '../uiSlice/uiSlice';
-
 const initialState = {
   orders: [], // order: {orderName, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus, orderId, kitchen}
   currentOrderId: 0,

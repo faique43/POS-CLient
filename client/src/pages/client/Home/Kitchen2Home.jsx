@@ -71,7 +71,7 @@ export default function Kitchen2Home() {
 
     return (
         <div className="tw-grid tw-grid-cols-6">
-            <div className="tw-col-span-4 tw-flex tw-items-center tw-flex-wrap tw-justify-evenly tw-gap-y-4 tw-p-4 tw-gap-x-1">
+            <div className={`${cart.cartTotalQuantity === 0 ? 'tw-col-span-6' : 'tw-col-span-4'} tw-flex tw-items-center tw-flex-wrap tw-justify-evenly tw-gap-y-4 tw-p-4 tw-gap-x-1`}>
                 {products.filter(product => product.kitchen === "2").map((product) => (
                     <ProductCard
                         key={product._id}
@@ -85,7 +85,7 @@ export default function Kitchen2Home() {
                     />
                 ))}
             </div>
-            <div className="tw-col-span-2 tw-bg-gray-200 tw-flex tw-flex-col tw-p-4 tw-gap-y-24">
+            <div className={`${cart.cartTotalQuantity === 0 ? 'tw-hidden' : "tw-col-span-2"} tw-bg-gray-200 tw-flex tw-flex-col tw-p-4 tw-gap-y-24`}>
                 <div className="tw-flex tw-flex-col tw-gap-y-4">
                     <Typography variant="h4">
                         {cart.cartTotalQuantity === 0
@@ -104,6 +104,7 @@ export default function Kitchen2Home() {
                                 quantity={item.quantity}
                                 totalPrice={item.totalPrice}
                                 description={item.description}
+                                kitchen={2}
                             />
                         ))}
                     </div>

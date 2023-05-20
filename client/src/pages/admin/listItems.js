@@ -14,7 +14,10 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
+
+
 export const mainListItems = (
+
     <React.Fragment>
         <Link to='/admin'>
             <ListItemButton>
@@ -33,13 +36,6 @@ export const mainListItems = (
                 <ListItemText primary="Orders" />
             </ListItemButton>
         </Link>
-
-        {/* <ListItemButton>
-            <ListItemIcon>
-                <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Products" />
-        </ListItemButton> */}
 
         <Link to='addProduct'>
             <ListItemButton>

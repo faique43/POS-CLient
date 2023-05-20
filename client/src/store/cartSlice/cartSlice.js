@@ -32,69 +32,54 @@ const cartSlice = createSlice({
 
             const existingItem = state.carts[kitchen === "1" ? 0 : 1].cartItems.find(cartItem => cartItem.id === itemToBeAdded.id);
 
-            if (existingItem && existingItem.quantity === existingItem.originalProductQuantity) {
-                toast.error(`${itemToBeAdded.name} has no items left`, {
+            state.carts[+kitchen - 1].cartTotalQuantity++;
+            state.carts[+kitchen - 1].cartTotalPrice += +itemToBeAdded.price;
+            if (existingItem) {
+                existingItem.quantity++;
+                existingItem.totalPrice += +itemToBeAdded.price
+                toast.success(`${itemToBeAdded.name} quantity increased in cart to ${existingItem.quantity}!`, {
                     position: 'bottom-left'
                 })
             }
             else {
-                state.carts[kitchen === "1" ? 0 : 1].cartTotalQuantity++;
-                state.carts[kitchen === "1" ? 0 : 1].cartTotalPrice += +itemToBeAdded.price;
-                if (existingItem) {
-                    existingItem.quantity++;
-                    existingItem.totalPrice += +itemToBeAdded.price
-                    toast.success(`${itemToBeAdded.name} quantity increased in cart to ${existingItem.quantity}!`, {
-                        position: 'bottom-left'
-                    })
-                }
-                else {
-                    state.carts[kitchen === "1" ? 0 : 1].cartItems.push({
-                        description: itemToBeAdded.description,
-                        id: itemToBeAdded.id,
-                        name: itemToBeAdded.name,
-                        img: itemToBeAdded.img,
-                        price: itemToBeAdded.price,
-                        quantity: 1,
-                        totalPrice: itemToBeAdded.price,
-                        originalProductQuantity: itemToBeAdded.originalProductQuantity,
-                        kitchen,
-                    });
-                    toast.success(`${itemToBeAdded.name} Added To Cart`, {
-                        position: 'bottom-left'
-                    })
-                }
+                state.carts[kitchen === "1" ? 0 : 1].cartItems.push({
+                    description: itemToBeAdded.description,
+                    id: itemToBeAdded.id,
+                    name: itemToBeAdded.name,
+                    img: itemToBeAdded.img,
+                    price: itemToBeAdded.price,
+                    quantity: 1,
+                    totalPrice: itemToBeAdded.price,
+                    kitchen,
+                });
+                toast.success(`${itemToBeAdded.name} Added To Cart`, {
+                    position: 'bottom-left'
+                })
             }
-
-
         },
         incrementProductQuantity(state, action) {
-            const productIdToBeIncremented = action.payload;
+            const productIdToBeIncremented = action.payload.id;
+            const kitchen = action.payload.kitchen;
 
-            const existingItem = state.cartItems.find(cartItem => cartItem.id === productIdToBeIncremented);
+            const existingItem = state.carts[kitchen - 1].cartItems.find(cartItem => cartItem.id === productIdToBeIncremented);
 
-            if (existingItem.originalProductQuantity === existingItem.quantity) {
-                toast.error(`${existingItem.name} has no items left`, {
-                    position: 'bottom-left'
-                })
-            }
-            else {
-                state.cartTotalQuantity++;
-                state.cartTotalPrice += +existingItem.price;
-                existingItem.quantity++;
-                existingItem.totalPrice += +existingItem.price;
-            }
+            state.carts[kitchen - 1].cartTotalQuantity++;
+            state.carts[kitchen - 1].cartTotalPrice += +existingItem.price;
+            existingItem.quantity++;
+            existingItem.totalPrice += +existingItem.price;
         },
         decrementProductQuantity(state, action) {
-            const productIdToBeDecremented = action.payload;
+            const productIdToBeDecremented = action.payload.id;
+            const kitchen = action.payload.kitchen;
 
-            const existingItem = state.cartItems.find(cartItem => cartItem.id === productIdToBeDecremented);
+            const existingItem = state.carts[kitchen - 1].cartItems.find(cartItem => cartItem.id === productIdToBeDecremented);
 
-            state.cartTotalQuantity--;
-            state.cartTotalPrice -= +existingItem.price;
+            state.carts[kitchen - 1].cartTotalQuantity--;
+            state.carts[kitchen - 1].cartTotalPrice -= +existingItem.price;
 
             // if there is only one item of product in cart
             if (existingItem.quantity <= 1) {
-                state.cartItems = state.cartItems.filter(cartItem => cartItem.id !== productIdToBeDecremented);
+                state.carts[kitchen - 1].cartItems = state.carts[kitchen - 1].cartItems.filter(cartItem => cartItem.id !== productIdToBeDecremented);
             } else {
                 existingItem.quantity--;
                 existingItem.totalPrice -= +existingItem.price;

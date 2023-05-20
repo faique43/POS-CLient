@@ -1,19 +1,22 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+// redux
+import { authActions } from '../../store/authSlice/authSlice';
 
 // MU
 import { Toolbar } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
+import Button from '@mui/material/Button';
 
 // icons
 import SearchIcon from '@mui/icons-material/Search';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import HomeIcon from '@mui/icons-material/Home';
-import InventoryIcon from '@mui/icons-material/Inventory';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PersonIcon from '@mui/icons-material/Person';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -59,6 +62,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function MyNavbar() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const logoutHandler = () => {
+        dispatch(authActions.logout())
+        navigate('/login')
+    }
+
     return (
         <>
             <Toolbar className={`tw-flex tw-items-center tw-justify-between tw-mt-2`}>
@@ -73,32 +84,34 @@ export default function MyNavbar() {
                 <div></div>
 
                 {/* <div className="tw-flex tw-items-center tw-bg-red-300 tw-justify-between"> */}
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
+                <Search>
+                    <SearchIconWrapper>
+                        <SearchIcon />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                        placeholder="Search…"
+                        inputProps={{ 'aria-label': 'search' }}
+                    />
+                </Search>
 
-                    <FilterAltIcon/>
+                <FilterAltIcon />
                 {/* </div> */}
 
             </Toolbar>
             <Toolbar className='tw-flex tw-w-full tw-items-center tw-justify-between tw-text-center'>
-                <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen1Home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><HomeIcon/>Kitchen 1 Products</Link>
+                <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen1Home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><HomeIcon />Kitchen 1 Products</Link>
 
-                <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen2Home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><HomeIcon/>Kitchen 2 Products</Link>
+                <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen2Home" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><HomeIcon />Kitchen 2 Products</Link>
 
                 {/* <Link style={{ textDecoration: 'none', color: 'white' }} to="inventory" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><InventoryIcon/> Inventory</Link> */}
 
                 {/* <Link style={{ textDecoration: 'none', color: 'white' }} to="addProduct" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><AddCircleIcon/> Add Product</Link> */}
 
-                <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen1" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><ShoppingCartIcon/> Kitchen 1 Orders</Link>
+                <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen1" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><ShoppingCartIcon /> Kitchen 1 Orders</Link>
 
-                <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen2" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><ShoppingCartIcon/> Kitchen 2 Orders</Link>
+                <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen2" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><ShoppingCartIcon /> Kitchen 2 Orders</Link>
+
+                <Button variant='contained' className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full' color='error' onClick={logoutHandler}>Logout</Button>
             </Toolbar>
         </>
     )

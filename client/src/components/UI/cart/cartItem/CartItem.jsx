@@ -13,13 +13,13 @@ export default function CartItem(props) {
     const dispatch = useDispatch()
 
     const incrementQuantityHandler = () => {
-        dispatch(cartActions.incrementProductQuantity(props.id))
-        dispatch(productsActions.decrementStock(props.id))
+        dispatch(cartActions.incrementProductQuantity({id: props.id, kitchen: props.kitchen}))
+        // dispatch(productsActions.decrementStock(props.id))
     }
 
     const decrementQuantityHandler = () => {
-        dispatch(cartActions.decrementProductQuantity(props.id))
-        dispatch(productsActions.incrementStock(props.id))
+        dispatch(cartActions.decrementProductQuantity({id: props.id, kitchen: props.kitchen}))
+        // dispatch(productsActions.incrementStock(props.id))
     }
 
     return (
