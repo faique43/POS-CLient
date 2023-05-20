@@ -38,7 +38,7 @@ export default function Kitchen1Home() {
 
         dispatch(uiActions.startLoading())
         dispatch(createOrder(orderObject)).then(response => {
-            if(!response.error) {
+            if (!response.error) {
                 dispatch(getAllOrders())
             }
             dispatch(uiActions.stopLoading())
@@ -46,7 +46,7 @@ export default function Kitchen1Home() {
         dispatch(cartActions.clearCart({
             kitchen: "1"
         }));
-        
+
         // dispatch(
         //     kitchenActions.placeOrder({
         //         orderName: cart.cartName,
@@ -72,7 +72,7 @@ export default function Kitchen1Home() {
 
     return (
         <div className="tw-grid tw-grid-cols-6">
-            <div className="tw-col-span-4 tw-flex tw-items-center tw-flex-wrap tw-justify-evenly tw-gap-y-4 tw-p-4 tw-gap-x-1">
+            <div className={`${cart.cartTotalQuantity === 0 ? 'tw-col-span-6' : 'tw-col-span-4'} tw-flex tw-items-center tw-flex-wrap tw-justify-evenly tw-gap-y-4 tw-p-4 tw-gap-x-1`}>
                 {products.filter(product => product.kitchen === "1").map((product) => (
                     <ProductCard
                         key={product._id}
@@ -85,57 +85,60 @@ export default function Kitchen1Home() {
                     />
                 ))}
             </div>
-            <div className="tw-col-span-2 tw-bg-gray-200 tw-flex tw-flex-col tw-p-4 tw-gap-y-24">
-                <div className="tw-flex tw-flex-col tw-gap-y-4">
-                    <Typography variant="h4">
-                        {cart.cartTotalQuantity === 0
-                            ? "Nothing here, start adding products in the cart"
-                            : "Current Order"}
-                    </Typography>
 
+            {cart.cartTotalQuantity !== 0 &&
+                <div className="tw-col-span-2 tw-bg-gray-200 tw-flex tw-flex-col tw-p-4 tw-gap-y-24">
                     <div className="tw-flex tw-flex-col tw-gap-y-4">
-                        {cartItems.map((item) => (
-                            <CartItem
-                                key={item.id}
-                                id={item.id}
-                                name={item.name}
-                                img={item.img}
-                                price={item.price}
-                                quantity={item.quantity}
-                                totalPrice={item.totalPrice}
-                                description={item.description}
-                                kitchen={1}
-                            />
-                        ))}
-                    </div>
-                </div>
+                        <Typography variant="h4">
+                            {cart.cartTotalQuantity === 0
+                                ? "Nothing here, start adding products in the cart"
+                                : "Current Order"}
+                        </Typography>
 
-                {cart.cartTotalQuantity > 0 && (
-                    <div className=" tw-flex tw-flex-col tw-gap-y-8">
-                        <div className="tw-flex tw-items-center tw-justify-between">
-                            <h1 className="tw-text-xl">Subtotal</h1>
-                            <h1 className="tw-text-2xl tw-font-semibold">
-                                ${cart.cartTotalPrice}
-                            </h1>
+                        <div className="tw-flex tw-flex-col tw-gap-y-4">
+                            {cartItems.map((item) => (
+                                <CartItem
+                                    key={item.id}
+                                    id={item.id}
+                                    name={item.name}
+                                    img={item.img}
+                                    price={item.price}
+                                    quantity={item.quantity}
+                                    totalPrice={item.totalPrice}
+                                    description={item.description}
+                                    kitchen={1}
+                                />
+                            ))}
                         </div>
-                        <TextField
-                            id="outlined-basic"
-                            label="Order Name"
-                            variant="outlined"
-                            value={cart.cartName}
-                            name="cartName"
-                            onChange={inputChangeHandler}
-                        />
-                        <Button
-                            className="tw-w-full"
-                            variant="contained"
-                            onClick={placeOrderHandler}
-                        >
-                            Place Order
-                        </Button>
                     </div>
-                )}
-            </div>
+
+                    {cart.cartTotalQuantity > 0 && (
+                        <div className=" tw-flex tw-flex-col tw-gap-y-8">
+                            <div className="tw-flex tw-items-center tw-justify-between">
+                                <h1 className="tw-text-xl">Subtotal</h1>
+                                <h1 className="tw-text-2xl tw-font-semibold">
+                                    ${cart.cartTotalPrice}
+                                </h1>
+                            </div>
+                            <TextField
+                                id="outlined-basic"
+                                label="Order Name"
+                                variant="outlined"
+                                value={cart.cartName}
+                                name="cartName"
+                                onChange={inputChangeHandler}
+                            />
+                            <Button
+                                className="tw-w-full"
+                                variant="contained"
+                                onClick={placeOrderHandler}
+                            >
+                                Place Order
+                            </Button>
+                        </div>
+                    )}
+                </div>
+            }
         </div>
     );
 }
