@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 
-const Product = require("../models/Product");
-const Order = require("../models/Order");
+const Product = require("../Models/Product");
+const Order = require("../Models/Order");
 
 // @route   GET api/products
 // @desc    Get all products

@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-// import all controllers from productcontroller
-const productController = require("../controllers/productController");
+// import all Controllers from productcontroller
+const productController = require("../Controllers/productController");
 
 // @route   GET api/products
 // @desc    Get all products
