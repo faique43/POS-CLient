@@ -15,6 +15,17 @@ const initialState = {
 const authSlice = createSlice({
     name: 'auth',
     initialState,
+    reducers: {
+        logout: (state) => {
+            state.isAuthenticated = false;
+            state.isAdmin = false;
+            state.username = '';
+            state.password = '';
+            toast.success('logged out successfully!', {
+                position: 'bottom-left'
+            })
+        }
+    },
     extraReducers: (builder) => {
         // authenticate user
         builder.addCase(loginUser.pending, (state) => {
@@ -25,7 +36,7 @@ const authSlice = createSlice({
             state.isAdmin = false;
             state.username = action.payload.username;
             state.password = action.payload.password;
-    
+
             toast.success('logged in successfully!', {
                 position: 'bottom-left'
             })
@@ -58,7 +69,7 @@ const authSlice = createSlice({
     }
 })
 
-const loginUser = createAsyncThunk('auth/loginUser', async (userData, {rejectWithValue}) => {
+const loginUser = createAsyncThunk('auth/loginUser', async (userData, { rejectWithValue }) => {
     try {
         const response = await axios.post('http://localhost:5000/api/users/auth', userData)
 
@@ -69,7 +80,7 @@ const loginUser = createAsyncThunk('auth/loginUser', async (userData, {rejectWit
     }
 })
 
-const loginAdmin = createAsyncThunk('auth/loginAdmin', async (adminData, {rejectWithValue}) => {
+const loginAdmin = createAsyncThunk('auth/loginAdmin', async (adminData, { rejectWithValue }) => {
     try {
         const response = await axios.post('http://localhost:5000/api/users/auth', adminData)
 
@@ -80,9 +91,12 @@ const loginAdmin = createAsyncThunk('auth/loginAdmin', async (adminData, {reject
     }
 })
 
+const authActions = authSlice.actions;
+
 export {
     loginUser,
     loginAdmin,
+    authActions,
 }
 
 export default authSlice;
