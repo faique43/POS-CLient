@@ -96,7 +96,7 @@ const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
   async (dispatch, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:5000/api/products");
+      const response = await axios.get("http://46.101.193.196:5000/api/products");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -107,7 +107,7 @@ const getAllProducts = createAsyncThunk(
 const addNewProduct = createAsyncThunk('product/addNewProduct', async (productData, {rejectWithValue}) => {
   console.log(productData);
   try {
-    const response = await axios.post('http://localhost:5000/api/products', productData)
+    const response = await axios.post('http://46.101.193.196:5000/api/products', productData)
 
     return response.data;
   }

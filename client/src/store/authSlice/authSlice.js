@@ -71,7 +71,7 @@ const authSlice = createSlice({
 
 const loginUser = createAsyncThunk('auth/loginUser', async (userData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://localhost:5000/api/users/auth', userData)
+        const response = await axios.post('http://46.101.193.196:5000/api/users/auth', userData)
 
         return response.data;
     }
@@ -82,7 +82,7 @@ const loginUser = createAsyncThunk('auth/loginUser', async (userData, { rejectWi
 
 const loginAdmin = createAsyncThunk('auth/loginAdmin', async (adminData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://localhost:5000/api/users/auth', adminData)
+        const response = await axios.post('http://46.101.193.196:5000/api/users/auth', adminData)
 
         return response.data;
     }
