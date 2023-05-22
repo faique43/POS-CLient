@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 
-const Order = require("../models/Order");
-const Product = require("../models/Product");
+const Order = require("../Models/Order");
+const Product = require("../Models/Product");
 const Inventory = require("../Models/Inventory");
 
 // @route   GET api/orders
@@ -39,60 +39,67 @@ exports.getOrderById = async (req, res) => {
 // @desc    Create an order
 // @access  Private
 exports.createOrder = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
-  const { name, products } = req.body;
-
   try {
-    // Calculate total price of the order
-    let totalPrice = 0;
-    for (const { product, quantity } of products) {
-      const productObj = await Product.findById(product);
-      if (!productObj) {
-        return res.status(404).json({ msg: "Product not found" });
-      }
-      totalPrice += productObj.price * quantity;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    const inventoryUsed = [];
+    const { name, products } = req.body;
+
+    // Calculate total price of the order
+    let totalPrice = 0;
+    const productIds = products.map((item) => item.product);
+
+    const productPrices = await Product.find({
+      _id: { $in: productIds }
+    }).select("price");
+
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+      const productPrice = productPrices[i].price;
+
+      totalPrice += productPrice * product.quantity;
+    }
+
+    // Check inventory availability and update quantities
+    const inventoryUpdates = [];
+
     for (const { product, quantity } of products) {
-      const productObj = await Product.findById(product);
+      const productObj = await Product.findById(product).populate(
+        "inventoryUsed.item"
+      );
+
       if (!productObj) {
         return res.status(404).json({ msg: "Product not found" });
       }
+
       for (const { item, quantity: itemQuantity } of productObj.inventoryUsed) {
-        const inventoryItem = await Inventory.findById(item);
-        if (!inventoryItem) {
-          return res.status(404).json({ msg: "Inventory item not found" });
-        }
-        if (itemQuantity < quantity * itemQuantity) {
+        const inventoryItem = item;
+        const inventoryItemQuantity = quantity * itemQuantity;
+
+        if (inventoryItem.quantity < inventoryItemQuantity) {
           return res.status(404).json({ msg: "Not enough inventory" });
         }
-        inventoryUsed.push({
-          id: inventoryItem._id,
-          quantity: quantity * itemQuantity,
+
+        inventoryUpdates.push({
+          item: inventoryItem,
+          quantity: inventoryItemQuantity
         });
       }
     }
 
     // Update inventory quantities
-    for (const { id, quantity } of inventoryUsed) {
-      const inventoryItem = await Inventory.findById(id);
-      if (!inventoryItem) {
-        return res.status(404).json({ msg: "Inventory item not found" });
-      }
-      inventoryItem.quantity -= quantity;
-      await inventoryItem.save();
+    for (const { item, quantity } of inventoryUpdates) {
+      item.quantity -= quantity;
+      await item.save();
     }
 
     // Create a new order object
     const order = new Order({
       name,
       products,
-      totalPrice,
+      totalPrice
     });
 
     // Save the new order to the database
@@ -118,7 +125,7 @@ exports.updateOrder = async (req, res) => {
   if (products) {
     orderFields.products = products.map((product) => ({
       product: product.id,
-      quantity: product.quantity,
+      quantity: product.quantity
     }));
   }
   if (status) orderFields.status = status;
@@ -179,7 +186,7 @@ exports.getOrdersByKitchen = async (req, res) => {
       "price",
       "description",
       "kitchen",
-      "image",
+      "image"
     ]);
     const filteredOrders = orders.filter((order) => {
       const products = order.products.filter((product) => {
