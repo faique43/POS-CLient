@@ -9,7 +9,6 @@ import CartItem from "../../../components/UI/cart/cartItem/CartItem";
 import { kitchenActions, prepareOrderById, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
 
 // MU
-import { Button } from "@mui/material";
 import { uiActions } from "../../../store/uiSlice/uiSlice";
 
 export default function Orders() {

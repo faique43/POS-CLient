@@ -10,7 +10,6 @@ import Title from './Title';
 
 import { useSelector } from 'react-redux';
 
-import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
 
