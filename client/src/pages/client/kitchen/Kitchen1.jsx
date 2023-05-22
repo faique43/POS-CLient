@@ -48,7 +48,7 @@ export default function Kitchen1() {
                     <h1 className="tw-col-span-1">Total Price</h1>
                     <h1 className="tw-col-span-1">Date & Time</h1>
                 </div>
-                {kitchenOrders.filter(kitchenOrder => kitchenOrder.products[0].product.kitchen === '1').map((order) => (
+                {kitchenOrders.filter(kitchenOrder => kitchenOrder.products[0].product.kitchen === '1').sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((order) => (
                     <Order
                         key={order._id}
                         orderId={order._id}

@@ -49,7 +49,7 @@ export default function Orders() {
                     <h1 className="tw-col-span-1">Kitchen</h1>
                     <h1 className="tw-col-span-1">Date & Time</h1>
                 </div>
-                {kitchenOrders.map((order) => (
+                {[...kitchenOrders].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((order) => (
                     <Order
                         key={order._id}
                         orderId={order._id}
