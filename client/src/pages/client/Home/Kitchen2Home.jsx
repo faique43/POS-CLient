@@ -115,7 +115,7 @@ export default function Kitchen2Home() {
                         <div className="tw-flex tw-items-center tw-justify-between">
                             <h1 className="tw-text-xl">Subtotal</h1>
                             <h1 className="tw-text-2xl tw-font-semibold">
-                                ${cart.cartTotalPrice}
+                                Rs {cart.cartTotalPrice}
                             </h1>
                         </div>
                         <TextField

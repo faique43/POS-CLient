@@ -39,13 +39,13 @@ export default function Kitchen1Home() {
         dispatch(uiActions.startLoading())
         dispatch(createOrder(orderObject)).then(response => {
             if (!response.error) {
+                dispatch(cartActions.clearCart({
+                    kitchen: "1"
+                }));
                 dispatch(getAllOrders())
             }
             dispatch(uiActions.stopLoading())
         })
-        dispatch(cartActions.clearCart({
-            kitchen: "1"
-        }));
 
         // dispatch(
         //     kitchenActions.placeOrder({
@@ -117,7 +117,7 @@ export default function Kitchen1Home() {
                             <div className="tw-flex tw-items-center tw-justify-between">
                                 <h1 className="tw-text-xl">Subtotal</h1>
                                 <h1 className="tw-text-2xl tw-font-semibold">
-                                    ${cart.cartTotalPrice}
+                                    Rs {cart.cartTotalPrice}
                                 </h1>
                             </div>
                             <TextField

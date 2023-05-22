@@ -9,7 +9,6 @@ import CartItem from "../../../components/UI/cart/cartItem/CartItem";
 import { kitchenActions, prepareOrderById, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
 
 // MU
-import { Button } from "@mui/material";
 import { uiActions } from "../../../store/uiSlice/uiSlice";
 
 export default function Orders() {
@@ -49,7 +48,7 @@ export default function Orders() {
                     <h1 className="tw-col-span-1">Kitchen</h1>
                     <h1 className="tw-col-span-1">Date & Time</h1>
                 </div>
-                {kitchenOrders.map((order) => (
+                {[...kitchenOrders].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((order) => (
                     <Order
                         key={order._id}
                         orderId={order._id}
