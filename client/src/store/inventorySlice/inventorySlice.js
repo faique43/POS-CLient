@@ -64,7 +64,7 @@ const addInventory = createAsyncThunk(
   async (inventoryData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/inventory",
+        "http://143.110.241.175:5000/api/inventory",
         inventoryData
       );
 
