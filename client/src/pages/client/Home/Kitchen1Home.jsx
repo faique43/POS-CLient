@@ -39,13 +39,13 @@ export default function Kitchen1Home() {
         dispatch(uiActions.startLoading())
         dispatch(createOrder(orderObject)).then(response => {
             if (!response.error) {
+                dispatch(cartActions.clearCart({
+                    kitchen: "1"
+                }));
                 dispatch(getAllOrders())
             }
             dispatch(uiActions.stopLoading())
         })
-        dispatch(cartActions.clearCart({
-            kitchen: "1"
-        }));
 
         // dispatch(
         //     kitchenActions.placeOrder({

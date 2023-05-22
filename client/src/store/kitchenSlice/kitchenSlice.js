@@ -59,7 +59,7 @@ const kitchenSlice = createSlice({
       })
     })
     builder.addCase(createOrder.rejected, (state, action) => {
-      toast.error('Order could not be placed!', {
+      toast.error(action.payload.msg, {
         position: 'bottom-left'
       })
     })
