@@ -37,7 +37,10 @@ exports.createInventory = async (req, res) => {
   try {
     const existingInventory = await Inventory.findOne({ item }); 
     if (existingInventory) {
-      return res.status(400).json({ msg: "Inventory already exists" });
+      existingInventory.quantity += quantity;
+      existingInventory.price = price;
+      const inventory = await existingInventory.save();
+      return res.json(inventory);
     }
     const newInventory = new Inventory({
       item,
