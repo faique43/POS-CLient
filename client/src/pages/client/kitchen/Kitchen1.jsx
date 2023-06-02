@@ -26,10 +26,7 @@ export default function Kitchen1() {
     useEffect(() => {
         if (printingReceipt) {
             print();
-            setTimeout(() => {
-                dispatch(globalActions.stopPrintingReceipt())
-            }, 500)
-            // setPrintingReceipt(false);
+            globalActions.stopPrintingReceipt();
         }
     }, [printingReceipt])
 
@@ -59,7 +56,6 @@ export default function Kitchen1() {
 
     const printReceipt = () => {
         dispatch(globalActions.startPrintingReceipt());
-        // setPrintingReceipt(true)
     }
 
     return (
@@ -75,7 +71,6 @@ export default function Kitchen1() {
                     <Order
                         key={order._id}
                         orderId={order._id}
-                        // orderName={order.name}
                         orderNumber={order.orderNumber}
                         orderItems={order.products}
                         orderItemsCount={order.products.length}
@@ -99,7 +94,6 @@ export default function Kitchen1() {
                                 price={product.product.price}
                                 orderQuantity={product.quantity}
                                 name={product.product.name}
-                                printingReceipt={printingReceipt}
                             />
                         ))}
 
