@@ -9,6 +9,7 @@ const orderRouter = require("./Routes/OrderRouter");
 const inventoryRouter = require("./Routes/InventoryRouter");
 const adminRouter = require("./Routes/AdminRouter");
 const userRouter = require("./Routes/UserRouter");
+const expanseRouter = require('./Routes/ExpanseRouter')
 
 const app = express();
 
@@ -27,3 +28,4 @@ app.use("/api/orders", orderRouter);
 app.use("/api/inventory", inventoryRouter);
 app.use("/api/admins", adminRouter);
 app.use("/api/users", userRouter);
+app.use("/api/expanses", expanseRouter);
