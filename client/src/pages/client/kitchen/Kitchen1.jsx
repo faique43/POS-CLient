@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useReactToPrint } from 'react-to-print';
 
 // components
 import Order from "../../../components/order/Order";
@@ -14,6 +15,7 @@ import { uiActions } from "../../../store/uiSlice/uiSlice";
 
 export default function Kitchen1() {
     const dispatch = useDispatch();
+    const receiptRef = useRef();
 
     const kitchenOrders = useSelector((state) => state.kitchen.orders);
     const selectedOrder = useSelector(state => state.kitchen.selectedOrder)
@@ -31,7 +33,7 @@ export default function Kitchen1() {
         dispatch(prepareOrderById({
             orderId: selectedOrder._id
         })).then(response => {
-            if(!response.error) {
+            if (!response.error) {
                 dispatch(getAllOrders())
             }
             dispatch(uiActions.stopLoading())
@@ -39,11 +41,19 @@ export default function Kitchen1() {
         // dispatch(kitchenActions.prepareOrderWithId(selectedOrder.orderId))
     };
 
+    const print = useReactToPrint({
+        content: () => receiptRef.current
+    })
+
+    const printReceipt = () => {
+        print();
+    }
+
     return (
         <div className="tw-grid tw-grid-cols-6 tw-p-4 tw-gap-x-4">
             <div className="tw-col-span-4 tw-flex tw-flex-col tw-gap-y-4">
                 <div className="tw-grid tw-grid-cols-4 tw-bg-blue-500 tw-p-4 tw-rounded-lg tw-text-white">
-                    <h1 className="tw-col-span-1">Order Name</h1>
+                    <h1 className="tw-col-span-1">Order Id</h1>
                     <h1 className="tw-col-span-1">Total Items</h1>
                     <h1 className="tw-col-span-1">Total Price</h1>
                     <h1 className="tw-col-span-1">Date & Time</h1>
@@ -52,7 +62,8 @@ export default function Kitchen1() {
                     <Order
                         key={order._id}
                         orderId={order._id}
-                        orderName={order.name}
+                        // orderName={order.name}
+                        orderNumber={order.orderNumber}
                         orderItems={order.products}
                         orderItemsCount={order.products.length}
                         orderTotalPrice={order.totalPrice}
@@ -63,9 +74,9 @@ export default function Kitchen1() {
                 ))}
             </div>
 
-            <div className="tw-col-span-2 tw-bg-slate-400 tw-p-3 tw-rounded-lg tw-text-white tw-flex tw-flex-col tw-items-start tw-gap-y-4">
+            <div className="tw-col-span-2 tw-bg-slate-400 tw-rounded-lg tw-text-white tw-flex tw-flex-col tw-items-start tw-gap-y-4">
                 {isAnySelectedKitchen1 ? (
-                    <>
+                    <div ref={receiptRef} className="tw-w-full tw-flex tw-flex-col tw-gap-y-4 tw-items-start tw-p-3">
                         <h1 className="tw-text-xl tw-font-semibold">Order Details</h1>
 
                         {selectedOrder.products.map((product) => (
@@ -103,13 +114,20 @@ export default function Kitchen1() {
                         >
                             {selectedOrder.status === "pending" ? "Mark As Prepared" : "Prepared"}
                         </Button>
-                    </>
+                        <Button
+                            className='tw-w-full'
+                            variant='contained'
+                            onClick={printReceipt}
+                        >
+                            Print Receipt
+                        </Button>
+                    </div>
                 ) : (
-                    <>
+                    <div className='tw-p-3'>
                         <h1 className="tw-text-xl tw-font-semibold">
                             Select an order to see its details
                         </h1>
-                    </>
+                    </div>
                 )}
             </div>
         </div>

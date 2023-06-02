@@ -118,14 +118,14 @@ export default function Kitchen2Home() {
                                 Rs {cart.cartTotalPrice}
                             </h1>
                         </div>
-                        <TextField
+                        {/* <TextField
                             id="outlined-basic"
                             label="Order Name"
                             variant="outlined"
                             value={cart.cartName}
                             name="cartName"
                             onChange={inputChangeHandler}
-                        />
+                        /> */}
                         <Button
                             className="tw-w-full"
                             variant="contained"
