@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useReactToPrint } from 'react-to-print';
 
 // components
 import Order from "../../../components/order/Order";
@@ -14,6 +15,7 @@ import { uiActions } from "../../../store/uiSlice/uiSlice";
 
 export default function Kitchen1() {
     const dispatch = useDispatch();
+    const receiptRef = useRef();
 
     const kitchenOrders = useSelector((state) => state.kitchen.orders);
     const selectedOrder = useSelector(state => state.kitchen.selectedOrder)
@@ -39,8 +41,12 @@ export default function Kitchen1() {
         // dispatch(kitchenActions.prepareOrderWithId(selectedOrder.orderId))
     };
 
+    const print = useReactToPrint({
+        content: () => receiptRef.current
+    })
+
     const printReceipt = () => {
-        window.print();
+        print();
     }
 
     return (
@@ -67,9 +73,9 @@ export default function Kitchen1() {
                 ))}
             </div>
 
-            <div className="tw-col-span-2 tw-bg-slate-400 tw-p-3 tw-rounded-lg tw-text-white tw-flex tw-flex-col tw-items-start tw-gap-y-4">
+            <div className="tw-col-span-2 tw-bg-slate-400 tw-rounded-lg tw-text-white tw-flex tw-flex-col tw-items-start tw-gap-y-4">
                 {isAnySelectedKitchen1 ? (
-                    <>
+                    <div ref={receiptRef} className="tw-w-full tw-flex tw-flex-col tw-gap-y-4 tw-items-start tw-p-3">
                         <h1 className="tw-text-xl tw-font-semibold">Order Details</h1>
 
                         {selectedOrder.products.map((product) => (
@@ -114,13 +120,13 @@ export default function Kitchen1() {
                         >
                             Print Receipt
                         </Button>
-                    </>
+                    </div>
                 ) : (
-                    <>
+                    <div className='tw-p-3'>
                         <h1 className="tw-text-xl tw-font-semibold">
                             Select an order to see its details
                         </h1>
-                    </>
+                    </div>
                 )}
             </div>
         </div>
