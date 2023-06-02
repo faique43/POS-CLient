@@ -52,6 +52,9 @@ const getInventory = createAsyncThunk(
         const response = await axios.get("http://localhost:5000/api/inventory")
         return response.data;
     }
+    catch(error) {
+      return rejectWithValue(error.response.data)
+    }
   }
 );
 
