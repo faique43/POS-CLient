@@ -39,6 +39,10 @@ export default function Kitchen2() {
         // dispatch(kitchenActions.prepareOrderWithId(selectedOrder.orderId))
     };
 
+    const printReceipt = () => {
+
+    }
+
     return (
         <div className="tw-grid tw-grid-cols-6 tw-p-4 tw-gap-x-4">
             <div className="tw-col-span-4 tw-flex tw-flex-col tw-gap-y-4">
@@ -102,6 +106,13 @@ export default function Kitchen2() {
                             disabled={selectedOrder.status === 'completed'}
                         >
                             {selectedOrder.status === "pending" ? "Mark As Prepared" : "Prepared"}
+                        </Button>
+                        <Button
+                            className='tw-w-full'
+                            variant='contained'
+                            onClick={printReceipt}
+                        >
+                            Print Receipt
                         </Button>
                     </>
                 ) : (

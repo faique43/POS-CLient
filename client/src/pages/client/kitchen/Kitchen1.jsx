@@ -31,13 +31,17 @@ export default function Kitchen1() {
         dispatch(prepareOrderById({
             orderId: selectedOrder._id
         })).then(response => {
-            if(!response.error) {
+            if (!response.error) {
                 dispatch(getAllOrders())
             }
             dispatch(uiActions.stopLoading())
         })
         // dispatch(kitchenActions.prepareOrderWithId(selectedOrder.orderId))
     };
+
+    const printReceipt = () => {
+        window.print();
+    }
 
     return (
         <div className="tw-grid tw-grid-cols-6 tw-p-4 tw-gap-x-4">
@@ -102,6 +106,13 @@ export default function Kitchen1() {
                             disabled={selectedOrder.status === 'completed'}
                         >
                             {selectedOrder.status === "pending" ? "Mark As Prepared" : "Prepared"}
+                        </Button>
+                        <Button
+                            className='tw-w-full'
+                            variant='contained'
+                            onClick={printReceipt}
+                        >
+                            Print Receipt
                         </Button>
                     </>
                 ) : (
