@@ -12,7 +12,8 @@ export default function Order(props) {
         } tw-duration-200 tw-ease-in-out tw-cursor-pointer tw-rounded-lg tw-text-white tw-p-3`}
       onClick={selectedOrderHandler}
     >
-      <h1 className="tw-col-span-1">{props.orderName}</h1>
+      {/* <h1 className="tw-col-span-1">{props.orderName}</h1> */}
+      <h1 className="tw-col-span-1">{props.orderNumber}</h1>
       <h1 className="tw-col-span-1">{props.orderItemsCount}</h1>
       <h1 className="tw-col-span-1">Rs {props.orderTotalPrice}</h1>
       {props.admin &&

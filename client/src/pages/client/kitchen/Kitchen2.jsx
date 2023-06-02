@@ -53,7 +53,7 @@ export default function Kitchen2() {
         <div className="tw-grid tw-grid-cols-6 tw-p-4 tw-gap-x-4">
             <div className="tw-col-span-4 tw-flex tw-flex-col tw-gap-y-4">
                 <div className="tw-grid tw-grid-cols-4 tw-bg-blue-500 tw-p-4 tw-rounded-lg tw-text-white">
-                    <h1 className="tw-col-span-1">Order Name</h1>
+                    <h1 className="tw-col-span-1">Order Id</h1>
                     <h1 className="tw-col-span-1">Total Items</h1>
                     <h1 className="tw-col-span-1">Total Price</h1>
                     <h1 className="tw-col-span-1">Date & Time</h1>
@@ -62,7 +62,8 @@ export default function Kitchen2() {
                     <Order
                         key={order._id}
                         orderId={order._id}
-                        orderName={order.name}
+                        // orderName={order.name}
+                        orderNumber={order.orderNumber}
                         orderItems={order.products}
                         orderItemsCount={order.products.length}
                         orderTotalPrice={order.totalPrice}

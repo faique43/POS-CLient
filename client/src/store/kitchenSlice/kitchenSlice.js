@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import axios from 'axios';
 
 const initialState = {
-  orders: [], // order: {orderName, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus, orderId, kitchen}
+  orders: [], // order: {orderId, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus, orderId, kitchen}
   currentOrderId: 0,
   isAnySelectedKitchen1: false,
   isAnySelectedKitchen2: false,
