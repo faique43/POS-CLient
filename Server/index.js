@@ -11,6 +11,7 @@ const adminRouter = require("./Routes/AdminRouter");
 const userRouter = require("./Routes/UserRouter");
 const expanseRouter = require("./Routes/ExpanseRouter");
 const salaryRouter = require("./Routes/SalaryRouter");
+const paymentRouter = require("./Routes/PaymentRouter");
 
 const app = express();
 
@@ -31,3 +32,4 @@ app.use("/api/admins", adminRouter);
 app.use("/api/users", userRouter);
 app.use("/api/expanses", expanseRouter);
 app.use("/api/salary", salaryRouter);
+app.use("/api/payment", paymentRouter);

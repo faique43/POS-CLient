@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ExpanseSchema = new Schema({
-    title: {
+const PaymentSchema = new Schema({
+    vendor: {
         type: String,
         required: true,
     },
@@ -20,4 +20,4 @@ const ExpanseSchema = new Schema({
     },
 });
 
-module.exports = Expanse = mongoose.model('expanse', ExpanseSchema);
+module.exports = Payment = mongoose.model('payment', PaymentSchema);
