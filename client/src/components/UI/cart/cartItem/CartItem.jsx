@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // redux actions
 import { cartActions } from '../../../../store/cartSlice/cartSlice';
@@ -11,20 +11,23 @@ import RemoveIcon from '@mui/icons-material/Remove';
 
 export default function CartItem(props) {
     const dispatch = useDispatch()
+    const printingReceipt = useSelector(state => state.global.printingReceipt)
 
     const incrementQuantityHandler = () => {
-        dispatch(cartActions.incrementProductQuantity({id: props.id, kitchen: props.kitchen}))
+        dispatch(cartActions.incrementProductQuantity({ id: props.id, kitchen: props.kitchen }))
         // dispatch(productsActions.decrementStock(props.id))
     }
 
     const decrementQuantityHandler = () => {
-        dispatch(cartActions.decrementProductQuantity({id: props.id, kitchen: props.kitchen}))
+        dispatch(cartActions.decrementProductQuantity({ id: props.id, kitchen: props.kitchen }))
         // dispatch(productsActions.incrementStock(props.id))
     }
 
     return (
         <div className='tw-flex tw-items-center tw-gap-x-4 tw-w-full tw-p-1'>
-            <img src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' width='100' height='100' alt="name" />
+            {/* {!printingReceipt && */}
+                <img src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' width='100' height='100' alt="name" />
+            {/* } */}
 
             <div className="tw-flex tw-flex-col tw-w-full">
                 <h1 className='tw-text-2xl tw-font-semibold'>{props.name}</h1>
