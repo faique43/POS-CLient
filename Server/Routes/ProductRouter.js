@@ -4,6 +4,8 @@ const router = express.Router();
 // import all Controllers from ProductController
 const ProductController = require("../Controllers/ProductController");
 
+const upload = require("../Middlewares/Upload");
+
 // @route   GET api/products
 // @desc    Get all products
 // @access  Public
@@ -17,7 +19,7 @@ router.get("/:id", ProductController.getProductById);
 // @route   POST api/products
 // @desc    Create a product
 // @access  Private
-router.post("/", ProductController.createProduct);
+router.post("/", upload.single("image"), ProductController.createProduct);
 
 // @route   PUT api/products/:id
 // @desc    Update a product

@@ -43,7 +43,8 @@ exports.createProduct = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const { name, price, description, image, kitchen, inventoryUsed } = req.body;
+  const { name, price, description, kitchen, inventoryUsed } = req.body;
+  const image = req.files.map((file) => file.path);
   try {
     const newProduct = new Product({
       name,
@@ -51,7 +52,7 @@ exports.createProduct = async (req, res) => {
       description,
       kitchen,
       image,
-      inventoryUsed,
+      inventoryUsed
     });
     const product = await newProduct.save();
     res.json(product);
