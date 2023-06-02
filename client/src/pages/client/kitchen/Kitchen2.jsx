@@ -33,7 +33,7 @@ export default function Kitchen2() {
         dispatch(prepareOrderById({
             orderId: selectedOrder._id
         })).then(response => {
-            if(!response.error) {
+            if (!response.error) {
                 dispatch(getAllOrders())
             }
             dispatch(uiActions.stopLoading())
@@ -88,6 +88,11 @@ export default function Kitchen2() {
                                 name={product.product.name}
                             />
                         ))}
+
+                        <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
+                            <h1 className="tw-text-xl tw-font-semibold">Order Id: </h1>
+                            <h1 className="tw-text-xl">{selectedOrder.orderNumber}</h1>
+                        </div>
 
                         <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
                             <h1 className="tw-text-xl tw-font-semibold">Total Items: </h1>

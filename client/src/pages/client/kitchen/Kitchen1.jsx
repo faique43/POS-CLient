@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useReactToPrint } from 'react-to-print';
 
@@ -8,6 +8,7 @@ import CartItem from "../../../components/UI/cart/cartItem/CartItem";
 
 // redux actions
 import { kitchenActions, prepareOrderById, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
+import { globalActions } from "../../../store/global/globalSlice";
 
 // MU
 import { Button } from "@mui/material";
@@ -20,6 +21,17 @@ export default function Kitchen1() {
     const kitchenOrders = useSelector((state) => state.kitchen.orders);
     const selectedOrder = useSelector(state => state.kitchen.selectedOrder)
     const isAnySelectedKitchen1 = useSelector(state => state.kitchen.isAnySelectedKitchen1)
+    const printingReceipt = useSelector(state => state.global.printingReceipt)
+
+    useEffect(() => {
+        if (printingReceipt) {
+            print();
+            setTimeout(() => {
+                dispatch(globalActions.stopPrintingReceipt())
+            }, 500)
+            // setPrintingReceipt(false);
+        }
+    }, [printingReceipt])
 
     const selectedOrderHandler = (orderId) => {
         dispatch(kitchenActions.setSelectedOrder({
@@ -46,7 +58,8 @@ export default function Kitchen1() {
     })
 
     const printReceipt = () => {
-        print();
+        dispatch(globalActions.startPrintingReceipt());
+        // setPrintingReceipt(true)
     }
 
     return (
@@ -86,8 +99,14 @@ export default function Kitchen1() {
                                 price={product.product.price}
                                 orderQuantity={product.quantity}
                                 name={product.product.name}
+                                printingReceipt={printingReceipt}
                             />
                         ))}
+
+                        <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
+                            <h1 className="tw-text-xl tw-font-semibold">Order Id: </h1>
+                            <h1 className="tw-text-xl">{selectedOrder.orderNumber}</h1>
+                        </div>
 
                         <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
                             <h1 className="tw-text-xl tw-font-semibold">Total Items: </h1>
@@ -106,21 +125,25 @@ export default function Kitchen1() {
                             </h1>
                         </div>
 
-                        <Button
-                            className="tw-w-full"
-                            variant="contained"
-                            onClick={prepareOrderHandler}
-                            disabled={selectedOrder.status === 'completed'}
-                        >
-                            {selectedOrder.status === "pending" ? "Mark As Prepared" : "Prepared"}
-                        </Button>
-                        <Button
-                            className='tw-w-full'
-                            variant='contained'
-                            onClick={printReceipt}
-                        >
-                            Print Receipt
-                        </Button>
+                        {!printingReceipt &&
+                            <>
+                                <Button
+                                    className="tw-w-full"
+                                    variant="contained"
+                                    onClick={prepareOrderHandler}
+                                    disabled={selectedOrder.status === 'completed'}
+                                >
+                                    {selectedOrder.status === "pending" ? "Mark As Prepared" : "Prepared"}
+                                </Button>
+                                <Button
+                                    className='tw-w-full'
+                                    variant='contained'
+                                    onClick={printReceipt}
+                                >
+                                    Print Receipt
+                                </Button>
+                            </>
+                        }
                     </div>
                 ) : (
                     <div className='tw-p-3'>
