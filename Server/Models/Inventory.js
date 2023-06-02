@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const InventorySchema = new Schema({
   item: {
     type: String,
-    requied: true,
+    required: true,
   },
   quantity: {
     type: Number,
@@ -12,7 +12,7 @@ const InventorySchema = new Schema({
   },
   price: {
     type: Number,
-    requied: true,
+    required: true,
   },
   created_at: {
     type: Date,

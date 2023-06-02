@@ -45,7 +45,7 @@ exports.createOrder = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, products } = req.body;
+    const { products } = req.body;
 
     // Calculate total price of the order
     let totalPrice = 0;
@@ -89,6 +89,12 @@ exports.createOrder = async (req, res) => {
       }
     }
 
+    // get count of all orders in the collection 
+    const count = await Order.countDocuments();
+
+    // Create a new order number
+    const orderNumber = `ORD-${count + 1}`;
+
     // Update inventory quantities
     for (const { item, quantity } of inventoryUpdates) {
       item.quantity -= quantity;
@@ -97,7 +103,7 @@ exports.createOrder = async (req, res) => {
 
     // Create a new order object
     const order = new Order({
-      name,
+      orderNumber,
       products,
       totalPrice
     });
