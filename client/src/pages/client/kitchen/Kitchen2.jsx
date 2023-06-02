@@ -26,7 +26,7 @@ export default function Kitchen2() {
     useEffect(() => {
         if (printingReceipt) {
             print();
-            globalActions.stopPrintingReceipt();
+            dispatch(globalActions.stopPrintingReceipt());
         }
     }, [printingReceipt])
 
