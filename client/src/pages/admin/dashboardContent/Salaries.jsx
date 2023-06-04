@@ -26,6 +26,14 @@ const columns = [
         headerName: 'Paid',
         width: 190,
     },
+    {
+        renderCell: (params) => {
+            return <Button variant="contained" disabled={params.row.paid} onClick={() => {
+                console.log(params.row);
+            }}>{params.row.paid ? "Paid" : "Mark as Paid"}</Button>
+        },
+        width: 290,
+    }
 ];
 
 export default function Salaries() {
