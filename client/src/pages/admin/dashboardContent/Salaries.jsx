@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { useSelector, useDispatch } from 'react-redux'
+
 import Title from './Title';
 
 import { DataGrid } from '@mui/x-data-grid';
@@ -7,6 +8,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const columns = [
     {
@@ -26,14 +28,9 @@ const columns = [
     },
 ];
 
-const rows = [
-    { id: 1, employee: 'Snow', amount: 35, paid: true },
-    { id: 2, employee: 'Lannister', amount: 42, paid: false },
-    { id: 3, employee: 'Lannister', amount: 45, paid: true },
-    { id: 4, employee: 'Stark', amount: 16, paid: true },
-];
-
 export default function Salaries() {
+    const salaries = useSelector(state => state.salaries.salaries);
+
     const [openAddSalaryModal, setOpenAddSalaryModal] = useState(false);
 
     const handleOpenSalaryModal = () => setOpenAddSalaryModal(true);
@@ -48,7 +45,8 @@ export default function Salaries() {
                 </div>
                 <div className='tw-w-full'>
                     <DataGrid
-                        rows={rows}
+                        getRowId={(row) => row._id}
+                        rows={salaries}
                         columns={columns}
                         initialState={{
                             pagination: {

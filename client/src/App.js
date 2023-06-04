@@ -16,6 +16,7 @@ import { getAllProducts } from "./store/productsSlice/productsSlice";
 import { getInventory } from "./store/inventorySlice/inventorySlice";
 import { getKitchen1Orders, getKitchen2Orders, getAllOrders } from './store/kitchenSlice/kitchenSlice'
 import { uiActions } from "./store/uiSlice/uiSlice";
+import { getAllSalaries } from "./store/salariesSlice/salariesSlice";
 
 export default function App() {
   const dispatch = useDispatch()
@@ -31,7 +32,14 @@ export default function App() {
       dispatch(getAllProducts(dispatch)).then(response => {
         dispatch(getInventory(dispatch)).then(response => {
           dispatch(getAllOrders()).then(response => {
-            dispatch(uiActions.stopLoading())
+            if(auth.isAdmin) {
+              dispatch(getAllSalaries()).then(response => {
+                dispatch(uiActions.stopLoading())
+              })
+            }
+            else {
+              dispatch(uiActions.stopLoading())
+            }
           })
         })
       })
