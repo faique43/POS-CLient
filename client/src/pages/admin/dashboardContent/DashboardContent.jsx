@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux';
 
 import Deposits from './Deposits';
 import Orders from './Orders';
+import SalaryDetails from './SalaryDetails';
+import Salaries from './Salaries';
 
 function Copyright(props) {
     return (
@@ -46,8 +48,8 @@ export default function DashboardContent() {
             <Toolbar />
             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Grid container spacing={3}>
-                    {/* Chart */}
-                    <Grid item xs={12} md={8} lg={9}>
+                    {/* Inventory */}
+                    <Grid item xs={12} md={8} lg={4}>
                         <Paper
                             sx={{
                                 p: 2,
@@ -66,8 +68,9 @@ export default function DashboardContent() {
                             {/* <Chart /> */}
                         </Paper>
                     </Grid>
+
                     {/* Recent Deposits */}
-                    <Grid item xs={12} md={4} lg={3}>
+                    <Grid item xs={12} md={4} lg={4}>
                         <Paper
                             sx={{
                                 p: 2,
@@ -79,10 +82,32 @@ export default function DashboardContent() {
                             <Deposits />
                         </Paper>
                     </Grid>
+
+                    {/* salaries */}
+                    <Grid item xs={12} md={4} lg={4}>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                height: 240,
+                            }}
+                        >
+                            <SalaryDetails />
+                        </Paper>
+                    </Grid>
+
                     {/* Recent Orders */}
                     <Grid item xs={12}>
                         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                             <Orders />
+                        </Paper>
+                    </Grid>
+
+                    {/* Salaries */}
+                    <Grid item xs={12}>
+                        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                            <Salaries />
                         </Paper>
                     </Grid>
                 </Grid>

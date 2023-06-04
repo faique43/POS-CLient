@@ -26,7 +26,7 @@ export default function Orders() {
             <Table size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Name</TableCell>
+                        <TableCell>Id</TableCell>
                         <TableCell>Total Price</TableCell>
                         <TableCell>Status</TableCell>
                         <TableCell>Date</TableCell>
@@ -35,7 +35,7 @@ export default function Orders() {
                 <TableBody>
                     {orders.map((row) => (
                         <TableRow key={row._id}>
-                            <TableCell>{row.name}</TableCell>
+                            <TableCell>{row.orderNumber}</TableCell>
                             <TableCell>{row.totalPrice}</TableCell>
                             <TableCell>{row.status}</TableCell>
                             <TableCell>{new Date(row.created_at).toLocaleString('en-US')}</TableCell>

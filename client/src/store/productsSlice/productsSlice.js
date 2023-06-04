@@ -104,21 +104,29 @@ const getAllProducts = createAsyncThunk(
   }
 );
 
-const addNewProduct = createAsyncThunk('product/addNewProduct', async (productData, {rejectWithValue}) => {
+const addNewProduct = createAsyncThunk('product/addNewProduct', async (productData, { rejectWithValue }) => {
   console.log(productData);
   try {
-    const response = await axios.post('http://localhost:5000/api/products', productData)
+    const response = await axios.post('http://localhost:5000/api/products', {
+      ...productData,
+      image: productData.image[0]
+    },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
 
     return response.data;
   }
-  catch(error) {
+  catch (error) {
     return rejectWithValue(error.response.data);
   }
 })
 
 const productsActions = productsSlice.actions;
 
-export { 
+export {
   productsActions,
   getAllProducts,
   addNewProduct

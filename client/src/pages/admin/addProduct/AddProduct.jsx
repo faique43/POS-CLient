@@ -45,7 +45,7 @@ export default function AddProduct() {
         productInventory: [],
         productDescription: '',
         productKitchen: 1,
-        img: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+        img: null
     })
     const [itemName, setItemName] = React.useState([]);
 
@@ -97,6 +97,9 @@ export default function AddProduct() {
         else if (event.target.name === "productKitchen") {
             setProductData({ ...productData, productKitchen: event.target.value })
         }
+        else if(event.target.name === "productImage") {
+            setProductData({ ...productData, img: event.target.files[0] })
+        }
     }
 
 
@@ -120,7 +123,7 @@ export default function AddProduct() {
                 productInventory: [],
                 productDescription: '',
                 productKitchen: 1,
-                img: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+                img: null
             })
             dispatch(uiActions.stopLoading())
         })
@@ -186,7 +189,7 @@ export default function AddProduct() {
             <IconButton className='tw-col-span-2 tw-w-full tw-flex tw-items-center tw-gap-x-8 tw-rounded-none' color="primary" aria-label="upload picture" component="label">
                 <h1>Image Upload</h1>
                 <div>
-                    <input hidden accept="image/*" type="file" />
+                    <input hidden accept="image/*" type="file" name='productImage' onChange={changeHandler} />
                     <PhotoCamera />
                 </div>
             </IconButton>
