@@ -11,45 +11,59 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import { addNewSalary, getAllSalaries } from '../../../store/salariesSlice/salariesSlice';
+import { addNewSalary, getAllSalaries, updateSalary } from '../../../store/salariesSlice/salariesSlice';
 import {uiActions} from '../../../store/uiSlice/uiSlice';
 
-const columns = [
-    {
-        field: 'employee',
-        headerName: 'Employee',
-        width: 190,
-    },
-    {
-        field: 'amount',
-        headerName: 'Amount',
-        width: 190,
-    },
-    {
-        field: 'paid',
-        headerName: 'Paid',
-        width: 190,
-    },
-    {
-        renderCell: (params) => {
-            return <Button variant="contained" disabled={params.row.paid} onClick={() => {
-                console.log(params.row);
-            }}>{params.row.paid ? "Paid" : "Mark as Paid"}</Button>
-        },
-        width: 290,
-    }
-];
 
 export default function Salaries() {
     const dispatch = useDispatch();
 
+    const columns = [
+        {
+            field: 'employee',
+            headerName: 'Employee',
+            width: 190,
+        },
+        {
+            field: 'amount',
+            headerName: 'Amount',
+            width: 190,
+        },
+        {
+            field: 'paid',
+            headerName: 'Paid',
+            width: 190,
+        },
+        {
+            renderCell: (params) => {
+                return <Button variant="contained" disabled={params.row.paid} onClick={() => {
+                    dispatch(uiActions.startLoading())
+                    dispatch(updateSalary({
+                        id: params.row._id,
+                        paid: true
+                    })).then(response => {
+                        if(!response.error) {
+                            dispatch(getAllSalaries()).then(response => {
+                                dispatch(uiActions.stopLoading())
+                            })
+                        }
+                        else {
+                            dispatch(uiActions.stopLoading())
+                        }
+                    })
+                }}>{params.row.paid ? "Paid" : "Mark as Paid"}</Button>
+            },
+            width: 290,
+        }
+    ];
+    
     const salaries = useSelector(state => state.salaries.salaries);
-
+    
     const [salaryData, setSalaryData] = useState({
         employee: '',
         amount: 0,
     })
-
+    
     const inputChangeHandler = (event) => {
         setSalaryData({
             ...salaryData,
