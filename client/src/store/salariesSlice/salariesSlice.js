@@ -22,6 +22,20 @@ const salariesSlice = createSlice({
         builder.addCase(getAllSalaries.rejected, (state, action) => {
             toast.error(action.payload.message);
         })
+
+        // add new salary
+        builder.addCase(addNewSalary.pending, (state, action) => {
+        })
+        builder.addCase(addNewSalary.fulfilled, (state, action) => {
+            toast.success('Salary added successfully', {
+                position: 'bottom-left'
+            });
+        })
+        builder.addCase(addNewSalary.rejected, (state, action) => {
+            toast.error(action.payload.message, {
+                position: 'bottom-left'
+            });
+        })
     }
 })
 
@@ -36,8 +50,20 @@ const getAllSalaries = createAsyncThunk('salaries/getAllSalaries', async (userDa
     }
 })
 
+const addNewSalary = createAsyncThunk('salaries/addNewSalary', async (salaryData, { rejectWithValue }) => {
+    try {
+        const response = await axios.post('http://localhost:5000/api/salary', salaryData);
+
+        return response.data;
+    }
+    catch (error) {
+        return rejectWithValue(error.response.data);
+    }
+});
+
 export {
-    getAllSalaries
+    getAllSalaries,
+    addNewSalary,
 }
 
 export default salariesSlice;

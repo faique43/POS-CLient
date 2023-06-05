@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import {toast} from 'react-toastify';
 
 import Title from './Title';
 
@@ -9,6 +10,9 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+
+import { addNewSalary, getAllSalaries } from '../../../store/salariesSlice/salariesSlice';
+import {uiActions} from '../../../store/uiSlice/uiSlice';
 
 const columns = [
     {
@@ -37,12 +41,51 @@ const columns = [
 ];
 
 export default function Salaries() {
+    const dispatch = useDispatch();
+
     const salaries = useSelector(state => state.salaries.salaries);
+
+    const [salaryData, setSalaryData] = useState({
+        employee: '',
+        amount: 0,
+    })
+
+    const inputChangeHandler = (event) => {
+        setSalaryData({
+            ...salaryData,
+            [event.target.name]: event.target.value
+        })
+    }
 
     const [openAddSalaryModal, setOpenAddSalaryModal] = useState(false);
 
     const handleOpenSalaryModal = () => setOpenAddSalaryModal(true);
     const handleCloseSalaryModal = () => setOpenAddSalaryModal(false);
+
+    const addNewSalaryHandler = () => {
+        if(salaryData.employee === '' || salaryData.amount == 0 || salaryData.amount === '') {
+            toast.warning('Please fill all the fields', {
+                position: 'bottom-left'
+            })
+        }
+        else {
+            dispatch(uiActions.startLoading())
+            dispatch(addNewSalary(salaryData)).then(response => {
+                if(!response.error) {
+                    setSalaryData({
+                        employee: '',
+                        amount: 0,
+                    })
+                    dispatch(getAllSalaries()).then(response => {
+                        dispatch(uiActions.stopLoading())
+                    })
+                }
+                else {
+                    dispatch(uiActions.stopLoading())
+                }
+            })
+        }
+    }
 
     return (
         <>
@@ -84,9 +127,9 @@ export default function Salaries() {
                 }}>
                     <div className='tw-flex tw-flex-col tw-w-full tw-items-start tw-gap-y-2'>
                         <h1 className='tw-text-xl tw-font-semibold'>Add Salary</h1>
-                        <TextField className='tw-w-full' id="outlined-basic" label="Employee" variant="outlined" />
-                        <TextField className='tw-w-full' id="outlined-basic" label="Amount" variant="outlined" />
-                        <Button className='tw-w-full' variant="contained">Add</Button>
+                        <TextField name='employee' value={salaryData.employee} onChange={inputChangeHandler} className='tw-w-full' id="outlined-basic" label="Employee" variant="outlined" type='text' />
+                        <TextField name='amount' value={salaryData.amount} onChange={inputChangeHandler} className='tw-w-full' id="outlined-basic" label="Amount" variant="outlined" type='number' />
+                        <Button className='tw-w-full' variant="contained" onClick={addNewSalaryHandler}>Add</Button>
                     </div>
                 </Box>
             </Modal>
