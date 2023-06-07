@@ -15,6 +15,7 @@ import Orders from './Orders';
 import SalaryDetails from './SalaryDetails';
 import Salaries from './Salaries';
 import VendorPayments from './VendorPayments';
+import VendorPaymentDetails from './VendorPaymentDetails';
 
 function Copyright(props) {
     return (
@@ -50,7 +51,7 @@ export default function DashboardContent() {
             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Grid container spacing={3}>
                     {/* Inventory */}
-                    <Grid item xs={12} md={8} lg={4}>
+                    <Grid item xs={12} md={6} lg={6}>
                         <Paper
                             sx={{
                                 p: 2,
@@ -71,7 +72,7 @@ export default function DashboardContent() {
                     </Grid>
 
                     {/* Recent Deposits */}
-                    <Grid item xs={12} md={4} lg={4}>
+                    <Grid item xs={12} md={6} lg={6}>
                         <Paper
                             sx={{
                                 p: 2,
@@ -84,8 +85,8 @@ export default function DashboardContent() {
                         </Paper>
                     </Grid>
 
-                    {/* salaries */}
-                    <Grid item xs={12} md={4} lg={4}>
+                    {/* salary details */}
+                    <Grid item xs={12} md={6} lg={6}>
                         <Paper
                             sx={{
                                 p: 2,
@@ -95,6 +96,20 @@ export default function DashboardContent() {
                             }}
                         >
                             <SalaryDetails />
+                        </Paper>
+                    </Grid>
+
+                    {/* vendor payment details */}
+                    <Grid item xs={12} md={6} lg={6}>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                height: 240,
+                            }}
+                        >
+                            <VendorPaymentDetails />
                         </Paper>
                     </Grid>
 
