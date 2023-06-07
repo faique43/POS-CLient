@@ -14,6 +14,7 @@ import Deposits from './Deposits';
 import Orders from './Orders';
 import SalaryDetails from './SalaryDetails';
 import Salaries from './Salaries';
+import VendorPayments from './VendorPayments';
 
 function Copyright(props) {
     return (
@@ -108,6 +109,13 @@ export default function DashboardContent() {
                     <Grid item xs={12}>
                         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                             <Salaries />
+                        </Paper>
+                    </Grid>
+
+                    {/* Vendor payments */}
+                    <Grid item xs={12}>
+                        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                            <VendorPayments />
                         </Paper>
                     </Grid>
                 </Grid>
