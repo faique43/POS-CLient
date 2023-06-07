@@ -76,7 +76,6 @@ const getVendorPayments = createAsyncThunk('vendorPayments/getVendorPayments', a
 })
 
 const updatePayment = createAsyncThunk('vendorPayments/updatePayment', async (paymentData, { rejectWithValue }) => {
-    console.log(paymentData)
     try {
         const response = await axios.put(`http://localhost:5000/api/payment/${paymentData.id}`, {
             paid: paymentData.paid,
