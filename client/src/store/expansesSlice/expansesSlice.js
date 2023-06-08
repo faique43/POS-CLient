@@ -28,7 +28,7 @@ const expansesSlice = createSlice({
         builder.addCase(getAllExpanses.pending, (state) => {
         })
         builder.addCase(getAllExpanses.fulfilled, (state, action) => {
-            state.vendorPayments = action.payload;
+            state.expanses = action.payload;
             toast.success('Expanses fetched successfully!', {
                 position: 'bottom-left'
             })
@@ -55,9 +55,9 @@ const expansesSlice = createSlice({
     }
 })
 
-const addNewExpanse = createAsyncThunk('vendorPayments/addNewPayment', async (paymentData, { rejectWithValue }) => {
+const addNewExpanse = createAsyncThunk('expanses/addNewExpanse', async (expanseData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://localhost:5000/api/expanses', paymentData);
+        const response = await axios.post('http://localhost:5000/api/expanses', expanseData);
 
         return response.data;
     } catch (error) {
@@ -65,7 +65,7 @@ const addNewExpanse = createAsyncThunk('vendorPayments/addNewPayment', async (pa
     }
 })
 
-const getAllExpanses = createAsyncThunk('vendorPayments/getVendorPayments', async (paymentData, { rejectWithValue }) => {
+const getAllExpanses = createAsyncThunk('expanses/getAllExpanses', async (expanseData, { rejectWithValue }) => {
     try {
         const response = await axios.get('http://localhost:5000/api/expanses');
 
@@ -75,10 +75,10 @@ const getAllExpanses = createAsyncThunk('vendorPayments/getVendorPayments', asyn
     }
 })
 
-const updateExpanse = createAsyncThunk('vendorPayments/updatePayment', async (paymentData, { rejectWithValue }) => {
+const updateExpanse = createAsyncThunk('expanses/updateExpanse', async (expanseData, { rejectWithValue }) => {
     try {
-        const response = await axios.put(`http://localhost:5000/api/expanses/${paymentData.id}`, {
-            paid: paymentData.paid,
+        const response = await axios.put(`http://localhost:5000/api/expanses/${expanseData.id}`, {
+            paid: expanseData.paid,
         });
 
         return response.data;

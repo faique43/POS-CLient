@@ -18,6 +18,7 @@ import { getKitchen1Orders, getKitchen2Orders, getAllOrders } from './store/kitc
 import { uiActions } from "./store/uiSlice/uiSlice";
 import { getAllSalaries } from "./store/salariesSlice/salariesSlice";
 import { getVendorPayments } from "./store/vendorPayments/vendorPayments";
+import { getAllExpanses } from "./store/expansesSlice/expansesSlice";
 
 export default function App() {
   const dispatch = useDispatch()
@@ -36,7 +37,9 @@ export default function App() {
             if(auth.isAdmin) {
               dispatch(getAllSalaries()).then(response => {
                 dispatch(getVendorPayments()).then(response => {
-                  dispatch(uiActions.stopLoading())
+                  dispatch(getAllExpanses()).then(response => {
+                    dispatch(uiActions.stopLoading())
+                  })
                 })
               })
             }
