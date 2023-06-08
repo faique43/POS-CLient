@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 // MU
 import { DataGrid } from '@mui/x-data-grid';
+import { GridRowClassNameParams } from '@mui/x-data-grid';
 
 const columns = [
     { 
@@ -56,6 +57,10 @@ export default function Inventory() {
                     },
                 }}
                 pageSizeOptions={[5, 10]}
+                getRowClassName={(params) => {
+                    // console.log(params.row.quantity);
+                    return params.row.quantity <= 100 ? 'tw-bg-red-300' : "";
+                }}
             />
         </div>
     );
