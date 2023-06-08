@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 
 // MU
 import { DataGrid } from '@mui/x-data-grid';
-import { GridRowClassNameParams } from '@mui/x-data-grid';
 
 const columns = [
     { 

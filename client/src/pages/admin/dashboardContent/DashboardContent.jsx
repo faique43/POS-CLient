@@ -16,6 +16,7 @@ import SalaryDetails from './SalaryDetails';
 import Salaries from './Salaries';
 import VendorPayments from './VendorPayments';
 import VendorPaymentDetails from './VendorPaymentDetails';
+import ExpansesDetails from './ExpansesDetails';
 
 function Copyright(props) {
     return (
@@ -51,7 +52,7 @@ export default function DashboardContent() {
             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Grid container spacing={3}>
                     {/* Inventory */}
-                    <Grid item xs={12} md={6} lg={6}>
+                    <Grid item xs={12} md={12} lg={12}>
                         <Paper
                             sx={{
                                 p: 2,
@@ -110,6 +111,20 @@ export default function DashboardContent() {
                             }}
                         >
                             <VendorPaymentDetails />
+                        </Paper>
+                    </Grid>
+
+                    {/* expanses details */}
+                    <Grid item xs={12} md={6} lg={6}>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                height: 240,
+                            }}
+                        >
+                            <ExpansesDetails />
                         </Paper>
                     </Grid>
 
