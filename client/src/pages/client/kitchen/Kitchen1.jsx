@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useReactToPrint } from 'react-to-print';
+import printJs from 'print-js';
 
 // components
 import Order from "../../../components/order/Order";
@@ -8,7 +8,6 @@ import CartItem from "../../../components/UI/cart/cartItem/CartItem";
 
 // redux actions
 import { kitchenActions, prepareOrderById, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
-import { globalActions } from "../../../store/global/globalSlice";
 
 // MU
 import { Button } from "@mui/material";
@@ -16,19 +15,10 @@ import { uiActions } from "../../../store/uiSlice/uiSlice";
 
 export default function Kitchen1() {
     const dispatch = useDispatch();
-    const receiptRef = useRef();
 
     const kitchenOrders = useSelector((state) => state.kitchen.orders);
     const selectedOrder = useSelector(state => state.kitchen.selectedOrder)
     const isAnySelectedKitchen1 = useSelector(state => state.kitchen.isAnySelectedKitchen1)
-    const printingReceipt = useSelector(state => state.global.printingReceipt)
-
-    useEffect(() => {
-        if (printingReceipt) {
-            print();
-            dispatch(globalActions.stopPrintingReceipt());
-        }
-    }, [printingReceipt])
 
     const selectedOrderHandler = (orderId) => {
         dispatch(kitchenActions.setSelectedOrder({
@@ -50,12 +40,20 @@ export default function Kitchen1() {
         // dispatch(kitchenActions.prepareOrderWithId(selectedOrder.orderId))
     };
 
-    const print = useReactToPrint({
-        content: () => receiptRef.current
-    })
-
     const printReceipt = () => {
-        dispatch(globalActions.startPrintingReceipt());
+        const orderProducts = [...selectedOrder.products.map(product => ({
+            name: product.product.name,
+            price: product.product.price,
+            kitchen: product.product.kitchen,
+            quantity: product.quantity,
+        }))];
+
+        printJs({
+            printable: JSON.parse(JSON.stringify(orderProducts)),
+            type: 'json',
+            properties: ['name', 'price', 'kitchen', 'quantity'],
+            header: '<h1>Order Receipt</h1> <h3>Order Number: ' + selectedOrder.orderNumber + '</h3> <h3> Order Time: ' + new Date(selectedOrder.created_at).toLocaleString() + '</h3> <h3>Order Total Price: ' + selectedOrder.totalPrice + '</h3>',
+        })
     }
 
     return (
@@ -84,7 +82,7 @@ export default function Kitchen1() {
 
             <div className="tw-col-span-2 tw-bg-slate-400 tw-rounded-lg tw-text-white tw-flex tw-flex-col tw-items-start tw-gap-y-4">
                 {isAnySelectedKitchen1 ? (
-                    <div ref={receiptRef} className="tw-w-full tw-flex tw-flex-col tw-gap-y-4 tw-items-start tw-p-3">
+                    <div className="tw-w-full tw-flex tw-flex-col tw-gap-y-4 tw-items-start tw-p-3">
                         <h1 className="tw-text-xl tw-font-semibold">Order Details</h1>
 
                         {selectedOrder.products.map((product) => (
@@ -119,25 +117,21 @@ export default function Kitchen1() {
                             </h1>
                         </div>
 
-                        {!printingReceipt &&
-                            <>
-                                <Button
-                                    className="tw-w-full"
-                                    variant="contained"
-                                    onClick={prepareOrderHandler}
-                                    disabled={selectedOrder.status === 'completed'}
-                                >
-                                    {selectedOrder.status === "pending" ? "Mark As Prepared" : "Prepared"}
-                                </Button>
-                                <Button
-                                    className='tw-w-full'
-                                    variant='contained'
-                                    onClick={printReceipt}
-                                >
-                                    Print Receipt
-                                </Button>
-                            </>
-                        }
+                        <Button
+                            className="tw-w-full"
+                            variant="contained"
+                            onClick={prepareOrderHandler}
+                            disabled={selectedOrder.status === 'completed'}
+                        >
+                            {selectedOrder.status === "pending" ? "Mark As Prepared" : "Prepared"}
+                        </Button>
+                        <Button
+                            className='tw-w-full'
+                            variant='contained'
+                            onClick={printReceipt}
+                        >
+                            Print Receipt
+                        </Button>
                     </div>
                 ) : (
                     <div className='tw-p-3'>

@@ -46,28 +46,6 @@ export default function Kitchen1Home() {
             }
             dispatch(uiActions.stopLoading())
         })
-
-        // dispatch(
-        //     kitchenActions.placeOrder({
-        //         orderName: cart.cartName,
-        //         orderItems: cartItems,
-        //         orderItemsCount: cart.cartTotalQuantity,
-        //         orderTotalPrice: cart.cartTotalPrice,
-        //         orderTime: new Date(),
-        //         orderStatus: false,
-        //         kitchen: "1",
-        //     })
-        // );
-    };
-
-    const inputChangeHandler = (event) => {
-        if (event.target.name === "cartName") {
-            dispatch(cartActions.nameCart({
-                kitchen: "1",
-                name: event.target.value
-            }));
-            // setCartName(event.target.value)
-        }
     };
 
     return (
@@ -120,14 +98,6 @@ export default function Kitchen1Home() {
                                     Rs {cart.cartTotalPrice}
                                 </h1>
                             </div>
-                            {/* <TextField
-                                id="outlined-basic"
-                                label="Order Name"
-                                variant="outlined"
-                                value={cart.cartName}
-                                name="cartName"
-                                onChange={inputChangeHandler}
-                            /> */}
                             <Button
                                 className="tw-w-full"
                                 variant="contained"

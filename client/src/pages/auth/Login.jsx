@@ -43,12 +43,16 @@ export default function Login() {
         // event.preventDefault()
         if(event.target.name === 'adminButton') {
             dispatch(loginAdmin(userData)).then(response => {
-                // dispatch(uiActions.stopLoading())
+                if(response.error) {
+                    dispatch(uiActions.stopLoading())
+                }
             })
         }
         else if(event.target.name === 'userButton') {
             dispatch(loginUser(userData)).then(response => {
-                // dispatch(uiActions.stopLoading())
+                if(response.error) {
+                    dispatch(uiActions.stopLoading())
+                }
             })
         }
     };
