@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import printJs from "print-js";
 
 // components
 import ProductCard from "../../../components/UI/productCard/ProductCard";
@@ -8,11 +9,10 @@ import CartItem from "../../../components/UI/cart/cartItem/CartItem";
 // Mu
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 
 // redux actions
 import { cartActions } from "../../../store/cartSlice/cartSlice";
-import { kitchenActions, createOrder, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
+import { createOrder, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
 import { uiActions } from "../../../store/uiSlice/uiSlice";
 
 export default function Kitchen1Home() {
@@ -22,7 +22,9 @@ export default function Kitchen1Home() {
     const cartItems = useSelector((state) => state.cart.carts[0].cartItems)
     const cart = useSelector((state) => state.cart.carts[0]);
 
-    // const [cartName, setCartName] = useState('')
+    const productFromId = (id) => {
+        return products.find(product => product._id === id)
+    }
 
     const placeOrderHandler = () => {
         const products = cartItems.map(cartItem => {
@@ -39,12 +41,31 @@ export default function Kitchen1Home() {
         dispatch(uiActions.startLoading())
         dispatch(createOrder(orderObject)).then(response => {
             if (!response.error) {
+                dispatch(uiActions.stopLoading())
+                const orderProducts = [...response.payload.products.map(product => {
+                    const currentProduct = productFromId(product.product);
+                    return {
+                        name: currentProduct.name,
+                        price: currentProduct.price,
+                        kitchen: currentProduct.kitchen,
+                        quantity: product.quantity,
+                    }
+                })];
+
+                printJs({
+                    printable: JSON.parse(JSON.stringify(orderProducts)),
+                    type: 'json',
+                    properties: ['name', 'price', 'kitchen', 'quantity'],
+                    header: '<h1>Order Receipt</h1> <h3>Order Number: ' + response.payload.orderNumber + '</h3> <h3> Order Time: ' + new Date(response.payload.created_at).toLocaleString() + '</h3> <h3>Order Total Price: ' + response.payload.totalPrice + '</h3>',
+                })
                 dispatch(cartActions.clearCart({
                     kitchen: "1"
                 }));
                 dispatch(getAllOrders())
             }
-            dispatch(uiActions.stopLoading())
+            else {
+                dispatch(uiActions.stopLoading())
+            }
         })
     };
 

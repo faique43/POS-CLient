@@ -8,11 +8,10 @@ import CartItem from "../../../components/UI/cart/cartItem/CartItem";
 // Mu
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 
 // redux actions
 import { cartActions } from "../../../store/cartSlice/cartSlice";
-import { kitchenActions, createOrder, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
+import { createOrder, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
 import { uiActions } from "../../../store/uiSlice/uiSlice";
 
 export default function Kitchen2Home() {
@@ -21,8 +20,6 @@ export default function Kitchen2Home() {
     const products = useSelector((state) => state.products.products);
     const cartItems = useSelector((state) => state.cart.carts[1].cartItems);
     const cart = useSelector((state) => state.cart.carts[1]);
-
-    // const [cartName, setCartName] = useState('')
 
     const placeOrderHandler = () => {
         const products = cartItems.map(cartItem => {
@@ -43,30 +40,9 @@ export default function Kitchen2Home() {
             }
             dispatch(uiActions.stopLoading())
         })
-        // dispatch(
-        //     kitchenActions.placeOrder({
-        //         orderName: cart.cartName,
-        //         orderItems: cartItems,
-        //         orderItemsCount: cart.cartTotalQuantity,
-        //         orderTotalPrice: cart.cartTotalPrice,
-        //         orderTime: new Date(),
-        //         orderStatus: false,
-        //         kitchen: "2"
-        //     })
-        // );
         dispatch(cartActions.clearCart({
             kitchen: "2"
         }));
-    };
-
-    const inputChangeHandler = (event) => {
-        if (event.target.name === "cartName") {
-            dispatch(cartActions.nameCart({
-                kitchen: "2",
-                name: event.target.value
-            }));
-            // setCartName(event.target.value)
-        }
     };
 
     return (

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import printJs from 'print-js';
 
