@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import axios from 'axios';
-import printJs from 'print-js'
 
 const initialState = {
 	orders: [], // order: {orderId, orderItems, orderItemsCount, orderTotalPrice, orderTime, orderStatus, orderId, kitchen}
@@ -55,9 +54,6 @@ const kitchenSlice = createSlice({
 
 		})
 		builder.addCase(createOrder.fulfilled, (state, action) => {
-			toast.success('Order placed successfully!', {
-				position: 'bottom-left'
-			})
 		})
 		builder.addCase(createOrder.rejected, (state, action) => {
 			toast.error(action.payload.msg, {

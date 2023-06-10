@@ -6,10 +6,7 @@ import Order from "../../../components/order/Order";
 import CartItem from "../../../components/UI/cart/cartItem/CartItem";
 
 // redux actions
-import { kitchenActions, prepareOrderById, getAllOrders } from "../../../store/kitchenSlice/kitchenSlice";
-
-// MU
-import { uiActions } from "../../../store/uiSlice/uiSlice";
+import { kitchenActions } from "../../../store/kitchenSlice/kitchenSlice";
 
 export default function Orders() {
     const dispatch = useDispatch();
@@ -25,24 +22,11 @@ export default function Orders() {
         }));
     };
 
-    const prepareOrderHandler = () => {
-        dispatch(uiActions.startLoading())
-        dispatch(prepareOrderById({
-            orderId: selectedOrder._id
-        })).then(response => {
-            if (!response.error) {
-                dispatch(getAllOrders())
-            }
-            dispatch(uiActions.stopLoading())
-        })
-        // dispatch(kitchenActions.prepareOrderWithId(selectedOrder.orderId))
-    };
-
     return (
         <div className="tw-grid tw-grid-cols-6 tw-p-4 tw-gap-x-4 tw-w-full tw-mt-14 tw-mx-4">
             <div className="tw-col-span-4 tw-flex tw-flex-col tw-gap-y-4">
                 <div className="tw-grid tw-grid-cols-5 tw-bg-blue-500 tw-p-4 tw-rounded-lg tw-text-white">
-                    <h1 className="tw-col-span-1">Order Name</h1>
+                    <h1 className="tw-col-span-1">Order Number</h1>
                     <h1 className="tw-col-span-1">Total Items</h1>
                     <h1 className="tw-col-span-1">Total Price</h1>
                     <h1 className="tw-col-span-1">Kitchen</h1>
@@ -52,7 +36,7 @@ export default function Orders() {
                     <Order
                         key={order._id}
                         orderId={order._id}
-                        orderName={order.name}
+                        orderNumber={order.orderNumber}
                         orderItems={order.products}
                         orderItemsCount={order.products.length}
                         orderTotalPrice={order.totalPrice}

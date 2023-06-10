@@ -37,9 +37,6 @@ const cartSlice = createSlice({
             if (existingItem) {
                 existingItem.quantity++;
                 existingItem.totalPrice += +itemToBeAdded.price
-                toast.success(`${itemToBeAdded.name} quantity increased in cart to ${existingItem.quantity}!`, {
-                    position: 'bottom-left'
-                })
             }
             else {
                 state.carts[kitchen === "1" ? 0 : 1].cartItems.push({

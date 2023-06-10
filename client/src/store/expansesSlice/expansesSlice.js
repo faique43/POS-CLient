@@ -29,9 +29,6 @@ const expansesSlice = createSlice({
         })
         builder.addCase(getAllExpanses.fulfilled, (state, action) => {
             state.expanses = action.payload;
-            toast.success('Expanses fetched successfully!', {
-                position: 'bottom-left'
-            })
         })
         builder.addCase(getAllExpanses.rejected, (state, action) => {
             toast.error('Expanses could not be fetched!', {

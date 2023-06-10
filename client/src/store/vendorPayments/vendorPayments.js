@@ -29,9 +29,6 @@ const vendorPaymentsSlice = createSlice({
         })
         builder.addCase(getVendorPayments.fulfilled, (state, action) => {
             state.vendorPayments = action.payload;
-            toast.success('Vendor Payments fetched successfully!', {
-                position: 'bottom-left'
-            })
         })
         builder.addCase(getVendorPayments.rejected, (state, action) => {
             toast.error('Vendor payments could not be fetched!', {

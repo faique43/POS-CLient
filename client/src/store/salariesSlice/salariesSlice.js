@@ -15,9 +15,6 @@ const salariesSlice = createSlice({
         })
         builder.addCase(getAllSalaries.fulfilled, (state, action) => {
             state.salaries = action.payload;
-            toast.success('Salaries fetched successfully', {
-                position: 'bottom-left'
-            });
         })
         builder.addCase(getAllSalaries.rejected, (state, action) => {
             toast.error(action.payload.message);
