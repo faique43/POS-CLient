@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import printJs from "print-js";
 
 // components
 import ProductCard from "../../../components/UI/productCard/ProductCard";
@@ -21,6 +22,10 @@ export default function Kitchen2Home() {
     const cartItems = useSelector((state) => state.cart.carts[1].cartItems);
     const cart = useSelector((state) => state.cart.carts[1]);
 
+    const productFromId = (id) => {
+        return products.find(product => product._id === id)
+    }
+
     const placeOrderHandler = () => {
         const products = cartItems.map(cartItem => {
             return {
@@ -35,14 +40,33 @@ export default function Kitchen2Home() {
 
         dispatch(uiActions.startLoading())
         dispatch(createOrder(orderObject)).then(response => {
-            if(!response.error) {
+            if (!response.error) {
+                dispatch(uiActions.stopLoading())
+                const orderProducts = [...response.payload.products.map(product => {
+                    const currentProduct = productFromId(product.product);
+                    return {
+                        name: currentProduct.name,
+                        price: currentProduct.price,
+                        kitchen: currentProduct.kitchen,
+                        quantity: product.quantity,
+                    }
+                })];
+
+                printJs({
+                    printable: JSON.parse(JSON.stringify(orderProducts)),
+                    type: 'json',
+                    properties: ['name', 'price', 'kitchen', 'quantity'],
+                    header: '<h1>Order Receipt</h1> <h3>Order Number: ' + response.payload.orderNumber + '</h3> <h3> Order Time: ' + new Date(response.payload.created_at).toLocaleString() + '</h3> <h3>Order Total Price: ' + response.payload.totalPrice + '</h3>',
+                })
+                dispatch(cartActions.clearCart({
+                    kitchen: "2"
+                }));
                 dispatch(getAllOrders())
             }
-            dispatch(uiActions.stopLoading())
+            else {
+                dispatch(uiActions.stopLoading())
+            }
         })
-        dispatch(cartActions.clearCart({
-            kitchen: "2"
-        }));
     };
 
     return (
@@ -56,11 +80,11 @@ export default function Kitchen2Home() {
                         description={product.description}
                         img={product.image}
                         price={product.price}
-                        quantity={product.stock}
                         kitchen={product.kitchen}
                     />
                 ))}
             </div>
+
             <div className={`${cart.cartTotalQuantity === 0 ? 'tw-hidden' : "tw-col-span-2"} tw-bg-gray-200 tw-flex tw-flex-col tw-p-4 tw-gap-y-24`}>
                 <div className="tw-flex tw-flex-col tw-gap-y-4">
                     <Typography variant="h4">
@@ -94,14 +118,6 @@ export default function Kitchen2Home() {
                                 Rs {cart.cartTotalPrice}
                             </h1>
                         </div>
-                        {/* <TextField
-                            id="outlined-basic"
-                            label="Order Name"
-                            variant="outlined"
-                            value={cart.cartName}
-                            name="cartName"
-                            onChange={inputChangeHandler}
-                        /> */}
                         <Button
                             className="tw-w-full"
                             variant="contained"

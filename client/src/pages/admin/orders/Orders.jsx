@@ -80,15 +80,6 @@ export default function Orders() {
                                 {new Date(selectedOrder.created_at).toLocaleString()}
                             </h1>
                         </div>
-
-                        {/* <Button
-                            className="tw-w-full"
-                            variant="contained"
-                            onClick={prepareOrderHandler}
-                            disabled={selectedOrder.status === 'completed'}
-                        >
-                            {selectedOrder.status === "pending" ? "Mark As Prepared" : "Prepared"}
-                        </Button> */}
                     </>
                 ) : (
                     <>
