@@ -20,6 +20,7 @@ const authSlice = createSlice({
         logout: (state) => {
             state.isAuthenticated = false;
             state.isAdmin = false;
+            state.isInventoryAdmin = false;
             state.username = '';
             state.password = '';
             toast.success('logged out successfully!', {

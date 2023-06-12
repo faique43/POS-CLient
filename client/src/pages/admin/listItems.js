@@ -55,14 +55,14 @@ export const mainListItems = (
             </ListItemButton>
         </Link>
 
-        <Link to='addInventory'>
+        {/* <Link to='addInventory'>
             <ListItemButton>
                 <ListItemIcon>
                     <AddCircleIcon />
                 </ListItemIcon>
                 <ListItemText primary="Add Inventory" />
             </ListItemButton>
-        </Link>
+        </Link> */}
     </React.Fragment>
 );
 

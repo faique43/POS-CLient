@@ -23,10 +23,10 @@ import Admin from "./pages/admin/Admin";
 import Orders from './pages/admin/orders/Orders'
 import AddProduct from "./pages/admin/addProduct/AddProduct";
 import Inventory from "./pages/admin/inventory/Inventory";
-import AddInventory from "./pages/admin/addInventory/AddInventory";
 
 // inventory Admin
 import AdminInventory from "./pages/adminInventory/AdminInventory";
+import AddInventory from "./pages/adminInventory/addInventory/AddInventory";
 
 const router = createBrowserRouter([
 	{
@@ -44,7 +44,6 @@ const router = createBrowserRouter([
 					{ path: 'orders', element: <Orders /> },
 					{ path: 'addProduct', element: <AddProduct /> },
 					{ path: 'inventory', element: <Inventory /> },
-					{ path: 'addInventory', element: <AddInventory /> },
 				]
 			},
 			{
@@ -59,7 +58,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: 'inventoryAdmin',
-				element: <AdminInventory />
+				element: <AdminInventory />,
+				children: [
+					{ path: 'addInventory', element: <AddInventory /> },
+					{ path: 'inventory', element: <Inventory /> }
+				]
 			}
 		],
 	},

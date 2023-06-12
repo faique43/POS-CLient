@@ -70,7 +70,7 @@ export default function App() {
 		else if (auth.isAuthenticated) {
 			navigate('/client/kitchen1Home')
 		}
-	}, [auth.isAuthenticated, auth.isAdmin, auth.isInventoryAdmin, navigate])
+	}, [auth.isAuthenticated, auth.isAdmin, auth.isInventoryAdmin])
 
 	return (
 		<div className="tw-gap-y-4 tw-grid">
