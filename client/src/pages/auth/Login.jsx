@@ -3,17 +3,14 @@ import { useDispatch } from 'react-redux';
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 // redux
-import { loginAdmin, loginUser } from '../../store/authSlice/authSlice';
-import {uiActions} from '../../store/uiSlice/uiSlice';
+import { loginAdmin, loginUser, loginInventoryAdmin } from '../../store/authSlice/authSlice';
+import { uiActions } from '../../store/uiSlice/uiSlice';
 
 export default function Login() {
     const dispatch = useDispatch()
@@ -41,16 +38,23 @@ export default function Login() {
     const handleSubmit = (event) => {
         dispatch(uiActions.startLoading())
         // event.preventDefault()
-        if(event.target.name === 'adminButton') {
+        if (event.target.name === 'adminButton') {
             dispatch(loginAdmin(userData)).then(response => {
-                if(response.error) {
+                if (response.error) {
                     dispatch(uiActions.stopLoading())
                 }
             })
         }
-        else if(event.target.name === 'userButton') {
+        else if (event.target.name === 'userButton') {
             dispatch(loginUser(userData)).then(response => {
-                if(response.error) {
+                if (response.error) {
+                    dispatch(uiActions.stopLoading())
+                }
+            })
+        }
+        else if (event.target.name === 'inventoryAdminButton') {
+            dispatch(loginInventoryAdmin(userData)).then(response => {
+                if (response.error) {
                     dispatch(uiActions.stopLoading())
                 }
             })
@@ -92,13 +96,7 @@ export default function Login() {
                         type="password"
                         onChange={changeHandler}
                         value={userData.password}
-                    // id="password"
-                    // autoComplete="current-password"
                     />
-                    {/* <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    /> */}
                     <Button
                         fullWidth
                         variant="contained"
@@ -108,6 +106,7 @@ export default function Login() {
                     >
                         Login
                     </Button>
+
                     <Button
                         fullWidth
                         variant="contained"
@@ -117,6 +116,17 @@ export default function Login() {
                     >
                         Login as Admin
                     </Button>
+
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        name='inventoryAdminButton'
+                        onClick={handleSubmit}
+                    >
+                        Admin Inventory
+                    </Button>
+
                     <Grid container>
                         <Grid item xs>
                             {/* <Link href="#" variant="body2">

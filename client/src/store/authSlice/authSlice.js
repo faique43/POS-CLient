@@ -10,6 +10,7 @@ const initialState = {
     password: '',
     isAdmin: false,
     isAuthenticated: false,
+    isInventoryAdmin: false,
 }
 
 const authSlice = createSlice({
@@ -66,6 +67,25 @@ const authSlice = createSlice({
                 position: 'bottom-left'
             })
         })
+
+        // login inventory admin
+        builder.addCase(loginInventoryAdmin.pending, (state) => {
+        })
+        builder.addCase(loginInventoryAdmin.fulfilled, (state, action) => {
+            state.isAuthenticated = true;
+            state.isInventoryAdmin = true;
+            state.username = action.payload.username;
+            state.password = action.payload.password;
+
+            toast.success('logged in successfully!', {
+                position: 'bottom-left'
+            })
+        })
+        builder.addCase(loginInventoryAdmin.rejected, (state, action) => {
+            toast.error(`${action.payload.msg}`, {
+                position: 'bottom-left'
+            })
+        })
     }
 })
 
@@ -91,12 +111,24 @@ const loginAdmin = createAsyncThunk('auth/loginAdmin', async (adminData, { rejec
     }
 })
 
+const loginInventoryAdmin = createAsyncThunk('auth/loginInventoryAdmin', async (adminData, { rejectWithValue }) => {
+    try {
+        const response = await axios.post('http://localhost:5000/api/users/auth', adminData)
+
+        return response.data;
+    }
+    catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+
 const authActions = authSlice.actions;
 
 export {
     loginUser,
     loginAdmin,
     authActions,
+    loginInventoryAdmin,
 }
 
 export default authSlice;
