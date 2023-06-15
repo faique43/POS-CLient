@@ -19,7 +19,7 @@ router.get("/:id", ProductController.getProductById);
 // @route   POST api/products
 // @desc    Create a product
 // @access  Private
-router.post("/", upload.single("image"), ProductController.createProduct);
+router.post("/", upload.array("image", 1), ProductController.createProduct);
 
 // @route   PUT api/products/:id
 // @desc    Update a product
