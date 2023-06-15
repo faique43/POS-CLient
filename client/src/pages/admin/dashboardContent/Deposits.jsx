@@ -5,10 +5,6 @@ import Title from './Title';
 
 import {useSelector} from 'react-redux'
 
-function preventDefault(event) {
-    event.preventDefault();
-}
-
 export default function Deposits() {
     const orders = useSelector(state => state.kitchen.orders)
 
@@ -27,11 +23,6 @@ export default function Deposits() {
             <Typography color="text.secondary" sx={{ flex: 1 }}>
                 {/* on 15 March, 2019 */}
             </Typography>
-            <div>
-                <Link color="primary" href="#" onClick={preventDefault}>
-                    {/* View balance */}
-                </Link>
-            </div>
         </React.Fragment>
     );
 }

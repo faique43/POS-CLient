@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useReactToPrint } from 'react-to-print';
+import printJs from 'print-js';
 
 // components
 import Order from "../../../components/order/Order";
@@ -15,7 +15,6 @@ import { Button } from "@mui/material";
 
 export default function Kitchen2() {
     const dispatch = useDispatch();
-    const receiptRef = useRef();
 
     const kitchenOrders = useSelector((state) => state.kitchen.orders);
     const selectedOrder = useSelector(state => state.kitchen.selectedOrder)
@@ -41,12 +40,20 @@ export default function Kitchen2() {
         // dispatch(kitchenActions.prepareOrderWithId(selectedOrder.orderId))
     };
 
-    const print = useReactToPrint({
-        content: () => receiptRef.current
-    })
-
     const printReceipt = () => {
-        print();
+        const orderProducts = [...selectedOrder.products.map(product => ({
+            name: product.product.name,
+            price: product.product.price,
+            kitchen: product.product.kitchen,
+            quantity: product.quantity,
+        }))];
+
+        printJs({
+            printable: JSON.parse(JSON.stringify(orderProducts)),
+            type: 'json',
+            properties: ['name', 'price', 'kitchen', 'quantity'],
+            header: '<h1>Order Receipt</h1> <h3>Order Number: ' + selectedOrder.orderNumber + '</h3> <h3> Order Time: ' + new Date(selectedOrder.created_at).toLocaleString() + '</h3> <h3>Order Total Price: ' + selectedOrder.totalPrice + '</h3>',
+        })
     }
 
     return (
@@ -62,7 +69,6 @@ export default function Kitchen2() {
                     <Order
                         key={order._id}
                         orderId={order._id}
-                        // orderName={order.name}
                         orderNumber={order.orderNumber}
                         orderItems={order.products}
                         orderItemsCount={order.products.length}
@@ -76,7 +82,7 @@ export default function Kitchen2() {
 
             <div className="tw-col-span-2 tw-bg-slate-400 tw-rounded-lg tw-text-white tw-flex tw-flex-col tw-items-start tw-gap-y-4">
                 {isAnySelectedKitchen2 ? (
-                    <div ref={receiptRef} className="tw-w-full tw-flex tw-flex-col tw-gap-y-4 tw-items-start tw-p-3">
+                    <div className="tw-w-full tw-flex tw-flex-col tw-gap-y-4 tw-items-start tw-p-3">
                         <h1 className="tw-text-xl tw-font-semibold">Order Details</h1>
 
                         {selectedOrder.products.map((product) => (

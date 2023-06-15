@@ -7,7 +7,9 @@ import uiSlice from "./uiSlice/uiSlice";
 import kitchenSlice from "./kitchenSlice/kitchenSlice";
 import inventorySlice from "./inventorySlice/inventorySlice";
 import authSlice from "./authSlice/authSlice";
-import globalSlice from "./global/globalSlice";
+import salariesSlice from "./salariesSlice/salariesSlice";
+import VendorPaymentsSlice from "./vendorPayments/vendorPayments";
+import expansesSlice from "./expansesSlice/expansesSlice";
 // slices
 
 const store = configureStore({
@@ -18,7 +20,9 @@ const store = configureStore({
         kitchen: kitchenSlice.reducer,
         inventory: inventorySlice.reducer,
         auth: authSlice.reducer,
-        global: globalSlice.reducer
+        salaries: salariesSlice.reducer,
+        vendorPayments: VendorPaymentsSlice.reducer,
+        expanses: expansesSlice.reducer,
     }
 })
 

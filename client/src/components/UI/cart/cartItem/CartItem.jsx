@@ -11,7 +11,6 @@ import RemoveIcon from '@mui/icons-material/Remove';
 
 export default function CartItem(props) {
     const dispatch = useDispatch()
-    const printingReceipt = useSelector(state => state.global.printingReceipt)
 
     const incrementQuantityHandler = () => {
         dispatch(cartActions.incrementProductQuantity({ id: props.id, kitchen: props.kitchen }))

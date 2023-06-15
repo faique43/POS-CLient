@@ -16,56 +16,74 @@ import { getAllProducts } from "./store/productsSlice/productsSlice";
 import { getInventory } from "./store/inventorySlice/inventorySlice";
 import { getKitchen1Orders, getKitchen2Orders, getAllOrders } from './store/kitchenSlice/kitchenSlice'
 import { uiActions } from "./store/uiSlice/uiSlice";
+import { getAllSalaries } from "./store/salariesSlice/salariesSlice";
+import { getVendorPayments } from "./store/vendorPayments/vendorPayments";
+import { getAllExpanses } from "./store/expansesSlice/expansesSlice";
 
 export default function App() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
-  const isLoading = useSelector(state => state.ui.loading)
-  const auth = useSelector(state => state.auth);
+	const isLoading = useSelector(state => state.ui.loading)
+	const auth = useSelector(state => state.auth);
 
-  // getting all products and inventory from DB on app startup
-  useEffect(() => {
-    if (auth.isAuthenticated) {
-      dispatch(uiActions.startLoading())
-      dispatch(getAllProducts(dispatch)).then(response => {
-        dispatch(getInventory(dispatch)).then(response => {
-          dispatch(getAllOrders()).then(response => {
-            dispatch(uiActions.stopLoading())
-          })
-        })
-      })
-    }
-  }, [dispatch, auth.isAuthenticated])
+	// getting all products and inventory from DB on app startup
+	useEffect(() => {
+		if (auth.isAuthenticated) {
+			dispatch(uiActions.startLoading())
+			dispatch(getAllProducts(dispatch)).then(response => {
+				dispatch(getInventory(dispatch)).then(response => {
+					dispatch(getAllOrders()).then(response => {
+						if (auth.isAdmin) {
+							dispatch(getAllSalaries()).then(response => {
+								dispatch(getVendorPayments()).then(response => {
+									dispatch(getAllExpanses()).then(response => {
+										dispatch(uiActions.stopLoading())
+									})
+								})
+							})
+						}
+						else {
+							dispatch(uiActions.stopLoading())
+						}
+					})
+				})
+			})
+		}
+	}, [dispatch, auth.isAuthenticated])
 
-  // redirect un auth requests
-  useEffect(() => {
-    if(!auth.isAuthenticated) {
-      navigate('/Login')
-    }
-  }, [])
+	// redirect un auth requests
+	useEffect(() => {
+		if (!auth.isAuthenticated) {
+			navigate('/Login')
+		}
+	}, [])
 
-  // redirect on basis of user
-  useEffect(() => {
-    if(auth.isAuthenticated && auth.isAdmin) {
-      navigate('/admin')
-    }
-    else if(auth.isAuthenticated) {
-      navigate('/client/kitchen1Home')
-    }
-  }, [auth.isAuthenticated])
-  return (
-    <div className="tw-gap-y-4 tw-grid">
-      <Modal
-        className='tw-text-center tw-my-[20%]'
-        open={isLoading}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <CircularProgress />
-      </Modal>
-      <ToastContainer />
-      <Outlet />
-    </div>
-  );
+	// redirect on basis of user
+	useEffect(() => {
+		if (auth.isAuthenticated && auth.isAdmin) {
+			navigate('/admin')
+		}
+		else if(auth.isAuthenticated && auth.isInventoryAdmin) {
+			navigate('/inventoryAdmin')
+		}
+		else if (auth.isAuthenticated) {
+			navigate('/client/kitchen1Home')
+		}
+	}, [auth.isAuthenticated, auth.isAdmin, auth.isInventoryAdmin])
+
+	return (
+		<div className="tw-gap-y-4 tw-grid">
+			<Modal
+				className='tw-text-center tw-my-[20%]'
+				open={isLoading}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<CircularProgress />
+			</Modal>
+			<ToastContainer />
+			<Outlet />
+		</div>
+	);
 }

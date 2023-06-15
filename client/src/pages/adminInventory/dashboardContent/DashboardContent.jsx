@@ -10,15 +10,6 @@ import Title from './Title';
 
 import { useSelector } from 'react-redux';
 
-import Deposits from './Deposits';
-import Orders from './Orders';
-import SalaryDetails from './SalaryDetails';
-import Salaries from './Salaries';
-import VendorPayments from './VendorPayments';
-import VendorPaymentDetails from './VendorPaymentDetails';
-import ExpansesDetails from './ExpansesDetails';
-import Expanses from './Expanses';
-
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -74,7 +65,7 @@ export default function DashboardContent() {
                     </Grid>
 
                     {/* Recent Deposits */}
-                    <Grid item xs={12} md={6} lg={6}>
+                    {/* <Grid item xs={12} md={6} lg={6}>
                         <Paper
                             sx={{
                                 p: 2,
@@ -85,10 +76,10 @@ export default function DashboardContent() {
                         >
                             <Deposits />
                         </Paper>
-                    </Grid>
+                    </Grid> */}
 
                     {/* salary details */}
-                    <Grid item xs={12} md={6} lg={6}>
+                    {/* <Grid item xs={12} md={6} lg={6}>
                         <Paper
                             sx={{
                                 p: 2,
@@ -99,10 +90,10 @@ export default function DashboardContent() {
                         >
                             <SalaryDetails />
                         </Paper>
-                    </Grid>
+                    </Grid> */}
 
                     {/* vendor payment details */}
-                    <Grid item xs={12} md={6} lg={6}>
+                    {/* <Grid item xs={12} md={6} lg={6}>
                         <Paper
                             sx={{
                                 p: 2,
@@ -113,10 +104,10 @@ export default function DashboardContent() {
                         >
                             <VendorPaymentDetails />
                         </Paper>
-                    </Grid>
+                    </Grid> */}
 
                     {/* expanses details */}
-                    <Grid item xs={12} md={6} lg={6}>
+                    {/* <Grid item xs={12} md={6} lg={6}>
                         <Paper
                             sx={{
                                 p: 2,
@@ -127,37 +118,37 @@ export default function DashboardContent() {
                         >
                             <ExpansesDetails />
                         </Paper>
-                    </Grid>
+                    </Grid> */}
 
                     {/* Recent Orders */}
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                             <Orders />
                         </Paper>
-                    </Grid>
+                    </Grid> */}
 
                     {/* Salaries */}
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                             <Salaries />
                         </Paper>
-                    </Grid>
+                    </Grid> */}
 
                     {/* Vendor payments */}
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                             <VendorPayments />
                         </Paper>
-                    </Grid>
+                    </Grid> */}
 
                     {/* Expanses */}
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                             <Expanses />
                         </Paper>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
-                <Copyright sx={{ pt: 4 }} />
+                {/* <Copyright sx={{ pt: 4 }} /> */}
             </Container>
         </Box>
     );
