@@ -43,7 +43,7 @@ const getInventory = createAsyncThunk(
 	"inventory/getInventory",
 	async (dispatch, { rejectWithValue }) => {
 		try {
-			const response = await axios.get("http://localhost:5000/api/inventory")
+			const response = await axios.get("http://143.110.241.175:5000/api/inventory")
 			return response.data;
 		}
 		catch (error) {
@@ -56,7 +56,7 @@ const addInventory = createAsyncThunk(
 	"inventory/addNewInventory",
 	async (inventoryData, { rejectWithValue }) => {
 		try {
-			const response = await axios.post('http://localhost:5000/api/inventory', inventoryData);
+			const response = await axios.post('http://143.110.241.175:5000/api/inventory', inventoryData);
 
 			return response.data;
 		} catch (error) {

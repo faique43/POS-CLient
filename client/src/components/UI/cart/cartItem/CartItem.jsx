@@ -1,9 +1,8 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 // redux actions
 import { cartActions } from '../../../../store/cartSlice/cartSlice';
-import { productsActions } from '../../../../store/productsSlice/productsSlice';
 
 // Icon
 import AddIcon from '@mui/icons-material/Add';
@@ -14,19 +13,15 @@ export default function CartItem(props) {
 
     const incrementQuantityHandler = () => {
         dispatch(cartActions.incrementProductQuantity({ id: props.id, kitchen: props.kitchen }))
-        // dispatch(productsActions.decrementStock(props.id))
     }
 
     const decrementQuantityHandler = () => {
         dispatch(cartActions.decrementProductQuantity({ id: props.id, kitchen: props.kitchen }))
-        // dispatch(productsActions.incrementStock(props.id))
     }
 
     return (
         <div className='tw-flex tw-items-center tw-gap-x-4 tw-w-full tw-p-1'>
-            {/* {!printingReceipt && */}
                 <img src={props.img} width='100' height='100' alt="name" />
-            {/* } */}
 
             <div className="tw-flex tw-flex-col tw-w-full">
                 <h1 className='tw-text-2xl tw-font-semibold'>{props.name}</h1>
