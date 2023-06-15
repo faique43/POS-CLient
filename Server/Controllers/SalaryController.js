@@ -24,10 +24,10 @@ exports.getSalaryById = async (req, res) => {
 }
 
 exports.createSalary = async (req, res) => {
-    const { title, amount } = req.body;
+    const { employee, amount } = req.body;
     try {
         const newSalary = new Salary({
-            title,
+            employee,
             amount,
         });
         const salary = await newSalary.save();
