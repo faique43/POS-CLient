@@ -54,7 +54,7 @@ const expansesSlice = createSlice({
 
 const addNewExpanse = createAsyncThunk('expanses/addNewExpanse', async (expanseData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://143.110.241.175:5000/api/expanses', expanseData);
+        const response = await axios.post('http://localhost:5000/api/expanses', expanseData);
 
         return response.data;
     } catch (error) {
@@ -64,7 +64,7 @@ const addNewExpanse = createAsyncThunk('expanses/addNewExpanse', async (expanseD
 
 const getAllExpanses = createAsyncThunk('expanses/getAllExpanses', async (expanseData, { rejectWithValue }) => {
     try {
-        const response = await axios.get('http://143.110.241.175:5000/api/expanses');
+        const response = await axios.get('http://localhost:5000/api/expanses');
 
         return response.data;
     } catch (error) {
@@ -74,7 +74,7 @@ const getAllExpanses = createAsyncThunk('expanses/getAllExpanses', async (expans
 
 const updateExpanse = createAsyncThunk('expanses/updateExpanse', async (expanseData, { rejectWithValue }) => {
     try {
-        const response = await axios.put(`http://143.110.241.175:5000/api/expanses/${expanseData.id}`, {
+        const response = await axios.put(`http://localhost:5000/api/expanses/${expanseData.id}`, {
             paid: expanseData.paid,
         });
 

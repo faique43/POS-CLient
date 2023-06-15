@@ -54,7 +54,7 @@ const vendorPaymentsSlice = createSlice({
 
 const addNewPayment = createAsyncThunk('vendorPayments/addNewPayment', async (paymentData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://143.110.241.175:5000/api/payment', paymentData);
+        const response = await axios.post('http://localhost:5000/api/payment', paymentData);
 
         return response.data;
     } catch (error) {
@@ -64,7 +64,7 @@ const addNewPayment = createAsyncThunk('vendorPayments/addNewPayment', async (pa
 
 const getVendorPayments = createAsyncThunk('vendorPayments/getVendorPayments', async (paymentData, { rejectWithValue }) => {
     try {
-        const response = await axios.get('http://143.110.241.175:5000/api/payment');
+        const response = await axios.get('http://localhost:5000/api/payment');
 
         return response.data;
     } catch (error) {
@@ -74,7 +74,7 @@ const getVendorPayments = createAsyncThunk('vendorPayments/getVendorPayments', a
 
 const updatePayment = createAsyncThunk('vendorPayments/updatePayment', async (paymentData, { rejectWithValue }) => {
     try {
-        const response = await axios.put(`http://143.110.241.175:5000/api/payment/${paymentData.id}`, {
+        const response = await axios.put(`http://localhost:5000/api/payment/${paymentData.id}`, {
             paid: paymentData.paid,
         });
 

@@ -25,7 +25,7 @@ export default function CartItem(props) {
     return (
         <div className='tw-flex tw-items-center tw-gap-x-4 tw-w-full tw-p-1'>
             {/* {!printingReceipt && */}
-                <img src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' width='100' height='100' alt="name" />
+                <img src={props.img} width='100' height='100' alt="name" />
             {/* } */}
 
             <div className="tw-flex tw-flex-col tw-w-full">

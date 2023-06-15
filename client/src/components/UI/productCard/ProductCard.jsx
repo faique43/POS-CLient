@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 
 // redux actions
 import { cartActions } from '../../../store/cartSlice/cartSlice';
-import { productsActions } from '../../../store/productsSlice/productsSlice';
 
 // MU
 import Card from '@mui/material/Card';
@@ -20,17 +19,15 @@ export default function ProductCard(props) {
             id: props.id,
             name: props.name,
             price: props.price,
-            // img: props.img,
-            img: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+            img: props.img,
             description: props.description,
             kitchen: props.kitchen,
         }))
-        // dispatch(productsActions.decrementStock(props.id))
     }
 
     return (
         <Card sx={{ minWidth: 275 }} id={props._id}>
-            <img src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' width='300' height='300' alt="name" />
+            <img src={props.img} width='300' height='300' alt="name" />
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 </Typography>
