@@ -27,6 +27,10 @@ export default function Kitchen2() {
         }));
     };
 
+    setTimeout(() => {
+        dispatch(getAllOrders())
+    }, 3000)
+
     const prepareOrderHandler = () => {
         dispatch(uiActions.startLoading())
         dispatch(prepareOrderById({

@@ -61,28 +61,6 @@ const kitchenSlice = createSlice({
 			})
 		})
 
-		// get kitchen 1 orders
-		builder.addCase(getKitchen1Orders.pending, (state) => {
-
-		})
-		builder.addCase(getKitchen1Orders.fulfilled, (state, action) => {
-			state.orders = [...state.orders, ...action.payload]
-		})
-		builder.addCase(getKitchen1Orders.rejected, (state, action) => {
-			console.log(action.payload)
-		})
-
-		// get kitchen 2 orders
-		builder.addCase(getKitchen2Orders.pending, (state) => {
-
-		})
-		builder.addCase(getKitchen2Orders.fulfilled, (state, action) => {
-			state.orders = [...state.orders, ...action.payload]
-		})
-		builder.addCase(getKitchen2Orders.rejected, (state, action) => {
-			console.log(action.payload)
-		})
-
 		// get all orders
 		builder.addCase(getAllOrders.pending, (state) => {
 
@@ -127,28 +105,6 @@ const createOrder = createAsyncThunk('kitchen/createOrder', async (orderData, { 
 	}
 })
 
-const getKitchen1Orders = createAsyncThunk('kitchen/kitchen1Orders', async (orderData, { rejectWithValue }) => {
-	try {
-		const response = await axios.get('http://143.110.241.175:5000/api/orders/kitchen/1');
-
-		return response.data
-	}
-	catch (error) {
-		return rejectWithValue(error.response.data)
-	}
-})
-
-const getKitchen2Orders = createAsyncThunk('kitchen/kitchen2Orders', async (orderData, { rejectWithValue }) => {
-	try {
-		const response = await axios.get('http://143.110.241.175:5000/api/orders/kitchen/2');
-
-		return response.data
-	}
-	catch (error) {
-		return rejectWithValue(error.response.data)
-	}
-})
-
 const getAllOrders = createAsyncThunk('kitchen/getAllOrders', async (orderData, { rejectWithValue }) => {
 	try {
 		const response = await axios.get('http://143.110.241.175:5000/api/orders')
@@ -176,8 +132,6 @@ const prepareOrderById = createAsyncThunk('kitchen/prepareOrderById', async (ord
 export {
 	kitchenActions,
 	createOrder,
-	getKitchen1Orders,
-	getKitchen2Orders,
 	getAllOrders,
 	prepareOrderById,
 };

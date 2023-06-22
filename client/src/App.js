@@ -14,7 +14,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 // redux actions
 import { getAllProducts } from "./store/productsSlice/productsSlice";
 import { getInventory } from "./store/inventorySlice/inventorySlice";
-import { getKitchen1Orders, getKitchen2Orders, getAllOrders } from './store/kitchenSlice/kitchenSlice'
+import { getAllOrders } from './store/kitchenSlice/kitchenSlice'
 import { uiActions } from "./store/uiSlice/uiSlice";
 import { getAllSalaries } from "./store/salariesSlice/salariesSlice";
 import { getVendorPayments } from "./store/vendorPayments/vendorPayments";
