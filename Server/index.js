@@ -13,6 +13,7 @@ const expanseRouter = require("./Routes/ExpanseRouter");
 const salaryRouter = require("./Routes/SalaryRouter");
 const paymentRouter = require("./Routes/PaymentRouter");
 const adminInventoryRouter = require("./Routes/AdminInventoryRouter");
+const orderConroller = require("./Controllers/OrderController");
 
 const app = express();
 
