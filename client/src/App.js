@@ -13,7 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 // redux actions
 import { getAllProducts } from "./store/productsSlice/productsSlice";
-import { getInventory } from "./store/inventorySlice/inventorySlice";
+import { getInventory, getRawInventory } from "./store/inventorySlice/inventorySlice";
 import { getAllOrders } from './store/kitchenSlice/kitchenSlice'
 import { uiActions } from "./store/uiSlice/uiSlice";
 import { getAllSalaries } from "./store/salariesSlice/salariesSlice";
@@ -31,7 +31,10 @@ export default function App() {
 	useEffect(() => {
 		if (auth.isAuthenticated) {
 			if (auth.isLayerSystem) {
-
+				dispatch(uiActions.startLoading())
+				dispatch(getRawInventory()).then(response => {
+					dispatch(uiActions.stopLoading())
+				})
 			}
 			else {
 				dispatch(uiActions.startLoading())
@@ -59,9 +62,9 @@ export default function App() {
 
 	// redirect un auth requests
 	useEffect(() => {
-		// if (!auth.isAuthenticated) {
-		// 	navigate('/Login')
-		// }
+		if (!auth.isAuthenticated) {
+			navigate('/Login')
+		}
 	}, [])
 
 	// redirect on basis of user

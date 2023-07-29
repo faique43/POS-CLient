@@ -14,11 +14,11 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
-import { mainListItems } from './listItems';
+import { mainListItems, layer1List } from './listItems';
 import DashboardContent from './dashboardContent/DashboardContent';
 
 import { authActions } from '../../store/authSlice/authSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -81,6 +81,8 @@ export default function Layer() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const role = useSelector(state => state.auth.role);
+    console.log(role);
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
@@ -110,7 +112,7 @@ export default function Layer() {
                             noWrap
                             sx={{ flexGrow: 1 }}
                         >
-                            Inventory Admin Dashboard
+                            Layer System
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -129,7 +131,7 @@ export default function Layer() {
                     </Toolbar>
                     <Divider />
                     <List component="nav">
-                        {mainListItems}
+                        {role === 'layer1' && layer1List}
                         <Divider sx={{ my: 1 }} />
                         <div onClick={() => {
                             dispatch(authActions.logout())

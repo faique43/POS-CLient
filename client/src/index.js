@@ -30,6 +30,8 @@ import AddInventory from "./pages/adminInventory/addInventory/AddInventory";
 
 // layer
 import Layer from "./pages/layer/Layer";
+import CreateItem from "./pages/layer/createItem/CreateItem";
+import AddRawInventory from "./pages/layer/addRawInventory/AddRawInventory";
 
 const router = createBrowserRouter([
 	{
@@ -69,7 +71,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: 'layer',
-				element: <Layer />
+				element: <Layer />,
+				children: [
+					{ path: 'createItem', element: <CreateItem /> },
+					{ path: 'addRawInventory', element: <AddRawInventory /> }
+				]
 			}
 		],
 	},

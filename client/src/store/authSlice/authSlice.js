@@ -12,7 +12,7 @@ const initialState = {
     isAuthenticated: false,
     isInventoryAdmin: false,
     isLayerSystem: false,
-    layerName: '',
+    role: '',
 }
 
 const authSlice = createSlice({
@@ -25,6 +25,8 @@ const authSlice = createSlice({
             state.isInventoryAdmin = false;
             state.username = '';
             state.password = '';
+            state.isLayerSystem = false;
+            state.role = '';
             toast.success('logged out successfully!', {
                 position: 'bottom-left'
             })
@@ -95,7 +97,7 @@ const authSlice = createSlice({
         })
         builder.addCase(loginLayerSystem.fulfilled, (state, action) => {
             state.isAuthenticated = true;
-            state.layerName = action.payload.layerName;
+            state.role = action.payload.role;
             state.isLayerSystem = true;
             state.username = action.payload.username;
             state.password = action.payload.password;
@@ -144,7 +146,7 @@ const loginInventoryAdmin = createAsyncThunk('auth/loginInventoryAdmin', async (
 
 const loginLayerSystem = createAsyncThunk('auth/loginLayerSystem', async (layerData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://localhost:5000/api/users/auth', layerData)
+        const response = await axios.post('http://localhost:5000/api/admins/auth', layerData)
 
         return response.data;
     }
