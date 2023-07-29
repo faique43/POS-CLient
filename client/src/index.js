@@ -28,6 +28,9 @@ import Inventory from "./pages/admin/inventory/Inventory";
 import AdminInventory from "./pages/adminInventory/AdminInventory";
 import AddInventory from "./pages/adminInventory/addInventory/AddInventory";
 
+// layer
+import Layer from "./pages/layer/Layer";
+
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -63,6 +66,10 @@ const router = createBrowserRouter([
 					{ path: 'addInventory', element: <AddInventory /> },
 					{ path: 'inventory', element: <Inventory /> }
 				]
+			},
+			{
+				path: 'layer',
+				element: <Layer />
 			}
 		],
 	},

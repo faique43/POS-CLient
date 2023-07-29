@@ -30,33 +30,38 @@ export default function App() {
 	// getting all products and inventory from DB on app startup
 	useEffect(() => {
 		if (auth.isAuthenticated) {
-			dispatch(uiActions.startLoading())
-			dispatch(getAllProducts(dispatch)).then(response => {
-				dispatch(getInventory(dispatch)).then(response => {
-					dispatch(getAllOrders()).then(response => {
-						if (auth.isAdmin) {
-							dispatch(getAllSalaries()).then(response => {
-								dispatch(getVendorPayments()).then(response => {
-									dispatch(getAllExpanses()).then(response => {
-										dispatch(uiActions.stopLoading())
+			if (auth.isLayerSystem) {
+
+			}
+			else {
+				dispatch(uiActions.startLoading())
+				dispatch(getAllProducts(dispatch)).then(response => {
+					dispatch(getInventory(dispatch)).then(response => {
+						dispatch(getAllOrders()).then(response => {
+							if (auth.isAdmin) {
+								dispatch(getAllSalaries()).then(response => {
+									dispatch(getVendorPayments()).then(response => {
+										dispatch(getAllExpanses()).then(response => {
+											dispatch(uiActions.stopLoading())
+										})
 									})
 								})
-							})
-						}
-						else {
-							dispatch(uiActions.stopLoading())
-						}
+							}
+							else {
+								dispatch(uiActions.stopLoading())
+							}
+						})
 					})
 				})
-			})
+			}
 		}
 	}, [dispatch, auth.isAuthenticated])
 
 	// redirect un auth requests
 	useEffect(() => {
-		if (!auth.isAuthenticated) {
-			navigate('/Login')
-		}
+		// if (!auth.isAuthenticated) {
+		// 	navigate('/Login')
+		// }
 	}, [])
 
 	// redirect on basis of user
@@ -64,8 +69,11 @@ export default function App() {
 		if (auth.isAuthenticated && auth.isAdmin) {
 			navigate('/admin')
 		}
-		else if(auth.isAuthenticated && auth.isInventoryAdmin) {
+		else if (auth.isAuthenticated && auth.isInventoryAdmin) {
 			navigate('/inventoryAdmin')
+		}
+		else if(auth.isAuthenticated && auth.isLayerSystem) {
+			navigate('/layer')
 		}
 		else if (auth.isAuthenticated) {
 			navigate('/client/kitchen1Home')

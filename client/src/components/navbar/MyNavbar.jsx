@@ -74,8 +74,8 @@ export default function MyNavbar() {
         <>
             <Toolbar className={`tw-flex tw-items-center tw-justify-between tw-mt-2`}>
                 <div className="tw-flex tw-flex-col">
-                    <Typography variant='h4'>Welcome</Typography>
-                    <Typography variant='body1'>Discover whatever you need easily</Typography>
+                    <Typography variant='h4'>Jungle Hut POS</Typography>
+                    {/* <Typography variant='body1'>Discover whatever you need easily</Typography> */}
                 </div>
 
                 <div></div>
@@ -85,16 +85,17 @@ export default function MyNavbar() {
 
                 {/* <div className="tw-flex tw-items-center tw-bg-red-300 tw-justify-between"> */}
                 <Search>
-                    <SearchIconWrapper>
+                    <Button variant='contained' className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full' color='error' onClick={logoutHandler}>Logout</Button>
+                    {/* <SearchIconWrapper>
                         <SearchIcon />
                     </SearchIconWrapper>
                     <StyledInputBase
                         placeholder="Search…"
                         inputProps={{ 'aria-label': 'search' }}
-                    />
+                    /> */}
                 </Search>
 
-                <FilterAltIcon />
+                {/* <FilterAltIcon /> */}
                 {/* </div> */}
 
             </Toolbar>
@@ -110,8 +111,6 @@ export default function MyNavbar() {
                 <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen1" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><ShoppingCartIcon /> Kitchen 1 Orders</Link>
 
                 <Link style={{ textDecoration: 'none', color: 'white' }} to="kitchen2" className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full'><ShoppingCartIcon /> Kitchen 2 Orders</Link>
-
-                <Button variant='contained' className='tw-mx-[10px] tw-bg-blue-500 tw-p-2 tw-text-white hover:tw-bg-blue-600 tw-duration-200 tw-ease-in-out tw-flex tw-items-center tw-justify-center tw-gap-x-2 tw-rounded-lg tw-w-full' color='error' onClick={logoutHandler}>Logout</Button>
             </Toolbar>
         </>
     )

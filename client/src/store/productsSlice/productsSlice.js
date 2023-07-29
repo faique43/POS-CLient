@@ -92,7 +92,7 @@ const getAllProducts = createAsyncThunk(
 	"products/getAllProducts",
 	async (dispatch, { rejectWithValue }) => {
 		try {
-			const response = await axios.get("http://143.110.241.175:5000/api/products");
+			const response = await axios.get("http://localhost:5000/api/products");
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
@@ -102,7 +102,7 @@ const getAllProducts = createAsyncThunk(
 
 const addNewProduct = createAsyncThunk('product/addNewProduct', async (productData, { rejectWithValue }) => {
 	try {
-		const response = await axios.post('http://143.110.241.175:5000/api/products', {
+		const response = await axios.post('http://localhost:5000/api/products', {
 			...productData,
 			image: productData.image
 		},

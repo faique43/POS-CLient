@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 // redux
-import { loginAdmin, loginUser, loginInventoryAdmin } from '../../store/authSlice/authSlice';
+import { loginAdmin, loginUser, loginInventoryAdmin, loginLayerSystem } from '../../store/authSlice/authSlice';
 import { uiActions } from '../../store/uiSlice/uiSlice';
 
 export default function Login() {
@@ -54,6 +54,13 @@ export default function Login() {
         }
         else if (event.target.name === 'inventoryAdminButton') {
             dispatch(loginInventoryAdmin(userData)).then(response => {
+                if (response.error) {
+                    dispatch(uiActions.stopLoading())
+                }
+            })
+        }
+        else if (event.target.name === 'layerSystemButton') {
+            dispatch(loginLayerSystem(userData)).then(response => {
                 if (response.error) {
                     dispatch(uiActions.stopLoading())
                 }
@@ -125,6 +132,16 @@ export default function Login() {
                         onClick={handleSubmit}
                     >
                         Admin Inventory
+                    </Button>
+
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        name='layerSystemButton'
+                        onClick={handleSubmit}
+                    >
+                        Layer System Login
                     </Button>
 
                     <Grid container>
