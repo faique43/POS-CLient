@@ -63,12 +63,12 @@ export const layer1List = (
             </ListItemButton>
         </Link>
 
-        <Link to='approveRequest'>
+        <Link to='rawInventory'>
             <ListItemButton>
                 <ListItemIcon>
-                    <DoneIcon />
+                    <InventoryIcon />
                 </ListItemIcon>
-                <ListItemText primary="Approve Request" />
+                <ListItemText primary="Raw Inventory" />
             </ListItemButton>
         </Link>
 
@@ -78,6 +78,15 @@ export const layer1List = (
                     <AddCircleIcon />
                 </ListItemIcon>
                 <ListItemText primary="Add Raw Inventory" />
+            </ListItemButton>
+        </Link>
+
+        <Link to='approveRequest'>
+            <ListItemButton>
+                <ListItemIcon>
+                    <DoneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Approve Request" />
             </ListItemButton>
         </Link>
     </React.Fragment>

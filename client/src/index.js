@@ -32,6 +32,7 @@ import AddInventory from "./pages/adminInventory/addInventory/AddInventory";
 import Layer from "./pages/layer/Layer";
 import CreateItem from "./pages/layer/createItem/CreateItem";
 import AddRawInventory from "./pages/layer/addRawInventory/AddRawInventory";
+import RawInventory from './pages/layer/rawInventory/RawInventory';
 
 const router = createBrowserRouter([
 	{
@@ -74,7 +75,8 @@ const router = createBrowserRouter([
 				element: <Layer />,
 				children: [
 					{ path: 'createItem', element: <CreateItem /> },
-					{ path: 'addRawInventory', element: <AddRawInventory /> }
+					{ path: 'addRawInventory', element: <AddRawInventory /> },
+					{ path: 'rawInventory', element: <RawInventory /> }
 				]
 			}
 		],

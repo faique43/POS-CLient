@@ -61,6 +61,19 @@ const inventorySlice = createSlice({
 				position: "bottom-left"
 			});
 		})
+
+		// delete raw inventory
+		builder.addCase(deleteRawInventory.pending, (state) => { });
+		builder.addCase(deleteRawInventory.fulfilled, (state, action) => {
+			toast.success(action.payload.msg, {
+				position: "bottom-left"
+			});
+		})
+		builder.addCase(deleteRawInventory.rejected, (state, action) => {
+			toast.error(action.payload, {
+				position: "bottom-left"
+			});
+		})
 	}
 });
 
@@ -112,6 +125,17 @@ const getRawInventory = createAsyncThunk('inventory/getRawInventory', async (raw
 	}
 })
 
+const deleteRawInventory = createAsyncThunk('inventory/deleteRawInventory', async (rawInventoryId, { rejectWithValue }) => {
+	try {
+		const response = await axios.delete(`http://localhost:5000/api/storeInventory/${rawInventoryId}`);
+
+		return response.data;
+	}
+	catch (error) {
+		return rejectWithValue(error.response.data)
+	}
+})
+
 const inventoryActions = inventorySlice.actions;
 
 export {
@@ -120,6 +144,7 @@ export {
 	addInventory,
 	addRawInventory,
 	getRawInventory,
+	deleteRawInventory,
 };
 
 export default inventorySlice;
