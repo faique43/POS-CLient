@@ -13,7 +13,8 @@ const expanseRouter = require("./Routes/ExpanseRouter");
 const salaryRouter = require("./Routes/SalaryRouter");
 const paymentRouter = require("./Routes/PaymentRouter");
 const adminInventoryRouter = require("./Routes/AdminInventoryRouter");
-const orderConroller = require("./Controllers/OrderController");
+const storeInventoryRouter = require("./Routes/StoreInventoryRouter");
+const requestsStoreRouter = require("./Routes/RequestsStoreRouter");
 
 const app = express();
 
@@ -36,3 +37,5 @@ app.use("/api/expanses", expanseRouter);
 app.use("/api/salary", salaryRouter);
 app.use("/api/payment", paymentRouter);
 app.use("/api/adminInventory", adminInventoryRouter);
+app.use("/api/storeinventory", storeInventoryRouter);
+app.use("/api/requests", requestsStoreRouter);
