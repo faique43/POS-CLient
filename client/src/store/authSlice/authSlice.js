@@ -11,6 +11,8 @@ const initialState = {
     isAdmin: false,
     isAuthenticated: false,
     isInventoryAdmin: false,
+    isLayerSystem: false,
+    layerName: '',
 }
 
 const authSlice = createSlice({
@@ -87,12 +89,29 @@ const authSlice = createSlice({
                 position: 'bottom-left'
             })
         })
+
+        // login layer system
+        builder.addCase(loginLayerSystem.pending, (state) => {
+        })
+        builder.addCase(loginLayerSystem.fulfilled, (state, action) => {
+            state.isAuthenticated = true;
+            state.layerName = action.payload.layerName;
+            state.isLayerSystem = true;
+            state.username = action.payload.username;
+            state.password = action.payload.password;
+        })
+        builder.addCase(loginLayerSystem.rejected, (state, action) => {
+            toast.error(`${action.payload.msg}`, {
+                position: 'bottom-left'
+            })
+        })
+
     }
 })
 
 const loginUser = createAsyncThunk('auth/loginUser', async (userData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://143.110.241.175:5000/api/users/auth', userData)
+        const response = await axios.post('http://localhost:5000/api/users/auth', userData)
 
         return response.data;
     }
@@ -103,7 +122,7 @@ const loginUser = createAsyncThunk('auth/loginUser', async (userData, { rejectWi
 
 const loginAdmin = createAsyncThunk('auth/loginAdmin', async (adminData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://143.110.241.175:5000/api/users/auth', adminData)
+        const response = await axios.post('http://localhost:5000/api/users/auth', adminData)
 
         return response.data;
     }
@@ -114,7 +133,18 @@ const loginAdmin = createAsyncThunk('auth/loginAdmin', async (adminData, { rejec
 
 const loginInventoryAdmin = createAsyncThunk('auth/loginInventoryAdmin', async (adminData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://143.110.241.175:5000/api/users/auth', adminData)
+        const response = await axios.post('http://localhost:5000/api/users/auth', adminData)
+
+        return response.data;
+    }
+    catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+
+const loginLayerSystem = createAsyncThunk('auth/loginLayerSystem', async (layerData, { rejectWithValue }) => {
+    try {
+        const response = await axios.post('http://localhost:5000/api/users/auth', layerData)
 
         return response.data;
     }
@@ -130,6 +160,7 @@ export {
     loginAdmin,
     authActions,
     loginInventoryAdmin,
+    loginLayerSystem,
 }
 
 export default authSlice;
