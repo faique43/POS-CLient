@@ -14,7 +14,7 @@ import TextField from '@mui/material/TextField';
 
 export default function RequestLayerInventory() {
     const dispatch = useDispatch();
-    const rawInventory = useSelector(state => state.inventory.prevLayerInventory).map(item => {
+    const prevLayerInventory = useSelector(state => state.inventory.prevLayerInventory).map(item => {
         return {
             ...item,
             id: item._id,
@@ -78,7 +78,7 @@ export default function RequestLayerInventory() {
     return (
         <div className='tw-mt-14 tw-mx-4 tw-w-full'>
             <DataGrid
-                rows={rawInventory}
+                rows={prevLayerInventory}
                 columns={columns}
                 initialState={{
                     pagination: {

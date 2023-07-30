@@ -6,6 +6,7 @@ const initialState = {
 	inventory: [],
 	layerInventory: [],
 	prevLayerInventory: [],
+	requestedInventoryItems: [],
 };
 
 const inventorySlice = createSlice({
@@ -96,6 +97,17 @@ const inventorySlice = createSlice({
 			});
 		})
 		builder.addCase(requestInventoryItem.rejected, (state, action) => {
+			toast.error(action.payload, {
+				position: "bottom-left"
+			});
+		})
+
+		// get requested inventory items
+		builder.addCase(getRequestedInventoryItems.pending, (state) => { });
+		builder.addCase(getRequestedInventoryItems.fulfilled, (state, action) => {
+			state.requestedInventoryItems = action.payload;
+		})
+		builder.addCase(getRequestedInventoryItems.rejected, (state, action) => {
 			toast.error(action.payload, {
 				position: "bottom-left"
 			});
@@ -198,9 +210,11 @@ const requestInventoryItem = createAsyncThunk('inventory/requestInventoryItem', 
 	}
 })
 
-const getRequestedInventoryItems = createAsyncThunk('inventory/getRequestedInventoryItems', async (requestInventoryData, { rejectWithValue }) => {
+const getRequestedInventoryItems = createAsyncThunk('inventory/getRequestedInventoryItems', async (layer, { rejectWithValue }) => {
 	try {
-		const response = await axios.get('http://localhost:5000/api/requests');
+		const response = await axios.post('http://localhost:5000/api/requests/layer', {
+			layer: layer === 'layer3' ? '3' : layer === 'layer2' ? "2" : '1',
+		});
 
 		return response.data;
 	}
@@ -220,6 +234,7 @@ export {
 	deleteLayerInventory,
 	getPrevLayerInventory,
 	requestInventoryItem,
+	getRequestedInventoryItems,
 };
 
 export default inventorySlice;

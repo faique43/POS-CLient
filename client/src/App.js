@@ -13,7 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 // redux actions
 import { getAllProducts } from "./store/productsSlice/productsSlice";
-import { getInventory, getLayerInventory, getPrevLayerInventory } from "./store/inventorySlice/inventorySlice";
+import { getInventory, getLayerInventory, getPrevLayerInventory, getRequestedInventoryItems } from "./store/inventorySlice/inventorySlice";
 import { getAllOrders } from './store/kitchenSlice/kitchenSlice'
 import { uiActions } from "./store/uiSlice/uiSlice";
 import { getAllSalaries } from "./store/salariesSlice/salariesSlice";
@@ -33,8 +33,14 @@ export default function App() {
 			if (auth.isLayerSystem) {
 				dispatch(uiActions.startLoading())
 				dispatch(getLayerInventory(auth.role === 'layer1' ? 'storeInventory' : auth.role)).then(response => {
-					if(auth.role !== 'layer1') {
+					if (auth.role !== 'layer1') {
 						dispatch(getPrevLayerInventory(auth.role)).then(response => {
+							dispatch(uiActions.stopLoading())
+						})
+					}
+					else if (auth.role !== 'layer4') {
+						dispatch(uiActions.startLoading());
+						dispatch(getRequestedInventoryItems(auth.role)).then(response => {
 							dispatch(uiActions.stopLoading())
 						})
 					}
