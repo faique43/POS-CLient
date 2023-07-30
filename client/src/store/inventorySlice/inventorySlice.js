@@ -198,6 +198,17 @@ const requestInventoryItem = createAsyncThunk('inventory/requestInventoryItem', 
 	}
 })
 
+const getRequestedInventoryItems = createAsyncThunk('inventory/getRequestedInventoryItems', async (requestInventoryData, { rejectWithValue }) => {
+	try {
+		const response = await axios.get('http://localhost:5000/api/requests');
+
+		return response.data;
+	}
+	catch (error) {
+		return rejectWithValue(error.response.data)
+	}
+})
+
 const inventoryActions = inventorySlice.actions;
 
 export {

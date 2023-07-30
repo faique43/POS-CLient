@@ -26,6 +26,7 @@ export default function RequestLayerInventory() {
     const [requestInventoryData, setRequestInventoryData] = useState({
         inventoryItem: '',
         quantity: '',
+        layer: role === 'layer3' ? '2' : '1'
     })
 
     const columns = [
