@@ -62,7 +62,7 @@ exports.get_requests_by_id = async (req, res) => {
 // make a controller that requests from the items in StoreInventory Collection
 
 exports.create_requests = async (req, res) => {
-  const { inventoryItem, quantity } = req.body;
+  const { inventoryItem, quantity, layer } = req.body;
   try {
     const newRequestsStore = new RequestsStore({
       inventoryItem,
