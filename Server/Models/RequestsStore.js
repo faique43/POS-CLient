@@ -10,6 +10,14 @@ const RequestsStoreSchema = new Schema({
   quantity: {
     type: Number,
     required: true
+  },
+  status: {
+    type: String,
+    default: "Pending"
+  },
+  dateRequested: {
+    type: Date,
+    default: Date.now
   }
 });
 

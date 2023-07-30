@@ -1,4 +1,6 @@
 const StoreInventory = require("../Models/StoreInventory");
+const RequestsStore = require("../Models/RequestsStore");
+const LayerInventory = require("../Models/LayerInventory");
 
 // @route GET api/storeInventory
 // @desc Get all storeInventory
@@ -107,5 +109,3 @@ exports.delete_all_inventory = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
-
-// Api to request issuence of storeinventory by id

@@ -1,5 +1,6 @@
 const RequestsStore = require("../Models/RequestsStore");
 const StoreInventory = require("../Models/StoreInventory");
+const LayerInventory = require("../Models/LayerInventory");
 
 // @route GET api/requestsStore
 // @desc Get all requestsStore
@@ -90,6 +91,49 @@ exports.delete_requests = async (req, res) => {
     if (!requestsStore) {
       return res.status(404).json({ msg: "Requests Store not found" });
     }
+    await RequestsStore.findByIdAndRemove(req.params.id);
+    res.json({ msg: "Requests Store removed" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// Api to approve requests
+exports.approve_requests = async (req, res) => {
+  try {
+    let requestsStore = await RequestsStore.findById(req.params.id);
+    if (!requestsStore) {
+      return res.status(404).json({ msg: "Requests Store not found" });
+    }
+    let storeInventory = await StoreInventory.findById(
+      requestsStore.inventoryItem
+    );
+    if (!storeInventory) {
+      return res.status(404).json({ msg: "Store Inventory not found" });
+    }
+    let layerInventory = await LayerInventory.findById(
+      requestsStore.inventoryItem
+    );
+    if (!layerInventory) {
+      // if no layer inventory then make one
+      layerInventory = new LayerInventory({
+        item: requestsStore.inventoryItem,
+        layer: "2",
+        quantity: requestsStore.quantity,
+        units: storeInventory.units,
+        price: storeInventory.price,
+        total: storeInventory.price * requestsStore.quantity
+      });
+      await layerInventory.save();
+    }
+    if (requestsStore.quantity > storeInventory.quantity) {
+      return res.status(404).json({ msg: "Not enough items in inventory" });
+    }
+    storeInventory.quantity = storeInventory.quantity - requestsStore.quantity;
+    layerInventory.quantity = layerInventory.quantity + requestsStore.quantity;
+    await storeInventory.save();
+    await layerInventory.save();
     await RequestsStore.findByIdAndRemove(req.params.id);
     res.json({ msg: "Requests Store removed" });
   } catch (err) {
