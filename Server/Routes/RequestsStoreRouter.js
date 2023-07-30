@@ -27,4 +27,7 @@ router.put("/:id", requestsStoreController.update_requests);
 // @access  Private
 router.delete("/:id", requestsStoreController.delete_requests);
 
+// Approve requests
+router.put("/approve/:id", requestsStoreController.approve_requests);
+
 module.exports = router;
