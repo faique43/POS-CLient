@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
-import { mainListItems, layer1List } from './listItems';
+import { mainListItems, layer1List, layer2List } from './listItems';
 import DashboardContent from './dashboardContent/DashboardContent';
 
 import { authActions } from '../../store/authSlice/authSlice';
@@ -82,7 +82,6 @@ export default function Layer() {
     const dispatch = useDispatch();
 
     const role = useSelector(state => state.auth.role);
-    console.log(role);
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
@@ -112,7 +111,8 @@ export default function Layer() {
                             noWrap
                             sx={{ flexGrow: 1 }}
                         >
-                            Layer System
+                            {role === 'layer1' && 'Layer 1 Dashboard'}
+                            {role === 'layer2' && 'Layer 2 Dashboard'}
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -132,6 +132,7 @@ export default function Layer() {
                     <Divider />
                     <List component="nav">
                         {role === 'layer1' && layer1List}
+                        {role === 'layer2' && layer2List}
                         <Divider sx={{ my: 1 }} />
                         <div onClick={() => {
                             dispatch(authActions.logout())

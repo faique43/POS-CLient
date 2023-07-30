@@ -13,7 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 // redux actions
 import { getAllProducts } from "./store/productsSlice/productsSlice";
-import { getInventory, getRawInventory } from "./store/inventorySlice/inventorySlice";
+import { getInventory, getLayerInventory, getPrevLayerInventory } from "./store/inventorySlice/inventorySlice";
 import { getAllOrders } from './store/kitchenSlice/kitchenSlice'
 import { uiActions } from "./store/uiSlice/uiSlice";
 import { getAllSalaries } from "./store/salariesSlice/salariesSlice";
@@ -32,7 +32,7 @@ export default function App() {
 		if (auth.isAuthenticated) {
 			if (auth.isLayerSystem) {
 				dispatch(uiActions.startLoading())
-				dispatch(getRawInventory()).then(response => {
+				dispatch(getLayerInventory((auth.role === 'layer1' && 'storeInventory') || (auth.role === 'layer2' && 'layerInventory'))).then(response => {
 					dispatch(uiActions.stopLoading())
 				})
 			}
@@ -75,7 +75,7 @@ export default function App() {
 		else if (auth.isAuthenticated && auth.isInventoryAdmin) {
 			navigate('/inventoryAdmin')
 		}
-		else if(auth.isAuthenticated && auth.isLayerSystem) {
+		else if (auth.isAuthenticated && auth.isLayerSystem) {
 			navigate('/layer')
 		}
 		else if (auth.isAuthenticated) {

@@ -2,22 +2,23 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // redux
-import { deleteRawInventory, getRawInventory } from '../../../store/inventorySlice/inventorySlice';
+import { deleteLayerInventory, getLayerInventory } from '../../../store/inventorySlice/inventorySlice';
 import { uiActions } from '../../../store/uiSlice/uiSlice';
 
 // MUI
 import { DataGrid } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 
-export default function RawInventory() {
+export default function LayerInventory() {
     const dispatch = useDispatch();
-    const rawInventory = useSelector(state => state.inventory.rawInventory).map(item => {
+    const rawInventory = useSelector(state => state.inventory.layerInventory).map(item => {
         return {
             ...item,
             id: item._id,
             date: new Date(item.date).toLocaleString(),
         }
     });
+    const role = useSelector(state => state.auth.role);
 
     const columns = [
         { field: 'name', headerName: 'Name', width: 150 },
@@ -42,9 +43,12 @@ export default function RawInventory() {
 
     const deleteRawInventoryHandler = (id) => {
         dispatch(uiActions.startLoading());
-        dispatch(deleteRawInventory(id)).then(response => {
+        dispatch(deleteLayerInventory({
+            inventoryId: id,
+            inventory: role === 'layer1' && "storeInventory"
+        })).then(response => {
             if (!response.error) {
-                dispatch(getRawInventory()).then(response => {
+                dispatch(getLayerInventory(role === 'layer1' && "storeInventory")).then(response => {
                     dispatch(uiActions.stopLoading())
                 })
                 return;

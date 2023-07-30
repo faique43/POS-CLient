@@ -54,7 +54,7 @@ export const mainListItems = (
 
 export const layer1List = (
     <React.Fragment>
-        <Link to='/'>
+        <Link to='/layer'>
             <ListItemButton>
                 <ListItemIcon>
                     <DashboardIcon />
@@ -63,7 +63,7 @@ export const layer1List = (
             </ListItemButton>
         </Link>
 
-        <Link to='rawInventory'>
+        <Link to='layerInventory'>
             <ListItemButton>
                 <ListItemIcon>
                     <InventoryIcon />
@@ -72,7 +72,7 @@ export const layer1List = (
             </ListItemButton>
         </Link>
 
-        <Link to='addRawInventory'>
+        <Link to='addLayerInventory'>
             <ListItemButton>
                 <ListItemIcon>
                     <AddCircleIcon />
@@ -81,7 +81,47 @@ export const layer1List = (
             </ListItemButton>
         </Link>
 
-        <Link to='approveRequest'>
+        <Link to='approveLayerRequest'>
+            <ListItemButton>
+                <ListItemIcon>
+                    <DoneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Approve Request" />
+            </ListItemButton>
+        </Link>
+    </React.Fragment>
+)
+
+export const layer2List = (
+    <React.Fragment>
+        <Link to='/layer'>
+            <ListItemButton>
+                <ListItemIcon>
+                    <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+            </ListItemButton>
+        </Link>
+
+        <Link to='layerInventory'>
+            <ListItemButton>
+                <ListItemIcon>
+                    <InventoryIcon />
+                </ListItemIcon>
+                <ListItemText primary="Inventory" />
+            </ListItemButton>
+        </Link>
+
+        <Link to='requestLayerInventory'>
+            <ListItemButton>
+                <ListItemIcon>
+                    <AddCircleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Request Inventory" />
+            </ListItemButton>
+        </Link>
+
+        <Link to='approveLayerRequest'>
             <ListItemButton>
                 <ListItemIcon>
                     <DoneIcon />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // MU
 import TextField from '@mui/material/TextField';
@@ -7,10 +7,12 @@ import Button from '@mui/material/Button';
 
 // redux 
 import { uiActions } from '../../../store/uiSlice/uiSlice';
-import { addRawInventory, getRawInventory } from '../../../store/inventorySlice/inventorySlice';
+import { addLayerInventory, getLayerInventory } from '../../../store/inventorySlice/inventorySlice';
 
-export default function AddRawInventory() {
+export default function AddLayerInventory() {
     const dispatch = useDispatch();
+
+    const role = useSelector(state => state.auth.role);
 
     const [inventoryData, setInventoryData] = useState({
         item: '',
@@ -48,14 +50,14 @@ export default function AddRawInventory() {
 
     const addInventoryHandler = () => {
         dispatch(uiActions.startLoading());
-        dispatch(addRawInventory({
+        dispatch(addLayerInventory({
             ...inventoryData,
             name: inventoryData.item,
             units: inventoryData.unit,
             total: inventoryData.quantity * inventoryData.price
         })).then(response => {
             if (!response.error) {
-                dispatch(getRawInventory()).then(response => {
+                dispatch(getLayerInventory(role === 'layer1' && 'storeInventory')).then(response => {
                     dispatch(uiActions.stopLoading())
                 })
                 return;

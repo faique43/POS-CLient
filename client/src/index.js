@@ -31,8 +31,10 @@ import AddInventory from "./pages/adminInventory/addInventory/AddInventory";
 // layer
 import Layer from "./pages/layer/Layer";
 import CreateItem from "./pages/layer/createItem/CreateItem";
-import AddRawInventory from "./pages/layer/addRawInventory/AddRawInventory";
-import RawInventory from './pages/layer/rawInventory/RawInventory';
+import ApproveLayerRequest from "./pages/layer/approveLayerRequest/ApproveLayerRequest";
+import RequestLayerInventory from "./pages/layer/requestLayerInventory/RequestLayerInventory";
+import LayerInventory from "./pages/layer/layerInventory/LayerInventory";
+import AddLayerInventory from "./pages/layer/addLayerInventory/AddLayerInventory";
 
 const router = createBrowserRouter([
 	{
@@ -75,8 +77,10 @@ const router = createBrowserRouter([
 				element: <Layer />,
 				children: [
 					{ path: 'createItem', element: <CreateItem /> },
-					{ path: 'addRawInventory', element: <AddRawInventory /> },
-					{ path: 'rawInventory', element: <RawInventory /> }
+					{ path: 'addLayerInventory', element: <AddLayerInventory /> },
+					{ path: 'approveLayerRequest', element: <ApproveLayerRequest /> },
+					{ path: 'requestLayerInventory', element: <RequestLayerInventory /> },
+					{ path: 'layerInventory', element: <LayerInventory /> },
 				]
 			}
 		],

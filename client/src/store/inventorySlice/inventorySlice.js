@@ -4,7 +4,8 @@ import axios from "axios";
 
 const initialState = {
 	inventory: [],
-	rawInventory: []
+	layerInventory: [],
+	prevLayerInventory: [],
 };
 
 const inventorySlice = createSlice({
@@ -38,38 +39,50 @@ const inventorySlice = createSlice({
 			});
 		});
 
-		// add raw inventory
-		builder.addCase(addRawInventory.pending, (state) => { });
-		builder.addCase(addRawInventory.fulfilled, (state, action) => {
+		// add layer inventory
+		builder.addCase(addLayerInventory.pending, (state) => { });
+		builder.addCase(addLayerInventory.fulfilled, (state, action) => {
 			toast.success("Raw Inventory added successfully!", {
 				position: "bottom-left"
 			});
 		})
-		builder.addCase(addRawInventory.rejected, (state, action) => {
+		builder.addCase(addLayerInventory.rejected, (state, action) => {
 			toast.error(action.payload, {
 				position: "bottom-left"
 			});
 		})
 
-		// get raw inventory
-		builder.addCase(getRawInventory.pending, (state) => { });
-		builder.addCase(getRawInventory.fulfilled, (state, action) => {
-			state.rawInventory = action.payload;
+		// get layer inventory
+		builder.addCase(getLayerInventory.pending, (state) => { });
+		builder.addCase(getLayerInventory.fulfilled, (state, action) => {
+			state.layerInventory = action.payload;
 		})
-		builder.addCase(getRawInventory.rejected, (state, action) => {
+		builder.addCase(getLayerInventory.rejected, (state, action) => {
+			console.log(action.payload);
 			toast.error(action.payload, {
 				position: "bottom-left"
 			});
 		})
 
 		// delete raw inventory
-		builder.addCase(deleteRawInventory.pending, (state) => { });
-		builder.addCase(deleteRawInventory.fulfilled, (state, action) => {
+		builder.addCase(deleteLayerInventory.pending, (state) => { });
+		builder.addCase(deleteLayerInventory.fulfilled, (state, action) => {
 			toast.success(action.payload.msg, {
 				position: "bottom-left"
 			});
 		})
-		builder.addCase(deleteRawInventory.rejected, (state, action) => {
+		builder.addCase(deleteLayerInventory.rejected, (state, action) => {
+			toast.error(action.payload, {
+				position: "bottom-left"
+			});
+		})
+
+		// get prev layer inventory
+		builder.addCase(getPrevLayerInventory.pending, (state) => { });
+		builder.addCase(getPrevLayerInventory.fulfilled, (state, action) => {
+			state.prevLayerInventory = action.payload;
+		})
+		builder.addCase(getPrevLayerInventory.rejected, (state, action) => {
 			toast.error(action.payload, {
 				position: "bottom-left"
 			});
@@ -103,9 +116,9 @@ const addInventory = createAsyncThunk(
 	}
 );
 
-const addRawInventory = createAsyncThunk('inventory/addRawInventory', async (rawInventoryData, { rejectWithValue }) => {
+const addLayerInventory = createAsyncThunk('inventory/addLayerInventory', async (inventoryData, { rejectWithValue }) => {
 	try {
-		const response = await axios.post('http://localhost:5000/api/storeInventory', rawInventoryData);
+		const response = await axios.post('http://localhost:5000/api/storeInventory', inventoryData);
 
 		return response.data;
 	}
@@ -114,9 +127,9 @@ const addRawInventory = createAsyncThunk('inventory/addRawInventory', async (raw
 	}
 })
 
-const getRawInventory = createAsyncThunk('inventory/getRawInventory', async (rawInventoryData, { rejectWithValue }) => {
+const getLayerInventory = createAsyncThunk('inventory/getLayerInventory', async (layer, { rejectWithValue }) => {
 	try {
-		const response = await axios.get('http://localhost:5000/api/storeInventory');
+		const response = await axios.get(`http://localhost:5000/api/${layer}`);
 
 		return response.data;
 	}
@@ -125,9 +138,20 @@ const getRawInventory = createAsyncThunk('inventory/getRawInventory', async (raw
 	}
 })
 
-const deleteRawInventory = createAsyncThunk('inventory/deleteRawInventory', async (rawInventoryId, { rejectWithValue }) => {
+const deleteLayerInventory = createAsyncThunk('inventory/deleteLayerInventory', async ({ inventoryId, inventory }, { rejectWithValue }) => {
 	try {
-		const response = await axios.delete(`http://localhost:5000/api/storeInventory/${rawInventoryId}`);
+		const response = await axios.delete(`http://localhost:5000/api/${inventory}/${inventoryId}`);
+
+		return response.data;
+	}
+	catch (error) {
+		return rejectWithValue(error.response.data)
+	}
+})
+
+const getPrevLayerInventory = createAsyncThunk('inventory/getPrevLayerInventory', async (prevLayer, { rejectWithValue }) => {
+	try {
+		const response = await axios.get(`http://localhost:5000/api/${prevLayer}`);
 
 		return response.data;
 	}
@@ -142,9 +166,10 @@ export {
 	inventoryActions,
 	getInventory,
 	addInventory,
-	addRawInventory,
-	getRawInventory,
-	deleteRawInventory,
+	addLayerInventory,
+	getLayerInventory,
+	deleteLayerInventory,
+	getPrevLayerInventory,
 };
 
 export default inventorySlice;
