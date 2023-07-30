@@ -30,4 +30,7 @@ router.delete("/:id", requestsStoreController.delete_requests);
 // Approve requests
 router.put("/approve/:id", requestsStoreController.approve_requests);
 
+// get requests by layer
+router.post("/layer", requestsStoreController.get_requests_by_layer);
+
 module.exports = router;

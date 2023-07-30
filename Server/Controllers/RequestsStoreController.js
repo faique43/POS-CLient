@@ -21,6 +21,25 @@ exports.get_all_requests = async (req, res) => {
   }
 };
 
+// get requests by layer
+exports.get_requests_by_layer = async (req, res) => {
+  try {
+    const requestsStore = await RequestsStore.find({
+      layer: req.body.layer
+    }).populate("inventoryItem", [
+      "name",
+      "quantity",
+      "units",
+      "price",
+      "total"
+    ]);
+    res.json(requestsStore);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 // @route GET api/requestsStore/:id
 // @desc Get requestsStore by ID
 // @access Public
@@ -47,7 +66,8 @@ exports.create_requests = async (req, res) => {
   try {
     const newRequestsStore = new RequestsStore({
       inventoryItem,
-      quantity
+      quantity,
+      layer
     });
     const requestsStore = await newRequestsStore.save();
     res.json({ requestsStore, msg: "Request Placed" });

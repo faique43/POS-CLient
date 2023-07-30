@@ -11,6 +11,10 @@ const RequestsStoreSchema = new Schema({
     type: Number,
     required: true
   },
+  layer: {
+    type: String,
+    required: true
+  },
   status: {
     type: String,
     default: "Pending"
