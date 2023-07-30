@@ -50,7 +50,7 @@ exports.create_requests = async (req, res) => {
       quantity
     });
     const requestsStore = await newRequestsStore.save();
-    res.json(requestsStore);
+    res.json({ requestsStore, msg: "Request Placed" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
