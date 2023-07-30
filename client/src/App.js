@@ -32,8 +32,15 @@ export default function App() {
 		if (auth.isAuthenticated) {
 			if (auth.isLayerSystem) {
 				dispatch(uiActions.startLoading())
-				dispatch(getLayerInventory((auth.role === 'layer1' && 'storeInventory') || (auth.role === 'layer2' && 'layerInventory'))).then(response => {
-					dispatch(uiActions.stopLoading())
+				dispatch(getLayerInventory(auth.role === 'layer1' ? 'storeInventory' : auth.role)).then(response => {
+					if(auth.role !== 'layer1') {
+						dispatch(getPrevLayerInventory(auth.role)).then(response => {
+							dispatch(uiActions.stopLoading())
+						})
+					}
+					else {
+						dispatch(uiActions.stopLoading())
+					}
 				})
 			}
 			else {

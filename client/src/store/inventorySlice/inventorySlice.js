@@ -87,6 +87,19 @@ const inventorySlice = createSlice({
 				position: "bottom-left"
 			});
 		})
+
+		// request inventory item
+		builder.addCase(requestInventoryItem.pending, (state) => { });
+		builder.addCase(requestInventoryItem.fulfilled, (state, action) => {
+			toast.success(action.payload.msg, {
+				position: "bottom-left"
+			});
+		})
+		builder.addCase(requestInventoryItem.rejected, (state, action) => {
+			toast.error(action.payload, {
+				position: "bottom-left"
+			});
+		})
 	}
 });
 
@@ -129,7 +142,14 @@ const addLayerInventory = createAsyncThunk('inventory/addLayerInventory', async 
 
 const getLayerInventory = createAsyncThunk('inventory/getLayerInventory', async (layer, { rejectWithValue }) => {
 	try {
-		const response = await axios.get(`http://localhost:5000/api/${layer}`);
+		const method = layer === 'storeInventory' ? 'get' : 'post';
+		const response = await axios({
+			method: method,
+			url: `http://localhost:5000/api/${layer !== 'storeInventory' ? 'layerInventory' : 'storeInventory'}/${layer !== 'storeInventory' ? 'layer' : ''}`,
+			data: {
+				layer: layer === 'layer2' ? '2' : '3',
+			},
+		});
 
 		return response.data;
 	}
@@ -149,9 +169,27 @@ const deleteLayerInventory = createAsyncThunk('inventory/deleteLayerInventory', 
 	}
 })
 
-const getPrevLayerInventory = createAsyncThunk('inventory/getPrevLayerInventory', async (prevLayer, { rejectWithValue }) => {
+const getPrevLayerInventory = createAsyncThunk('inventory/getPrevLayerInventory', async (layer, { rejectWithValue }) => {
 	try {
-		const response = await axios.get(`http://localhost:5000/api/${prevLayer}`);
+		const method = layer === 'layer2' ? 'get' : 'post';
+		const response = await axios({
+			method: method,
+			url: `http://localhost:5000/api/${layer === 'layer2' ? 'storeInventory' : 'layerInventory'}/${layer !== 'layer2' ? 'layer' : ''}`,
+			data: {
+				layer: layer === 'layer4' ? '3' : layer === 'layer3' ? "2" : '1',
+			},
+		});
+
+		return response.data;
+	}
+	catch (error) {
+		return rejectWithValue(error.response.data)
+	}
+})
+
+const requestInventoryItem = createAsyncThunk('inventory/requestInventoryItem', async (requestInventoryData, { rejectWithValue }) => {
+	try {
+		const response = await axios.post('http://localhost:5000/api/requests', requestInventoryData);
 
 		return response.data;
 	}
@@ -170,6 +208,7 @@ export {
 	getLayerInventory,
 	deleteLayerInventory,
 	getPrevLayerInventory,
+	requestInventoryItem,
 };
 
 export default inventorySlice;
