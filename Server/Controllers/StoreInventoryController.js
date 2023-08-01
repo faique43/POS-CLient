@@ -35,14 +35,13 @@ exports.get_inventory_by_id = async (req, res) => {
 // @desc Create a storeInventory
 // @access Private
 exports.create_inventory = async (req, res) => {
-  const { name, quantity, units, price, total } = req.body;
+  const { name, quantity, units, price } = req.body;
   try {
     const newStoreInventory = new StoreInventory({
       name,
       quantity,
       units,
-      price,
-      total
+      price
     });
     const storeInventory = await newStoreInventory.save();
     res.json(storeInventory);
@@ -56,13 +55,12 @@ exports.create_inventory = async (req, res) => {
 // @desc Update a storeInventory
 // @access Private
 exports.update_inventory = async (req, res) => {
-  const { name, quantity, units, price, total } = req.body;
+  const { name, quantity, units, price } = req.body;
   const inventoryFields = {};
   if (name) inventoryFields.name = name;
   if (quantity) inventoryFields.quantity = quantity;
   if (units) inventoryFields.units = units;
   if (price) inventoryFields.price = price;
-  if (total) inventoryFields.total = total;
   try {
     let storeInventory = await StoreInventory.findById(req.params.id);
     if (!storeInventory) {

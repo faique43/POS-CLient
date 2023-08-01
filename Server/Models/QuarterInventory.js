@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const LayerInventorySchema = new Schema({
+const QuarterInventorySchema = new Schema({
   item: {
     type: Schema.Types.ObjectId,
-    ref: "storeInventory",
+    ref: "layerProduct",
     required: true
   },
   quantity: {
@@ -21,7 +21,7 @@ const LayerInventorySchema = new Schema({
   }
 });
 
-module.exports = LayerInventory = mongoose.model(
-  "layerInventory",
-  LayerInventorySchema
+module.exports = QuarterInventory = mongoose.model(
+  "quarterInventory",
+  QuarterInventorySchema
 );

@@ -16,6 +16,11 @@ const adminInventoryRouter = require("./Routes/AdminInventoryRouter");
 const storeInventoryRouter = require("./Routes/StoreInventoryRouter");
 const requestsStoreRouter = require("./Routes/RequestsStoreRouter");
 const layerInventoryRouter = require("./Routes/layerInventoryRouter");
+const layerProductRouter = require("./Routes/LayerProductRouter");
+const quarterProductRouter = require("./Routes/QuarterProductRouter");
+const quarterInventoryRouter = require("./Routes/QuarterInventoryRouter");
+const requestsLayerRouter = require("./Routes/RequestsLayerRouter");
+const requestsQuarterRouter = require("./Routes/RequestsQuarterRouter");
 
 const app = express();
 
@@ -41,3 +46,8 @@ app.use("/api/adminInventory", adminInventoryRouter);
 app.use("/api/storeinventory", storeInventoryRouter);
 app.use("/api/requests", requestsStoreRouter);
 app.use("/api/layerInventory", layerInventoryRouter);
+app.use("/api/layerProduct", layerProductRouter);
+app.use("/api/quarterProduct", quarterProductRouter);
+app.use("/api/quarterInventory", quarterInventoryRouter);
+app.use("/api/requestsLayer", requestsLayerRouter);
+app.use("/api/requestsQuarter", requestsQuarterRouter);

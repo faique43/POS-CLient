@@ -18,10 +18,6 @@ const StoreInventorySchema = new Schema({
     type: Number,
     required: true
   },
-  total: {
-    type: Number,
-    required: true
-  },
   date: {
     type: Date,
     default: Date.now

@@ -3,25 +3,22 @@ const Schema = mongoose.Schema;
 
 const InventorySchema = new Schema({
   item: {
-    type: String,
-    required: true,
+    type: Schema.Types.ObjectId,
+    ref: "quarterProduct",
+    required: true
   },
   quantity: {
     type: Number,
-    required: true,
+    required: true
+  },
+  units: {
+    type: String,
+    required: true
   },
   price: {
     type: Number,
-    required: true,
-  },
-  created_at: {
-    type: Date,
-    default: Date.now,
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now,
-  },
+    required: true
+  }
 });
 
 module.exports = Inventory = mongoose.model("inventory", InventorySchema);

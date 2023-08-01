@@ -66,8 +66,7 @@ exports.create_requests = async (req, res) => {
   try {
     const newRequestsStore = new RequestsStore({
       inventoryItem,
-      quantity,
-      layer
+      quantity
     });
     const requestsStore = await newRequestsStore.save();
     res.json({ requestsStore, msg: "Request Placed" });
@@ -139,11 +138,9 @@ exports.approve_requests = async (req, res) => {
       // if no layer inventory then make one
       layerInventory = new LayerInventory({
         item: requestsStore.inventoryItem,
-        layer: "2",
         quantity: requestsStore.quantity,
         units: storeInventory.units,
-        price: storeInventory.price,
-        total: storeInventory.price * requestsStore.quantity
+        price: storeInventory.price * requestsStore.quantity
       });
       await layerInventory.save();
     }
@@ -151,11 +148,17 @@ exports.approve_requests = async (req, res) => {
       return res.status(404).json({ msg: "Not enough items in inventory" });
     }
     storeInventory.quantity = storeInventory.quantity - requestsStore.quantity;
+    // update price
+    storeInventory.price = storeInventory.price * storeInventory.quantity;
     layerInventory.quantity = layerInventory.quantity + requestsStore.quantity;
+    // update price
+    layerInventory.price = layerInventory.price * layerInventory.quantity;
     await storeInventory.save();
     await layerInventory.save();
-    await RequestsStore.findByIdAndRemove(req.params.id);
-    res.json({ msg: "Requests Store removed" });
+    // update request's status
+    requestsStore.status = "Approved";
+    await requestsStore.save();
+    res.json({ msg: "Request Approved" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

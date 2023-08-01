@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const RequestsStoreSchema = new Schema({
-  inventoryItem: {
+const RequestsLayerSchema = new Schema({
+  item: {
     type: Schema.Types.ObjectId,
-    ref: "storeInventory",
+    ref: "layerProduct",
     required: true
   },
   quantity: {
@@ -21,7 +21,7 @@ const RequestsStoreSchema = new Schema({
   }
 });
 
-module.exports = RequestsStore = mongoose.model(
-  "requestsStore",
-  RequestsStoreSchema
+module.exports = RequestsLayer = mongoose.model(
+  "requestsLayer",
+  RequestsLayerSchema
 );
