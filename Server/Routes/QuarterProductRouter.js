@@ -3,9 +3,7 @@ const router = express.Router();
 
 const quarterProductController = require("../Controllers/QuarterProductController");
 
-router.get("/", quarterProductController.get_all_quarterproduct);
-
-router.get("/:id", quarterProductController.get_by_id);
+router.get("/", quarterProductController.getQuarterProducts);
 
 router.post("/", quarterProductController.createQuarterProduct);
 
