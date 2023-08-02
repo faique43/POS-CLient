@@ -38,10 +38,8 @@ export default function ApproveLayerInventory() {
             headerName: "Action", width: 180, renderCell: (params) => {
                 return (
                     <div className='tw-flex tw-items-center tw-justify-between tw-w-full'>
-                        {/* <Button variant='contained'>Edit</Button> */}
-                        <Button color='success' variant='contained' onClick={() => {
+                        <Button color='success' variant='contained' disabled={params.row.status === 'Approved'} onClick={() => {
                             approveInventoryHandler(params.row.id)
-                            // handleOpenModal();
                         }}>Approve</Button>
                     </div>
                 )

@@ -35,6 +35,8 @@ import ApproveLayerRequest from "./pages/layer/approveLayerRequest/ApproveLayerR
 import RequestLayerInventory from "./pages/layer/requestLayerInventory/RequestLayerInventory";
 import LayerInventory from "./pages/layer/layerInventory/LayerInventory";
 import AddLayerInventory from "./pages/layer/addLayerInventory/AddLayerInventory";
+import CreateProduct from "./pages/layer/createProduct/CreateProduct";
+import LayerProducts from "./pages/layer/layerProducts/LayerProducts";
 
 const router = createBrowserRouter([
 	{
@@ -81,6 +83,8 @@ const router = createBrowserRouter([
 					{ path: 'approveLayerRequest', element: <ApproveLayerRequest /> },
 					{ path: 'requestLayerInventory', element: <RequestLayerInventory /> },
 					{ path: 'layerInventory', element: <LayerInventory /> },
+					{ path: 'createProduct', element: <CreateProduct /> },
+					{ path: 'layerProducts', element: <LayerProducts /> },
 				]
 			}
 		],

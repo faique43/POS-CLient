@@ -7,6 +7,7 @@ const initialState = {
 	layerInventory: [],
 	prevLayerInventory: [],
 	requestedInventoryItems: [],
+	layerProducts: []
 };
 
 const inventorySlice = createSlice({
@@ -125,6 +126,32 @@ const inventorySlice = createSlice({
 				position: "bottom-left"
 			});
 		})
+
+		// create layer product
+		builder.addCase(createLayerProduct.pending, (state) => { });
+		builder.addCase(createLayerProduct.fulfilled, (state, action) => {
+			toast.success(action.payload.msg, {
+				position: "bottom-left"
+			});
+		})
+		builder.addCase(createLayerProduct.rejected, (state, action) => {
+			toast.error(action.payload, {
+				position: "bottom-left"
+			});
+		})
+
+		// get layer products
+		builder.addCase(getLayerProducts.pending, (state) => {
+			state.layerProducts = [];
+		});
+		builder.addCase(getLayerProducts.fulfilled, (state, action) => {
+			state.layerProducts = action.payload;
+		})
+		builder.addCase(getLayerProducts.rejected, (state, action) => {
+			toast.error(action.payload, {
+				position: "bottom-left"
+			});
+		})
 	}
 });
 
@@ -239,6 +266,28 @@ const approveRequestedInventoryItem = createAsyncThunk('inventory/approveRequest
 	}
 })
 
+const createLayerProduct = createAsyncThunk('inventory/createLayerProduct', async ({ layerProductData, role }, { rejectWithValue }) => {
+	try {
+		const response = await axios.post(`http://localhost:5000/api/${role === 'layer2' ? 'layerProduct' : "quarterProduct"}`, layerProductData);
+
+		return response.data;
+	}
+	catch (error) {
+		return rejectWithValue(error.response.data)
+	}
+})
+
+const getLayerProducts = createAsyncThunk('inventory/getLayerProducts', async ({ role }, { rejectWithValue }) => {
+	try {
+		const response = await axios.get(`http://localhost:5000/api/${role === 'layer2' ? 'layerProduct' : 'quarterProduct'}`);
+
+		return response.data;
+	}
+	catch (error) {
+		return rejectWithValue(error.response.data)
+	}
+})
+
 const inventoryActions = inventorySlice.actions;
 
 export {
@@ -252,6 +301,8 @@ export {
 	requestInventoryItem,
 	getRequestedInventoryItems,
 	approveRequestedInventoryItem,
+	createLayerProduct,
+	getLayerProducts,
 };
 
 export default inventorySlice;
