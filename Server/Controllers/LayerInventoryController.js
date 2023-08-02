@@ -5,10 +5,8 @@ const LayerInventory = require("../Models/LayerInventory");
 // @access  Public
 exports.get_all_inventory = async (req, res) => {
   try {
-    const layerInventory = await LayerInventory.find().populate(
-      "item",
-      "name quantity units"
-    );
+    const layerInventory = await LayerInventory.find().populate("item");
+
     res.json(layerInventory);
   } catch (err) {
     console.error(err.message);
