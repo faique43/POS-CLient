@@ -113,6 +113,7 @@ export default function Layer() {
                         >
                             {role === 'layer1' && 'Layer 1 Dashboard'}
                             {role === 'layer2' && 'Layer 2 Dashboard'}
+                            {role === 'layer3' && 'Layer 3 Dashboard'}
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -133,6 +134,7 @@ export default function Layer() {
                     <List component="nav">
                         {role === 'layer1' && layer1List}
                         {role === 'layer2' && layer2List}
+                        {role === 'layer3' && layer2List}
                         <Divider sx={{ my: 1 }} />
                         <div onClick={() => {
                             dispatch(authActions.logout())

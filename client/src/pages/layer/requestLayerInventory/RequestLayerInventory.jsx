@@ -34,7 +34,6 @@ export default function RequestLayerInventory() {
         { field: 'quantity', headerName: 'Quantity', width: 100 },
         { field: 'price', headerName: 'Price', width: 100 },
         { field: 'units', headerName: 'Unit', width: 100 },
-        { field: 'total', headerName: 'Total', width: 150 },
         { field: 'date', headerName: 'Created At', width: 200 },
         {
             headerName: "Action", width: 180, renderCell: (params) => {
@@ -56,8 +55,8 @@ export default function RequestLayerInventory() {
 
     const requestInventoryHandler = () => {
         dispatch(uiActions.startLoading());
-        dispatch(requestInventoryItem(requestInventoryData)).then(response => {
-            dispatch(getLayerInventory(role === 'layer1' ? 'storeInventory' : role)).then(response => {
+        dispatch(requestInventoryItem({requestInventoryData, layer: role})).then(response => {
+            dispatch(getLayerInventory(role)).then(response => {
                 dispatch(uiActions.stopLoading())
             })
         })

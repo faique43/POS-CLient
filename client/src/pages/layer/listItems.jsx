@@ -112,6 +112,15 @@ export const layer2List = (
             </ListItemButton>
         </Link>
 
+        <Link to='addLayerInventory'>
+            <ListItemButton>
+                <ListItemIcon>
+                    <AddCircleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Create Item" />
+            </ListItemButton>
+        </Link>
+
         <Link to='requestLayerInventory'>
             <ListItemButton>
                 <ListItemIcon>

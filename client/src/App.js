@@ -32,7 +32,7 @@ export default function App() {
 		if (auth.isAuthenticated) {
 			if (auth.isLayerSystem) {
 				dispatch(uiActions.startLoading())
-				dispatch(getLayerInventory(auth.role === 'layer1' ? 'storeInventory' : auth.role)).then(response => {
+				dispatch(getLayerInventory(auth.role)).then(response => {
 					if (auth.role !== 'layer1') {
 						dispatch(getPrevLayerInventory(auth.role)).then(response => {
 							dispatch(uiActions.stopLoading())

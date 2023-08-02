@@ -54,10 +54,9 @@ export default function AddLayerInventory() {
             ...inventoryData,
             name: inventoryData.item,
             units: inventoryData.unit,
-            total: inventoryData.quantity * inventoryData.price
         })).then(response => {
             if (!response.error) {
-                dispatch(getLayerInventory(role === 'layer1' && 'storeInventory')).then(response => {
+                dispatch(getLayerInventory(role)).then(response => {
                     dispatch(uiActions.stopLoading())
                 })
                 return;

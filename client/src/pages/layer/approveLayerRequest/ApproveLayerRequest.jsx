@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // redux
-import { getLayerInventory, requestInventoryItem } from '../../../store/inventorySlice/inventorySlice';
+import { getLayerInventory, approveRequestedInventoryItem, getRequestedInventoryItems } from '../../../store/inventorySlice/inventorySlice';
 import { uiActions } from '../../../store/uiSlice/uiSlice';
 
 // MUI
@@ -26,18 +26,13 @@ export default function ApproveLayerInventory() {
     });
     const role = useSelector(state => state.auth.role);
     const [openModal, setOpenModal] = useState(false);
-    const [requestInventoryData, setRequestInventoryData] = useState({
-        inventoryItem: '',
-        quantity: '',
-        layer: role === 'layer3' ? '2' : '1'
-    })
+    // const [inventoryId, setInventoryId] = useState('')
 
     const columns = [
         { field: 'name', headerName: 'Name', width: 150 },
         { field: 'quantity', headerName: 'Quantity', width: 100 },
         { field: 'price', headerName: 'Price', width: 100 },
         { field: 'units', headerName: 'Unit', width: 100 },
-        // { field: 'total', headerName: 'Total', width: 150 },
         { field: 'date', headerName: 'Created At', width: 200 },
         {
             headerName: "Action", width: 180, renderCell: (params) => {
@@ -45,11 +40,8 @@ export default function ApproveLayerInventory() {
                     <div className='tw-flex tw-items-center tw-justify-between tw-w-full'>
                         {/* <Button variant='contained'>Edit</Button> */}
                         <Button color='success' variant='contained' onClick={() => {
-                            setRequestInventoryData({
-                                ...requestInventoryData,
-                                inventoryItem: params.row.id
-                            })
-                            handleOpenModal();
+                            approveInventoryHandler(params.row.id)
+                            // handleOpenModal();
                         }}>Approve</Button>
                     </div>
                 )
@@ -57,11 +49,16 @@ export default function ApproveLayerInventory() {
         }
     ];
 
-    const requestInventoryHandler = () => {
+    const approveInventoryHandler = (requestId) => {
         dispatch(uiActions.startLoading());
-        dispatch(requestInventoryItem(requestInventoryData)).then(response => {
-            dispatch(getLayerInventory(role === 'layer1' ? 'storeInventory' : role)).then(response => {
-                dispatch(uiActions.stopLoading())
+        dispatch(approveRequestedInventoryItem({
+            requestId,
+            layer: role,
+        })).then(response => {
+            dispatch(getLayerInventory(role)).then(response => {
+                dispatch(getRequestedInventoryItems(role)).then(response => {
+                    dispatch(uiActions.stopLoading())
+                })
             })
         })
         // .then(response => {
@@ -90,7 +87,7 @@ export default function ApproveLayerInventory() {
                 }}
                 pageSizeOptions={[5, 10]}
             />
-            <Modal
+            {/* <Modal
                 open={openModal}
                 onClose={handleCloseModal}
                 aria-labelledby="modal-modal-title"
@@ -118,7 +115,7 @@ export default function ApproveLayerInventory() {
                         <Button variant='contained' fullWidth={true} onClick={requestInventoryHandler}>Request</Button>
                     </div>
                 </Box>
-            </Modal>
+            </Modal> */}
         </div>
     )
 }

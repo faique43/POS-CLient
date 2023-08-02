@@ -11,21 +11,21 @@ import { Button } from '@mui/material';
 
 export default function LayerInventory() {
     const dispatch = useDispatch();
+    const role = useSelector(state => state.auth.role);
     const rawInventory = useSelector(state => state.inventory.layerInventory).map(item => {
         return {
             ...item,
             id: item._id,
-            date: new Date(item.date).toLocaleString(),
+            date: role === 'layer1' ? new Date(item.date).toLocaleString() : new Date(item.item.date).toLocaleString(),
+            name: role === 'layer1' ? item.name : item.item.name,
         }
     });
-    const role = useSelector(state => state.auth.role);
 
     const columns = [
         { field: 'name', headerName: 'Name', width: 150 },
         { field: 'quantity', headerName: 'Quantity', width: 100 },
         { field: 'price', headerName: 'Price', width: 100 },
         { field: 'units', headerName: 'Unit', width: 100 },
-        { field: 'total', headerName: 'Total', width: 150 },
         { field: 'date', headerName: 'Created At', width: 200 },
         {
             headerName: "Action", width: 180, renderCell: (params) => {
@@ -45,10 +45,10 @@ export default function LayerInventory() {
         dispatch(uiActions.startLoading());
         dispatch(deleteLayerInventory({
             inventoryId: id,
-            inventory: role === 'layer1' && "storeInventory"
+            layer: role
         })).then(response => {
             if (!response.error) {
-                dispatch(getLayerInventory(role === 'layer1' && "storeInventory")).then(response => {
+                dispatch(getLayerInventory(role)).then(response => {
                     dispatch(uiActions.stopLoading())
                 })
                 return;
