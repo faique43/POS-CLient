@@ -32,6 +32,12 @@ exports.createQuarterProduct = (req, res) => {
     req.body.inventoryUsed.forEach((item) => {
       QuarterInventory.findById(item.item).then((quarterinventory) => {
         quarterinventory.quantity -= item.quantity;
+        // if the quarter inventory becomes less than 0 dont allow
+        if (quarterinventory.quantity < 0) {
+          res.status(400).json({
+            msg: "Not enough quantity of " + quarterinventory.item.name
+          });
+        }
         quarterinventory.save();
       });
     });

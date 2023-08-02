@@ -37,6 +37,12 @@ exports.createLayerProduct = (req, res) => {
     req.body.inventoryUsed.forEach((item) => {
       LayerInventory.findById(item.item).then((layerinventory) => {
         layerinventory.quantity -= item.quantity;
+        // if the layer inventory becomes less than 0 dont allow
+        if (layerinventory.quantity < 0) {
+          res.status(400).json({
+            msg: "Not enough quantity of " + layerinventory.item.name
+          });
+        }
         layerinventory.save();
       });
     });
