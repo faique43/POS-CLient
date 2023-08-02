@@ -6,8 +6,14 @@ const LayerInventory = require("../Models/LayerInventory");
 // @access  Private
 exports.getLayerProducts = (req, res) => {
   try {
+    // find all layer products and the inventory used in it and the all the info of the item
     LayerProduct.find()
-      .populate("inventoryUsed.item", "name quantity units")
+      .populate({
+        path: "inventoryUsed.item",
+        populate: {
+          path: "item"
+        }
+      })
       .then((layerproducts) => res.json(layerproducts));
   } catch (err) {
     res.status(500).send("Server error");
