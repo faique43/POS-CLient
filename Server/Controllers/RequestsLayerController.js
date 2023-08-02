@@ -7,7 +7,7 @@ const quarterInventory = require("../Models/QuarterInventory");
 // @access  Public
 exports.get_all_requests = async (req, res) => {
   try {
-    const requestsLayer = await RequestsLayer.find().populate("item", [
+    const requestsLayer = await RequestsLayer.find().populate("inventoryItem", [
       "name",
       "quantity",
       "units",
@@ -41,11 +41,11 @@ exports.get_requests_by_id = async (req, res) => {
 // @desc Create a requestsLayer
 // @access Public
 exports.create_requests = async (req, res) => {
-  const { item, quantity } = req.body;
+  const { inventoryItem, quantity } = req.body;
 
   try {
     const newRequestsLayer = new RequestsLayer({
-      item,
+      inventoryItem,
       quantity
     });
 
@@ -61,11 +61,11 @@ exports.create_requests = async (req, res) => {
 // @desc Update a requestsLayer
 // @access Public
 exports.update_requests = async (req, res) => {
-  const { item, quantity } = req.body;
+  const { inventoryItem, quantity } = req.body;
 
   // Build requestsLayer object
   const requestsLayerFields = {};
-  if (item) requestsLayerFields.item = item;
+  if (inventoryItem) requestsLayerFields.inventoryItem = inventoryItem;
   if (quantity) requestsLayerFields.quantity = quantity;
 
   try {
@@ -114,7 +114,7 @@ exports.approve_requests = async (req, res) => {
     if (!requestlayer) {
       return res.status(404).json({ msg: "Request Layer not found" });
     }
-    let layerproduct = await LayerProduct.findById(requestlayer.item);
+    let layerproduct = await LayerProduct.findById(requestlayer.inventoryItem);
     if (!layerproduct) {
       return res.status(404).json({ msg: "Layer Product not found" });
     }

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const RequestsLayerSchema = new Schema({
-  item: {
+  inventoryItem: {
     type: Schema.Types.ObjectId,
     ref: "layerProduct",
     required: true
