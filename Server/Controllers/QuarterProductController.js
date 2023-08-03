@@ -8,7 +8,12 @@ const QuarterInventory = require("../Models/QuarterInventory");
 exports.getQuarterProducts = (req, res) => {
   try {
     QuarterProduct.find()
-      .populate("inventoryUsed.item", "name quantity units")
+      .populate({
+        path: "inventoryUsed.item",
+        populate: {
+          path: "item"
+        }
+      })
       .then((quarterproducts) => res.json(quarterproducts));
   } catch (err) {
     res.status(500).send("Server error");
