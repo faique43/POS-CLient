@@ -42,14 +42,14 @@ exports.get_requests_by_id = async (req, res) => {
 // @desc Create a requestsquarter
 // @access Public
 exports.create_requests = async (req, res) => {
-  const { inventoryItem, quantity } = req.body;
+  const { item, quantity } = req.body;
 
   try {
     const newRequestsQuarter = new RequestsQuarter({
-      item: inventoryItem,
+      item,
       quantity
     });
-    const quarterInventory = await QuarterInventory.findById(inventoryItem);
+    const quarterInventory = await QuarterProduct.findById(item);
 
     if (quantity > quarterInventory.quantity) {
       return res.status(404).json({ msg: "Not enough items in inventory" });

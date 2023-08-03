@@ -49,7 +49,7 @@ exports.create_requests = async (req, res) => {
       inventoryItem,
       quantity
     });
-    const layerInventory = await LayerInventory.findById(inventoryItem);
+    const layerInventory = await LayerProduct.findById(inventoryItem);
     if (layerInventory.quantity < quantity) {
       return res.status(404).json({ msg: "Not enough inventory" });
     }
