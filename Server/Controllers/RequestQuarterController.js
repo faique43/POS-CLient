@@ -122,22 +122,25 @@ exports.approve_requests = async (req, res) => {
     if (!quarterproduct) {
       return res.status(404).json({ msg: "Quarter Product not found" });
     }
-    let inventory = await Inventory.findById(quarterproduct.item);
+    let inventory = await Inventory.find({ item: quarterproduct.id });
     if (!inventory) {
       // make one
-      const newInventory = new Inventory({
+      inventory = new Inventory({
         item: quarterproduct.id,
         quantity: 0,
         units: quarterproduct.units,
         price: 0
       });
-      const inventory = await newInventory.save();
-    } else {
-      // update
-      inventory.quantity += requestsQuarter.quantity;
-      inventory.price += quarterproduct.price * requestsQuarter.quantity;
-      await inventory.save();
+      inventory = await inventory.save();
     }
+    // update
+    quarterproduct.quantity =
+      quarterproduct.quantity - requestsQuarter.quantity;
+    inventory.quantity += requestsQuarter.quantity;
+    inventory.price += quarterproduct.price;
+    await quarterproduct.save();
+    await inventory.save();
+
     // update the status of request
     requestsQuarter.status = "Approved";
     await requestsQuarter.save();

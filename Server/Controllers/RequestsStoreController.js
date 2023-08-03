@@ -136,9 +136,9 @@ exports.approve_requests = async (req, res) => {
     if (!storeInventory) {
       return res.status(404).json({ msg: "Store Inventory not found" });
     }
-    let layerInventory = await LayerInventory.findById(
-      requestsStore.inventoryItem
-    );
+    let layerInventory = await LayerInventory.find({
+      item: requestsStore.inventoryItem
+    });
     if (!layerInventory) {
       // if no layer inventory then make one
       layerInventory = new LayerInventory({

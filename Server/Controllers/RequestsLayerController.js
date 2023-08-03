@@ -123,7 +123,10 @@ exports.approve_requests = async (req, res) => {
     if (!layerproduct) {
       return res.status(404).json({ msg: "Layer Product not found" });
     }
-    let quarterinventory = await QuarterInventory.findById(layerproduct.item);
+    let quarterinventory = await QuarterInventory.find(
+      { item: layerproduct.id },
+      { quantity: 1, price: 1, units: 1 }
+    );
     if (!quarterinventory) {
       // make one
       quarterinventory = new QuarterInventory({
