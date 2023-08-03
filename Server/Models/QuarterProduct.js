@@ -10,7 +10,7 @@ const QuarterProductSchema = new Schema({
     {
       item: {
         type: Schema.Types.ObjectId,
-        ref: "quarterinventory"
+        ref: "quarterInventory"
       },
 
       quantity: {
