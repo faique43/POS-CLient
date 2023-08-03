@@ -1,6 +1,7 @@
 const RequestsLayer = require("../Models/RequestsLayer");
 const LayerProduct = require("../Models/LayerProduct");
 const quarterInventory = require("../Models/QuarterInventory");
+const LayerInventory = require("../Models/LayerInventory");
 
 // @route   GET api/requestsLayer
 // @desc    Get all requestsLayer
@@ -48,7 +49,10 @@ exports.create_requests = async (req, res) => {
       inventoryItem,
       quantity
     });
-
+    const layerInventory = await LayerInventory.findById(inventoryItem);
+    if (layerInventory.quantity < quantity) {
+      return res.status(404).json({ msg: "Not enough inventory" });
+    }
     const requestsLayer = await newRequestsLayer.save();
     res.json({ requestsLayer, msg: "Request Placed" });
   } catch (err) {

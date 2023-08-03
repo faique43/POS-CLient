@@ -1,6 +1,7 @@
 const RequestsQuarter = require("../Models/RequestsQuarter");
 const QuarterProduct = require("../Models/QuarterProduct");
 const Inventory = require("../Models/Inventory");
+const QuarterInventory = require("../Models/QuarterInventory");
 
 // @route   GET api/requestsquarter
 // @desc    Get all requests quarter
@@ -48,7 +49,11 @@ exports.create_requests = async (req, res) => {
       item,
       quantity
     });
+    const quarterInventory = await QuarterInventory.findById(item);
 
+    if (quantity > quarterInventory.quantity) {
+      return res.status(404).json({ msg: "Not enough items in inventory" });
+    }
     const requestsQuarter = await newRequestsQuarter.save();
     res.json({ requestsQuarter, msg: "Request Placed" });
   } catch (err) {

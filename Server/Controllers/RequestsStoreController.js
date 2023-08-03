@@ -62,12 +62,17 @@ exports.get_requests_by_id = async (req, res) => {
 // make a controller that requests from the items in StoreInventory Collection
 
 exports.create_requests = async (req, res) => {
-  const { inventoryItem, quantity, layer } = req.body;
+  const { inventoryItem, quantity } = req.body;
   try {
     const newRequestsStore = new RequestsStore({
       inventoryItem,
       quantity
     });
+    // if requested quantity is more than total quantity give error
+    const storeInventory = await StoreInventory.findById(inventoryItem);
+    if (quantity > storeInventory.quantity) {
+      return res.status(400).json({ msg: "Not enough inventory" });
+    }
     const requestsStore = await newRequestsStore.save();
     res.json({ requestsStore, msg: "Request Placed" });
   } catch (err) {
