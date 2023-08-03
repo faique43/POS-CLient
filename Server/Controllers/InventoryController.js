@@ -5,7 +5,9 @@ const Inventory = require("../Models/Inventory");
 // @access Public
 exports.getInventory = async (req, res) => {
   try {
-    const inventory = await Inventory.find();
+    const inventory = await Inventory.find()
+      .sort({ date: -1 })
+      .populate("item", ["name", "quantity", "units", "price", "total"]);
     res.json(inventory);
   } catch (err) {
     console.error(err.message);
@@ -35,7 +37,7 @@ exports.getInventoryById = async (req, res) => {
 exports.createInventory = async (req, res) => {
   const { item, quantity, price } = req.body;
   try {
-    const existingInventory = await Inventory.findOne({ item }); 
+    const existingInventory = await Inventory.findOne({ item });
     if (existingInventory) {
       existingInventory.quantity += quantity;
       existingInventory.price = price;
@@ -45,7 +47,7 @@ exports.createInventory = async (req, res) => {
     const newInventory = new Inventory({
       item,
       price,
-      quantity,
+      quantity
     });
     const inventory = await newInventory.save();
     res.json(inventory);
