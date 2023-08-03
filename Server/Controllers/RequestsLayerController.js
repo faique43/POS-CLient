@@ -131,13 +131,13 @@ exports.approve_requests = async (req, res) => {
         units: layerproduct.units,
         price: 0
       });
-      const quarterinventory = await newQuarterInventory.save();
-    } else {
-      // update
-      quarterinventory.quantity += requestlayer.quantity;
-      quarterinventory.price += layerproduct.price;
-      await quarterinventory.save();
+      await newQuarterInventory.save();
     }
+    // update
+    layerproduct.quantity = layerproduct.quantity - requestlayer.quantity;
+    quarterinventory.quantity += requestlayer.quantity;
+    quarterinventory.price += layerproduct.price;
+    await quarterinventory.save();
     // update the status of request
     requestlayer.status = "Approved";
     await requestlayer.save();
