@@ -6,6 +6,7 @@ const QuarterInventory = require("../Models/QuarterInventory");
 exports.get_all_quarterinventory = async (req, res) => {
   QuarterInventory.find()
     .sort({ date: -1 })
+    .populate("item", ["name", "quantity", "units", "price", "total"])
     .then((quarterinventory) => res.json(quarterinventory))
     .catch((err) =>
       res
