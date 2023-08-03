@@ -137,6 +137,7 @@ exports.approve_requests = async (req, res) => {
     layerproduct.quantity = layerproduct.quantity - requestlayer.quantity;
     quarterinventory.quantity += requestlayer.quantity;
     quarterinventory.price += layerproduct.price;
+    await layerproduct.save();
     await quarterinventory.save();
     // update the status of request
     requestlayer.status = "Approved";
