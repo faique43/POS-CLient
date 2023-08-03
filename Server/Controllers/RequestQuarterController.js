@@ -122,8 +122,8 @@ exports.approve_requests = async (req, res) => {
     if (!quarterproduct) {
       return res.status(404).json({ msg: "Quarter Product not found" });
     }
-    let inventory = await Inventory.find({ item: quarterproduct.id });
-    if (inventory.length === 0) {
+    let inventory = await Inventory.findOne({ item: quarterproduct.id });
+    if (!inventory) {
       // make one
       inventory = new Inventory({
         item: quarterproduct.id,
