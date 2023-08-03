@@ -33,12 +33,15 @@ exports.createQuarterProduct = (req, res) => {
       units: req.body.units
     });
 
+    let canCreate = true;
+
     // change the quantity of quarter inventory
     req.body.inventoryUsed.forEach((item) => {
       QuarterInventory.findById(item.item).then((quarterinventory) => {
         quarterinventory.quantity -= item.quantity;
         // if the quarter inventory becomes less than 0 dont allow
         if (quarterinventory.quantity < 0) {
+          canCreate = false;
           return res.status(400).json({
             msg: "Not enough Inventory"
           });
@@ -47,7 +50,13 @@ exports.createQuarterProduct = (req, res) => {
       });
     });
 
-    newQuarterProduct.save().then((quarterproduct) => res.json(quarterproduct));
+    if (!canCreate) {
+      return;
+    } else {
+      newQuarterProduct
+        .save()
+        .then((quarterproduct) => res.json(quarterproduct));
+    }
   } catch (err) {
     res.status(500).send("Server error");
   }

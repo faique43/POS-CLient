@@ -33,21 +33,28 @@ exports.createLayerProduct = (req, res) => {
       units: req.body.units
     });
 
+    let canCreate = true;
+
     // change the quantity of layer inventory
     req.body.inventoryUsed.forEach((item) => {
       LayerInventory.findById(item.item).then((layerinventory) => {
         layerinventory.quantity -= item.quantity;
         // if the layer inventory becomes less than 0 dont allow
         if (layerinventory.quantity < 0) {
+          canCreate = false;
           return res.status(400).json({
-            msg: "Not enough quantity of " + layerinventory.item.name
+            msg: "Not enough Inventory"
           });
         }
         layerinventory.save();
       });
     });
 
-    newLayerProduct.save().then((layerproduct) => res.json(layerproduct));
+    if (!canCreate) {
+      return;
+    } else {
+      newLayerProduct.save().then((layerproduct) => res.json(layerproduct));
+    }
   } catch (err) {
     res.status(500).send("Server error");
   }
