@@ -39,7 +39,7 @@ exports.createLayerProduct = (req, res) => {
         layerinventory.quantity -= item.quantity;
         // if the layer inventory becomes less than 0 dont allow
         if (layerinventory.quantity < 0) {
-          res.status(400).json({
+          return res.status(400).json({
             msg: "Not enough quantity of " + layerinventory.item.name
           });
         }
