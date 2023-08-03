@@ -40,7 +40,7 @@ exports.createQuarterProduct = (req, res) => {
         // if the quarter inventory becomes less than 0 dont allow
         if (quarterinventory.quantity < 0) {
           return res.status(400).json({
-            msg: "Not enough quantity of " + quarterinventory.item.name
+            msg: "Not enough Inventory"
           });
         }
         quarterinventory.save();
