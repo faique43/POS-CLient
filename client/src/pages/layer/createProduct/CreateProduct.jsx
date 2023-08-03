@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // redux 
 import { uiActions } from '../../../store/uiSlice/uiSlice';
-import { createLayerProduct, getLayerProducts } from '../../../store/inventorySlice/inventorySlice';
+import { createLayerProduct, getLayerProducts, getLayerInventory, getPrevLayerInventory } from '../../../store/inventorySlice/inventorySlice';
 
 // components
 import InventoryCard from '../../../components/UI/inventoryCard/InventoryCard';
@@ -135,9 +135,20 @@ export default function CreateProduct() {
             },
             role
         })).then(response => {
+            setInventoryData({
+                item: '',
+                quantity: '',
+                price: '',
+                unit: '',
+                inventoryUsed: []
+            })
             if (!response.error) {
                 dispatch(getLayerProducts({ role })).then(reponse => {
-                    dispatch(uiActions.stopLoading())
+                    dispatch(getLayerInventory(role)).then(response => {
+                        dispatch(getPrevLayerInventory(role)).then(response => {
+                            dispatch(uiActions.stopLoading())
+                        })
+                    })
                 })
             }
             else {

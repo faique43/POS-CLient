@@ -55,7 +55,9 @@ const inventorySlice = createSlice({
 		})
 
 		// get layer inventory
-		builder.addCase(getLayerInventory.pending, (state) => { });
+		builder.addCase(getLayerInventory.pending, (state) => {
+			state.layerInventory = [];
+		});
 		builder.addCase(getLayerInventory.fulfilled, (state, action) => {
 			state.layerInventory = action.payload;
 		})
@@ -80,7 +82,9 @@ const inventorySlice = createSlice({
 		})
 
 		// get prev layer inventory
-		builder.addCase(getPrevLayerInventory.pending, (state) => { });
+		builder.addCase(getPrevLayerInventory.pending, (state) => {
+			state.prevLayerInventory = [];
+		});
 		builder.addCase(getPrevLayerInventory.fulfilled, (state, action) => {
 			state.prevLayerInventory = action.payload;
 		})
@@ -130,7 +134,7 @@ const inventorySlice = createSlice({
 		// create layer product
 		builder.addCase(createLayerProduct.pending, (state) => { });
 		builder.addCase(createLayerProduct.fulfilled, (state, action) => {
-			toast.success(action.payload.msg, {
+			toast.success("Product Created!", {
 				position: "bottom-left"
 			});
 		})
