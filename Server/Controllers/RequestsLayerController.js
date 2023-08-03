@@ -135,7 +135,7 @@ exports.approve_requests = async (req, res) => {
         units: layerproduct.units,
         price: 0
       });
-      await quarterInventory.save();
+      await quarterinventory.save();
     }
     if (requestlayer.quantity > layerproduct.quantity) {
       return res.status(404).json({ msg: "Not enough inventory" });
