@@ -34,7 +34,9 @@ exports.createLayerProduct = async (req, res) => {
     });
 
     for (const item in req.body.inventoryUsed) {
-      const layerInventory = await LayerInventory.findById(req.body.inventoryUsed[item].item)
+      const layerInventory = await LayerInventory.findById(
+        req.body.inventoryUsed[item].item
+      );
       layerInventory.quantity -= req.body.inventoryUsed[item].quantity;
       // if the layer inventory becomes less than 0 dont allow
       if (layerInventory.quantity < 0) {

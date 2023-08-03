@@ -23,7 +23,7 @@ exports.getQuarterProducts = (req, res) => {
 // @route   POST api/quarterproduct
 // @desc    Create a quarter product
 // @access  Private
-exports.createQuarterProduct = (req, res) => {
+exports.createQuarterProduct = async (req, res) => {
   try {
     const newQuarterProduct = new QuarterProduct({
       name: req.body.name,
@@ -33,46 +33,21 @@ exports.createQuarterProduct = (req, res) => {
       units: req.body.units
     });
 
-    let canCreate = true;
-
-    // change the quantity of quarter inventory
-    // req.body.inventoryUsed.forEach((item) => {
-    //   QuarterInventory.findById(item.item).then((quarterinventory) => {
-    //     quarterinventory.quantity -= item.quantity;
-    //     // if the quarter inventory becomes less than 0 dont allow
-    //     if (quarterinventory.quantity < 0) {
-    //       canCreate = false;
-    //       return res.status(400).json({
-    //         msg: "Not enough Inventory"
-    //       });
-    //     }
-    //     quarterinventory.save();
-    //   });
-    // });
-
     for (const item in req.body.inventoryUsed) {
-      QuarterInventory.findById(req.body.inventoryUsed[item].item).then(
-        async (quarterinventory) => {
-          quarterinventory.quantity -= req.body.inventoryUsed[item].quantity;
-          // if the quarter inventory becomes less than 0 dont allow
-          if (quarterinventory.quantity < 0) {
-            canCreate = false;
-            return res.status(400).json({
-              msg: "Not enough Inventory"
-            });
-          }
-          await quarterinventory.save();
-        }
+      const quarterinventory = await QuarterInventory.findById(
+        req.body.inventoryUsed[item].item
       );
+      quarterinventory.quantity -= req.body.inventoryUsed[item].quantity;
+      // if the quarter inventory becomes less than 0 dont allow
+      if (quarterinventory.quantity < 0) {
+        return res.status(400).json({
+          msg: "Not enough Inventory"
+        });
+      }
+      await quarterinventory.save();
     }
 
-    if (!canCreate) {
-      return;
-    } else {
-      newQuarterProduct
-        .save()
-        .then((quarterproduct) => res.json(quarterproduct));
-    }
+    newQuarterProduct.save().then((quarterproduct) => res.json(quarterproduct));
   } catch (err) {
     res.status(500).send("Server error");
   }
