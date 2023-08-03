@@ -22,7 +22,7 @@ export default function InventoryCard(props) {
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
-                <TextField value={props.inLayer ? inventory.find(inventory => inventory._id === props.id).item.name : inventory.find(inventory => inventory._id === props.id).item} className='tw-w-full' id="outlined-basic" name="inventoryName" label="Inventory Name" variant="outlined" disabled/>
+                <TextField value={props.inLayer ? inventory.find(inventory => inventory._id === props.id).item.name : inventory.find(inventory => inventory._id === props.id).item.name} className='tw-w-full' id="outlined-basic" name="inventoryName" label="Inventory Name" variant="outlined" disabled/>
                 <div className='tw-my-4'></div>
                 <TextField value={props.quantity} className='tw-w-full' id="outlined-basic" name="inventoryQuantity" label="Inventory Quantity" variant="outlined" onChange={changeHandler} />
             </CardContent>

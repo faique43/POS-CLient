@@ -169,13 +169,13 @@ export default function AddProduct() {
                     input={<OutlinedInput label="Name" />}
                     MenuProps={MenuProps}
                 >
-                    {inventory.map((name) => (
+                    {inventory.map((item) => (
                         <MenuItem
-                            key={name._id}
-                            value={name._id}
-                            style={getStyles(name, itemName, theme)}
+                            key={item._id}
+                            value={item._id}
+                            style={getStyles(item, itemName, theme)}
                         >
-                            {name.item}
+                            {item.item.name}
                         </MenuItem>
                     ))}
                 </Select>
