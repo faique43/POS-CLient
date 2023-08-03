@@ -36,19 +36,35 @@ exports.createQuarterProduct = (req, res) => {
     let canCreate = true;
 
     // change the quantity of quarter inventory
-    req.body.inventoryUsed.forEach((item) => {
-      QuarterInventory.findById(item.item).then((quarterinventory) => {
-        quarterinventory.quantity -= item.quantity;
-        // if the quarter inventory becomes less than 0 dont allow
-        if (quarterinventory.quantity < 0) {
-          canCreate = false;
-          return res.status(400).json({
-            msg: "Not enough Inventory"
-          });
+    // req.body.inventoryUsed.forEach((item) => {
+    //   QuarterInventory.findById(item.item).then((quarterinventory) => {
+    //     quarterinventory.quantity -= item.quantity;
+    //     // if the quarter inventory becomes less than 0 dont allow
+    //     if (quarterinventory.quantity < 0) {
+    //       canCreate = false;
+    //       return res.status(400).json({
+    //         msg: "Not enough Inventory"
+    //       });
+    //     }
+    //     quarterinventory.save();
+    //   });
+    // });
+
+    for (const item in req.body.inventoryUsed) {
+      QuarterInventory.findById(req.body.inventoryUsed[item].item).then(
+        async (quarterinventory) => {
+          quarterinventory.quantity -= req.body.inventoryUsed[item].quantity;
+          // if the quarter inventory becomes less than 0 dont allow
+          if (quarterinventory.quantity < 0) {
+            canCreate = false;
+            return res.status(400).json({
+              msg: "Not enough Inventory"
+            });
+          }
+          await quarterinventory.save();
         }
-        quarterinventory.save();
-      });
-    });
+      );
+    }
 
     if (!canCreate) {
       return;
