@@ -36,19 +36,35 @@ exports.createLayerProduct = (req, res) => {
     let canCreate = true;
 
     // change the quantity of layer inventory
-    req.body.inventoryUsed.forEach((item) => {
-      LayerInventory.findById(item.item).then((layerinventory) => {
-        layerinventory.quantity -= item.quantity;
-        // if the layer inventory becomes less than 0 dont allow
-        if (layerinventory.quantity < 0) {
-          canCreate = false;
-          return res.status(400).json({
-            msg: "Not enough Inventory"
-          });
+    // req.body.inventoryUsed.forEach((item) => {
+    //   LayerInventory.findById(item.item).then((layerinventory) => {
+    //     layerinventory.quantity -= item.quantity;
+    //     // if the layer inventory becomes less than 0 dont allow
+    //     if (layerinventory.quantity < 0) {
+    //       canCreate = false;
+    //       return res.status(400).json({
+    //         msg: "Not enough Inventory"
+    //       });
+    //     }
+    //     layerinventory.save();
+    //   });
+    // });
+
+    for (const item in req.body.inventoryUsed) {
+      LayerInventory.findById(req.body.inventoryUsed[item].item).then(
+        async (layerInventory) => {
+          layerInventory.quantity -= req.body.inventoryUsed[item].quantity;
+          // if the layer inventory becomes less than 0 dont allow
+          if (layerInventory.quantity < 0) {
+            canCreate = false;
+            return res.status(400).json({
+              msg: "Not enough Inventory"
+            });
+          }
+          await layerInventory.save();
         }
-        layerinventory.save();
-      });
-    });
+      );
+    }
 
     if (!canCreate) {
       return;
