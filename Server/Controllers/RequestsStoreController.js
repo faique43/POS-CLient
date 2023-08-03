@@ -138,9 +138,9 @@ exports.approve_requests = async (req, res) => {
       // if no layer inventory then make one
       layerInventory = new LayerInventory({
         item: requestsStore.inventoryItem,
-        quantity: requestsStore.quantity,
+        quantity: 0,
         units: storeInventory.units,
-        price: storeInventory.price * requestsStore.quantity
+        price: 0
       });
       await layerInventory.save();
     }

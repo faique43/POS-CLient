@@ -122,9 +122,9 @@ exports.approve_requests = async (req, res) => {
       // make one
       const newInventory = new Inventory({
         item: quarterproduct.id,
-        quantity: requestsQuarter.quantity,
+        quantity: 0,
         units: quarterproduct.units,
-        price: quarterproduct.price * requestsQuarter.quantity
+        price: 0
       });
       const inventory = await newInventory.save();
     } else {
