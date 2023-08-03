@@ -8,7 +8,7 @@ const QuarterInventory = require("../Models/QuarterInventory");
 // @access  Public
 exports.get_all_requests = async (req, res) => {
   try {
-    const requestsQuarter = await RequestsQuarter.find().populate("item", [
+    const requestsQuarter = await RequestsQuarter.find().populate("inventoryItem", [
       "name",
       "quantity",
       "units",
@@ -42,14 +42,14 @@ exports.get_requests_by_id = async (req, res) => {
 // @desc Create a requestsquarter
 // @access Public
 exports.create_requests = async (req, res) => {
-  const { item, quantity } = req.body;
+  const { inventoryItem, quantity } = req.body;
 
   try {
     const newRequestsQuarter = new RequestsQuarter({
-      item,
+      inventoryItem,
       quantity
     });
-    const quarterInventory = await QuarterProduct.findById(item);
+    const quarterInventory = await QuarterProduct.findById(inventoryItem);
 
     if (quantity > quarterInventory.quantity) {
       return res.status(404).json({ msg: "Not enough items in inventory" });
@@ -118,15 +118,15 @@ exports.approve_requests = async (req, res) => {
     if (!requestsQuarter)
       return res.status(404).json({ msg: "Requests Quarter not found" });
 
-    let quarterproduct = await QuarterProduct.findById(requestsQuarter.id);
+    let quarterproduct = await QuarterProduct.findById(requestsQuarter.inventoryItem);
     if (!quarterproduct) {
       return res.status(404).json({ msg: "Quarter Product not found" });
     }
-    let inventory = await Inventory.findOne({ item: quarterproduct.id });
+    let inventory = await Inventory.findOne({ item: requestsQuarter.inventoryItem });
     if (!inventory) {
       // make one
       inventory = new Inventory({
-        item: quarterproduct.id,
+        item: requestsQuarter.inventoryItem,
         quantity: 0,
         units: quarterproduct.units,
         price: 0

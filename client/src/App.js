@@ -41,50 +41,27 @@ export default function App() {
 
 					})
 				})
-				// dispatch(uiActions.startLoading())
-				// dispatch(getLayerInventory(auth.role)).then(response => {
-				// 	if (auth.role !== 'layer1') {
-				// 		dispatch(getPrevLayerInventory(auth.role)).then(response => {
-				// 			if(auth.role === 'layer2' || auth.role === 'layer3') {
-				// 				dispatch(getLayerProducts({role: auth.role})).then(response => {
-				// 					dispatch(getRequestedInventoryItems(auth.role)).then(response => {
-				// 						dispatch(uiActions.stopLoading())
-				// 					})
-				// 				})
-				// 			}
-				// 			else {
-				// 				dispatch(uiActions.stopLoading())
-				// 			}
-				// 		})
-				// 	}
-				// 	else if (auth.role !== 'layer4') {
-				// 		dispatch(uiActions.startLoading());
-				// 		dispatch(getRequestedInventoryItems(auth.role)).then(response => {
-				// 			dispatch(uiActions.stopLoading())
-				// 		})
-				// 	}
-				// 	else {
-				// 		dispatch(uiActions.stopLoading())
-				// 	}
-				// })
 			}
 			else {
 				dispatch(uiActions.startLoading())
 				dispatch(getAllProducts(dispatch)).then(response => {
 					dispatch(getInventory(dispatch)).then(response => {
 						dispatch(getAllOrders()).then(response => {
-							if (auth.isAdmin) {
-								dispatch(getAllSalaries()).then(response => {
-									dispatch(getVendorPayments()).then(response => {
-										dispatch(getAllExpanses()).then(response => {
-											dispatch(uiActions.stopLoading())
+							dispatch(getPrevLayerInventory('layer4')).then(response => {
+
+								if (auth.isAdmin) {
+									dispatch(getAllSalaries()).then(response => {
+										dispatch(getVendorPayments()).then(response => {
+											dispatch(getAllExpanses()).then(response => {
+												dispatch(uiActions.stopLoading())
+											})
 										})
 									})
-								})
-							}
-							else {
-								dispatch(uiActions.stopLoading())
-							}
+								}
+								else {
+									dispatch(uiActions.stopLoading())
+								}
+							})
 						})
 					})
 				})

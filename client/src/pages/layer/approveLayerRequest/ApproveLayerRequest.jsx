@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 // redux
 import {
-  getLayerInventory,
-  approveRequestedInventoryItem,
-  getRequestedInventoryItems,
-  getLayerProducts
+	getLayerInventory,
+	approveRequestedInventoryItem,
+	getRequestedInventoryItems,
+	getLayerProducts
 } from "../../../store/inventorySlice/inventorySlice";
 import { uiActions } from "../../../store/uiSlice/uiSlice";
 
@@ -18,94 +18,94 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
 export default function ApproveLayerInventory() {
-  const dispatch = useDispatch();
-  const requestedInventoryItems = useSelector(
-    (state) => state.inventory.requestedInventoryItems
-  ).map((item) => {
-    return {
-      ...item,
-      id: item._id,
-      date: new Date(item.dateRequested).toLocaleString(),
-      name: item.inventoryItem.name,
-      price: item.inventoryItem.price,
-      units: item.inventoryItem.units
-    };
-  });
-  const role = useSelector((state) => state.auth.role);
-  const [openModal, setOpenModal] = useState(false);
-  // const [inventoryId, setInventoryId] = useState('')
+	const dispatch = useDispatch();
+	const requestedInventoryItems = useSelector(
+		(state) => state.inventory.requestedInventoryItems
+	).map((item) => {
+		return {
+			...item,
+			id: item._id,
+			date: new Date(item.dateRequested).toLocaleString(),
+			name: item.inventoryItem.name,
+			price: item.inventoryItem.price,
+			units: item.inventoryItem.units
+		};
+	});
+	const role = useSelector((state) => state.auth.role);
+	const [openModal, setOpenModal] = useState(false);
+	// const [inventoryId, setInventoryId] = useState('')
 
-  const columns = [
-    { field: "name", headerName: "Name", width: 150 },
-    { field: "quantity", headerName: "Quantity", width: 100 },
-    { field: "price", headerName: "Price", width: 100 },
-    { field: "units", headerName: "Unit", width: 100 },
-    { field: "date", headerName: "Created At", width: 200 },
-    {
-      headerName: "Action",
-      width: 180,
-      renderCell: (params) => {
-        return (
-          <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
-            <Button
-              color="success"
-              variant="contained"
-              disabled={params.row.status === "Approved"}
-              onClick={() => {
-                approveInventoryHandler(params.row.id);
-              }}
-            >
-              Approve
-            </Button>
-          </div>
-        );
-      }
-    }
-  ];
+	const columns = [
+		{ field: "name", headerName: "Name", width: 150 },
+		{ field: "quantity", headerName: "Quantity", width: 100 },
+		{ field: "price", headerName: "Price", width: 100 },
+		{ field: "units", headerName: "Unit", width: 100 },
+		{ field: "date", headerName: "Created At", width: 200 },
+		{
+			headerName: "Action",
+			width: 180,
+			renderCell: (params) => {
+				return (
+					<div className="tw-flex tw-items-center tw-justify-between tw-w-full">
+						<Button
+							color="success"
+							variant="contained"
+							disabled={params.row.status === "Approved"}
+							onClick={() => {
+								approveInventoryHandler(params.row.id);
+							}}
+						>
+							Approve
+						</Button>
+					</div>
+				);
+			}
+		}
+	];
 
-  const approveInventoryHandler = (requestId) => {
-    dispatch(uiActions.startLoading());
-    dispatch(
-      approveRequestedInventoryItem({
-        requestId,
-        layer: role
-      })
-    ).then((response) => {
-      dispatch(getLayerInventory(role)).then((response) => {
-        dispatch(getRequestedInventoryItems(role)).then((response) => {
-          dispatch(getLayerProducts({ role })).then((response) => {
-            dispatch(uiActions.stopLoading());
-          });
-        });
-      });
-    });
-    // .then(response => {
-    //     if (!response.error) {
-    //         dispatch(getLayerInventory(role === 'layer1' && "storeInventory")).then(response => {
-    //             dispatch(uiActions.stopLoading())
-    //         })
-    //         return;
-    //     }
-    //     dispatch(uiActions.stopLoading())
-    // })
-  };
+	const approveInventoryHandler = (requestId) => {
+		dispatch(uiActions.startLoading());
+		dispatch(
+			approveRequestedInventoryItem({
+				requestId,
+				layer: role
+			})
+		).then((response) => {
+			dispatch(getLayerInventory(role)).then((response) => {
+				dispatch(getRequestedInventoryItems(role)).then((response) => {
+					dispatch(getLayerProducts({ role })).then((response) => {
+						dispatch(uiActions.stopLoading());
+					});
+				});
+			});
+		});
+		// .then(response => {
+		//     if (!response.error) {
+		//         dispatch(getLayerInventory(role === 'layer1' && "storeInventory")).then(response => {
+		//             dispatch(uiActions.stopLoading())
+		//         })
+		//         return;
+		//     }
+		//     dispatch(uiActions.stopLoading())
+		// })
+	};
 
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+	const handleOpenModal = () => setOpenModal(true);
+	const handleCloseModal = () => setOpenModal(false);
 
-  return (
-    <div className="tw-mt-14 tw-mx-4 tw-w-full">
-      <DataGrid
-        rows={requestedInventoryItems}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 }
-          }
-        }}
-        pageSizeOptions={[5, 10]}
-      />
-      {/* <Modal
+	return (
+		<div className="tw-mt-14 tw-mx-4 tw-w-full">
+			<DataGrid
+				rows={requestedInventoryItems}
+				columns={columns}
+				initialState={{
+					pagination: {
+						paginationModel: { page: 0, pageSize: 5 }
+					}
+				}}
+				pageSizeOptions={[5, 10]}
+			/>
+			{/* <Modal
                 open={openModal}
                 onClose={handleCloseModal}
                 aria-labelledby="modal-modal-title"
@@ -134,6 +134,6 @@ export default function ApproveLayerInventory() {
                     </div>
                 </Box>
             </Modal> */}
-    </div>
-  );
+		</div>
+	);
 }

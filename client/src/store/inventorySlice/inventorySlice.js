@@ -240,6 +240,8 @@ const getPrevLayerInventory = createAsyncThunk('inventory/getPrevLayerInventory'
 })
 
 const requestInventoryItem = createAsyncThunk('inventory/requestInventoryItem', async ({ requestInventoryData, layer }, { rejectWithValue }) => {
+	console.log(requestInventoryData);
+	console.log(layer);
 	try {
 		const response = await axios.post(`http://localhost:5000/api/${layer === 'layer2' ? 'requests' : layer === 'layer3' ? 'requestsLayer' : 'requestsQuarter'}`, requestInventoryData);
 

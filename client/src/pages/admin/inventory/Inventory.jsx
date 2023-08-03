@@ -38,7 +38,7 @@ export default function Inventory() {
     const rows = inventory.map(item => {
         return {
             id: item._id,
-            item: item.item,
+            item: item.item.name,
             price: item.price,
             quantity: item.quantity,
             created_at: new Date(item.created_at).toLocaleDateString(),
