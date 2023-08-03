@@ -33,18 +33,25 @@ exports.createQuarterProduct = async (req, res) => {
       units: req.body.units
     });
 
+    const inventoryArray = [];
+
     for (const item in req.body.inventoryUsed) {
       const quarterinventory = await QuarterInventory.findById(
         req.body.inventoryUsed[item].item
       );
       quarterinventory.quantity -= req.body.inventoryUsed[item].quantity;
+      inventoryArray.push(quarterinventory);
       // if the quarter inventory becomes less than 0 dont allow
       if (quarterinventory.quantity < 0) {
         return res.status(400).json({
           msg: "Not enough Inventory"
         });
       }
-      await quarterinventory.save();
+    }
+
+    for (let index = 0; index < inventoryArray.length; index++) {
+      const element = inventoryArray[index];
+      await element.save();
     }
 
     newQuarterProduct.save().then((quarterproduct) => res.json(quarterproduct));

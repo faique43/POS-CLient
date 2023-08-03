@@ -33,18 +33,25 @@ exports.createLayerProduct = async (req, res) => {
       units: req.body.units
     });
 
+    const inventoryArray = [];
+
     for (const item in req.body.inventoryUsed) {
       const layerInventory = await LayerInventory.findById(
         req.body.inventoryUsed[item].item
       );
       layerInventory.quantity -= req.body.inventoryUsed[item].quantity;
+      inventoryArray.push(layerInventory);
       // if the layer inventory becomes less than 0 dont allow
       if (layerInventory.quantity < 0) {
         return res.status(400).json({
           msg: "Not enough Inventory"
         });
       }
-      await layerInventory.save();
+    }
+
+    for (let index = 0; index < inventoryArray.length; index++) {
+      const element = inventoryArray[index];
+      await element.save();
     }
 
     newLayerProduct.save().then((layerproduct) => res.json(layerproduct));
