@@ -126,7 +126,7 @@ exports.approve_requests = async (req, res) => {
     let quarterinventory = await QuarterInventory.find({
       item: layerproduct.id
     });
-    if (!quarterinventory) {
+    if (quarterinventory.length === 0) {
       // make one
       quarterinventory = new QuarterInventory({
         item: layerproduct.id,

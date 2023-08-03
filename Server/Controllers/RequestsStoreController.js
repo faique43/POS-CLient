@@ -139,7 +139,7 @@ exports.approve_requests = async (req, res) => {
     let layerInventory = await LayerInventory.find({
       item: requestsStore.inventoryItem
     });
-    if (!layerInventory) {
+    if (layerInventory.length === 0) {
       // if no layer inventory then make one
       layerInventory = new LayerInventory({
         item: requestsStore.inventoryItem,
@@ -157,11 +157,14 @@ exports.approve_requests = async (req, res) => {
     // update price
     layerInventory.price = storeInventory.price;
     await storeInventory.save();
+    console.log(layerInventory);
     await layerInventory.save();
     // update request's status
     requestsStore.status = "Approved";
+    console.log("approved");
     await requestsStore.save();
     res.json({ msg: "Request Approved" });
+    console.log("2approved");
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
