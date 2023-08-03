@@ -2,6 +2,7 @@ const RequestsLayer = require("../Models/RequestsLayer");
 const LayerProduct = require("../Models/LayerProduct");
 const quarterInventory = require("../Models/QuarterInventory");
 const LayerInventory = require("../Models/LayerInventory");
+const QuarterInventory = require("../Models/QuarterInventory");
 
 // @route   GET api/requestsLayer
 // @desc    Get all requestsLayer
@@ -122,16 +123,19 @@ exports.approve_requests = async (req, res) => {
     if (!layerproduct) {
       return res.status(404).json({ msg: "Layer Product not found" });
     }
-    let quarterinventory = await quarterInventory.findById(layerproduct.item);
+    let quarterinventory = await QuarterInventory.findById(layerproduct.item);
     if (!quarterinventory) {
       // make one
-      const newQuarterInventory = new quarterInventory({
+      quarterinventory = new QuarterInventory({
         item: layerproduct.id,
         quantity: 0,
         units: layerproduct.units,
         price: 0
       });
-      await newQuarterInventory.save();
+      await quarterInventory.save();
+    }
+    if (requestlayer.quantity > layerproduct.quantity) {
+      return res.status(404).json({ msg: "Not enough inventory" });
     }
     // update
     layerproduct.quantity = layerproduct.quantity - requestlayer.quantity;
