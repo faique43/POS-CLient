@@ -102,13 +102,15 @@ const inventorySlice = createSlice({
 			});
 		})
 		builder.addCase(requestInventoryItem.rejected, (state, action) => {
-			toast.error(action.payload, {
+			toast.error(action.payload.msg, {
 				position: "bottom-left"
 			});
 		})
 
 		// get requested inventory items
-		builder.addCase(getRequestedInventoryItems.pending, (state) => { });
+		builder.addCase(getRequestedInventoryItems.pending, (state) => {
+			state.requestedInventoryItems = [];
+		});
 		builder.addCase(getRequestedInventoryItems.fulfilled, (state, action) => {
 			state.requestedInventoryItems = action.payload;
 		})
@@ -139,7 +141,7 @@ const inventorySlice = createSlice({
 			});
 		})
 		builder.addCase(createLayerProduct.rejected, (state, action) => {
-			toast.error(action.payload, {
+			toast.error(action.payload.msg, {
 				position: "bottom-left"
 			});
 		})
