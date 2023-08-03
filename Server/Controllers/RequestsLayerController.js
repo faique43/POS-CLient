@@ -131,7 +131,7 @@ exports.approve_requests = async (req, res) => {
     } else {
       // update
       quarterinventory.quantity += requestlayer.quantity;
-      quarterinventory.price += layerproduct.price * requestlayer.quantity;
+      quarterinventory.price += layerproduct.price;
       await quarterinventory.save();
     }
     // update the status of request

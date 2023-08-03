@@ -148,11 +148,9 @@ exports.approve_requests = async (req, res) => {
       return res.status(404).json({ msg: "Not enough items in inventory" });
     }
     storeInventory.quantity = storeInventory.quantity - requestsStore.quantity;
-    // update price
-    storeInventory.price = storeInventory.price * storeInventory.quantity;
     layerInventory.quantity = layerInventory.quantity + requestsStore.quantity;
     // update price
-    layerInventory.price = layerInventory.price * layerInventory.quantity;
+    layerInventory.price = storeInventory.price;
     await storeInventory.save();
     await layerInventory.save();
     // update request's status
