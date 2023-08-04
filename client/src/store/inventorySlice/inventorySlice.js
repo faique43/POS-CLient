@@ -165,7 +165,7 @@ const getInventory = createAsyncThunk(
 	"inventory/getInventory",
 	async (dispatch, { rejectWithValue }) => {
 		try {
-			const response = await axios.get("http://localhost:5000/api/inventory")
+			const response = await axios.get("http://143.110.241.175:5000/api/inventory")
 			return response.data;
 		}
 		catch (error) {
@@ -178,7 +178,7 @@ const addInventory = createAsyncThunk(
 	"inventory/addNewInventory",
 	async (inventoryData, { rejectWithValue }) => {
 		try {
-			const response = await axios.post('http://localhost:5000/api/inventory', inventoryData);
+			const response = await axios.post('http://143.110.241.175:5000/api/inventory', inventoryData);
 
 			return response.data;
 		} catch (error) {
@@ -189,7 +189,7 @@ const addInventory = createAsyncThunk(
 
 const addLayerInventory = createAsyncThunk('inventory/addLayerInventory', async (inventoryData, { rejectWithValue }) => {
 	try {
-		const response = await axios.post('http://localhost:5000/api/storeInventory', inventoryData);
+		const response = await axios.post('http://143.110.241.175:5000/api/storeInventory', inventoryData);
 
 		return response.data;
 	}
@@ -203,7 +203,7 @@ const getLayerInventory = createAsyncThunk('inventory/getLayerInventory', async 
 		const method = 'get'
 		const response = await axios({
 			method: method,
-			url: `http://localhost:5000/api/${layer === 'layer1' ? 'storeInventory' : layer === 'layer2' ? 'layerInventory' : 'quarterInventory'}`
+			url: `http://143.110.241.175:5000/api/${layer === 'layer1' ? 'storeInventory' : layer === 'layer2' ? 'layerInventory' : 'quarterInventory'}`
 		});
 
 		return response.data;
@@ -215,7 +215,7 @@ const getLayerInventory = createAsyncThunk('inventory/getLayerInventory', async 
 
 const deleteLayerInventory = createAsyncThunk('inventory/deleteLayerInventory', async ({ inventoryId, layer }, { rejectWithValue }) => {
 	try {
-		const response = await axios.delete(`http://localhost:5000/api/${layer === 'layer1' ? 'storeInventory' : layer === 'layer2' ? 'layerInventory' : layer === 'layer3' ? 'quarterInventory' : 'inventory'}/${inventoryId}`);
+		const response = await axios.delete(`http://143.110.241.175:5000/api/${layer === 'layer1' ? 'storeInventory' : layer === 'layer2' ? 'layerInventory' : layer === 'layer3' ? 'quarterInventory' : 'inventory'}/${inventoryId}`);
 
 		return response.data;
 	}
@@ -229,7 +229,7 @@ const getPrevLayerInventory = createAsyncThunk('inventory/getPrevLayerInventory'
 		const method = 'get';
 		const response = await axios({
 			method: method,
-			url: `http://localhost:5000/api/${layer === 'layer2' ? 'storeInventory' : layer === 'layer3' ? 'layerProduct' : 'quarterProduct'}`
+			url: `http://143.110.241.175:5000/api/${layer === 'layer2' ? 'storeInventory' : layer === 'layer3' ? 'layerProduct' : 'quarterProduct'}`
 		});
 
 		return response.data;
@@ -243,7 +243,7 @@ const requestInventoryItem = createAsyncThunk('inventory/requestInventoryItem', 
 	console.log(requestInventoryData);
 	console.log(layer);
 	try {
-		const response = await axios.post(`http://localhost:5000/api/${layer === 'layer2' ? 'requests' : layer === 'layer3' ? 'requestsLayer' : 'requestsQuarter'}`, requestInventoryData);
+		const response = await axios.post(`http://143.110.241.175:5000/api/${layer === 'layer2' ? 'requests' : layer === 'layer3' ? 'requestsLayer' : 'requestsQuarter'}`, requestInventoryData);
 
 		return response.data;
 	}
@@ -254,7 +254,7 @@ const requestInventoryItem = createAsyncThunk('inventory/requestInventoryItem', 
 
 const getRequestedInventoryItems = createAsyncThunk('inventory/getRequestedInventoryItems', async (layer, { rejectWithValue }) => {
 	try {
-		const response = await axios.get(`http://localhost:5000/api/${layer === 'layer1' ? 'requests' : layer === 'layer2' ? 'requestsLayer' : 'requestsQuarter'}`);
+		const response = await axios.get(`http://143.110.241.175:5000/api/${layer === 'layer1' ? 'requests' : layer === 'layer2' ? 'requestsLayer' : 'requestsQuarter'}`);
 
 		return response.data;
 	}
@@ -265,7 +265,7 @@ const getRequestedInventoryItems = createAsyncThunk('inventory/getRequestedInven
 
 const approveRequestedInventoryItem = createAsyncThunk('inventory/approveRequestedInventoryItem', async ({ requestId, layer }, { rejectWithValue }) => {
 	try {
-		const response = await axios.put(`http://localhost:5000/api/${layer === 'layer1' ? 'requests' : layer === 'layer2' ? 'requestsLayer' : 'requestsQuarter'}/approve/${requestId}`);
+		const response = await axios.put(`http://143.110.241.175:5000/api/${layer === 'layer1' ? 'requests' : layer === 'layer2' ? 'requestsLayer' : 'requestsQuarter'}/approve/${requestId}`);
 
 		return response.data;
 	}
@@ -276,7 +276,7 @@ const approveRequestedInventoryItem = createAsyncThunk('inventory/approveRequest
 
 const createLayerProduct = createAsyncThunk('inventory/createLayerProduct', async ({ layerProductData, role }, { rejectWithValue }) => {
 	try {
-		const response = await axios.post(`http://localhost:5000/api/${role === 'layer2' ? 'layerProduct' : "quarterProduct"}`, layerProductData);
+		const response = await axios.post(`http://143.110.241.175:5000/api/${role === 'layer2' ? 'layerProduct' : "quarterProduct"}`, layerProductData);
 
 		return response.data;
 	}
@@ -287,7 +287,7 @@ const createLayerProduct = createAsyncThunk('inventory/createLayerProduct', asyn
 
 const getLayerProducts = createAsyncThunk('inventory/getLayerProducts', async ({ role }, { rejectWithValue }) => {
 	try {
-		const response = await axios.get(`http://localhost:5000/api/${role === 'layer2' ? 'layerProduct' : 'quarterProduct'}`);
+		const response = await axios.get(`http://143.110.241.175:5000/api/${role === 'layer2' ? 'layerProduct' : 'quarterProduct'}`);
 
 		return response.data;
 	}

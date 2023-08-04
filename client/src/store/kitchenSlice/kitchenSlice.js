@@ -96,7 +96,7 @@ const kitchenActions = kitchenSlice.actions;
 
 const createOrder = createAsyncThunk('kitchen/createOrder', async (orderData, { rejectWithValue }) => {
 	try {
-		const response = await axios.post("http://localhost:5000/api/orders", orderData);
+		const response = await axios.post("http://143.110.241.175:5000/api/orders", orderData);
 
 		return response.data;
 	}
@@ -107,7 +107,7 @@ const createOrder = createAsyncThunk('kitchen/createOrder', async (orderData, { 
 
 const getAllOrders = createAsyncThunk('kitchen/getAllOrders', async (orderData, { rejectWithValue }) => {
 	try {
-		const response = await axios.get('http://localhost:5000/api/orders')
+		const response = await axios.get('http://143.110.241.175:5000/api/orders')
 
 		return response.data;
 	}
@@ -118,7 +118,7 @@ const getAllOrders = createAsyncThunk('kitchen/getAllOrders', async (orderData, 
 
 const prepareOrderById = createAsyncThunk('kitchen/prepareOrderById', async (orderData, { rejectWithValue }) => {
 	try {
-		const response = await axios.put(`http://localhost:5000/api/orders/${orderData.orderId}`, {
+		const response = await axios.put(`http://143.110.241.175:5000/api/orders/${orderData.orderId}`, {
 			status: "completed"
 		})
 

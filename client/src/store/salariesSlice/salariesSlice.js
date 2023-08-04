@@ -52,7 +52,7 @@ const salariesSlice = createSlice({
 
 const getAllSalaries = createAsyncThunk('salaries/getAllSalaries', async (userData, { rejectWithValue }) => {
     try {
-        const response = await axios.get('http://localhost:5000/api/salary');
+        const response = await axios.get('http://143.110.241.175:5000/api/salary');
 
         return response.data;
     }
@@ -63,7 +63,7 @@ const getAllSalaries = createAsyncThunk('salaries/getAllSalaries', async (userDa
 
 const addNewSalary = createAsyncThunk('salaries/addNewSalary', async (salaryData, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://localhost:5000/api/salary', salaryData);
+        const response = await axios.post('http://143.110.241.175:5000/api/salary', salaryData);
 
         return response.data;
     }
@@ -74,7 +74,7 @@ const addNewSalary = createAsyncThunk('salaries/addNewSalary', async (salaryData
 
 const updateSalary = createAsyncThunk('salaries/updateSalary', async (salaryData, { rejectWithValue }) => {
     try {
-        const response = await axios.put(`http://localhost:5000/api/salary/${salaryData.id}`, {paid: salaryData.paid});
+        const response = await axios.put(`http://143.110.241.175:5000/api/salary/${salaryData.id}`, {paid: salaryData.paid});
 
         return response.data;
     }
