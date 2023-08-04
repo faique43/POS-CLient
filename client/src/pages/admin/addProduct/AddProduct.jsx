@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // redux actions
 import { addNewProduct, getAllProducts } from '../../../store/productsSlice/productsSlice';
 import { uiActions } from '../../../store/uiSlice/uiSlice';
+import { getInventory } from '../../../store/inventorySlice/inventorySlice';
 
 // MU
 import TextField from '@mui/material/TextField';
@@ -97,7 +98,7 @@ export default function AddProduct() {
         else if (event.target.name === "productKitchen") {
             setProductData({ ...productData, productKitchen: event.target.value })
         }
-        else if(event.target.name === "productImage") {
+        else if (event.target.name === "productImage") {
             setProductData({ ...productData, img: event.target.files[0] })
         }
     }
@@ -114,18 +115,19 @@ export default function AddProduct() {
             kitchen: productData.productKitchen,
             inventoryUsed: productData.productInventory,
         })).then(response => {
-            if (!response.error) {
-                dispatch(getAllProducts())
-            }
-            setProductData({
-                productName: '',
-                productPrice: 0,
-                productInventory: [],
-                productDescription: '',
-                productKitchen: 1,
-                img: null
+            dispatch(getAllProducts()).then(response => {
+                dispatch(getInventory()).then(response => {
+                    setProductData({
+                        productName: '',
+                        productPrice: 0,
+                        productInventory: [],
+                        productDescription: '',
+                        productKitchen: 1,
+                        img: null
+                    })
+                    dispatch(uiActions.stopLoading())
+                })
             })
-            dispatch(uiActions.stopLoading())
         })
     }
 
